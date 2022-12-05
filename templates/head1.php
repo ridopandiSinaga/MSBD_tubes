@@ -11,6 +11,6 @@
 <script src="../bootstrap4/jquery/sweetalert.min.js"></script>
 	<style type="text/css">
 		input[name="image"]{
-			width: 250px;
+			width: 50px;
 		}
 	</style>

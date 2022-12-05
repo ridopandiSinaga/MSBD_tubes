@@ -6,6 +6,10 @@
 	<?php include('templates/head.php'); ?>
 	<script src="bootstrap4/jquery/sweetalert.min.js"></script>
 </head>
+
+<!-- <style type="text/css">
+	
+</style> -->
 <body class="bg-dark">
 	<div class="text-center border border-dark">
 		<div class="main">
