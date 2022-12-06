@@ -4,7 +4,7 @@
 	
 	$id = $_GET['id'];
 	// $sql = "SELECT * FROM supplier,delivery,product_delivered,products WHERE supplier.supplier_id = '$id' AND delivery.supplier_id = '$id' AND delivery.transaction_no = product_delivered.transaction_no AND products.product_no = product_delivered.product_id GROUP BY products.product_no";
-	// $sql = "CALL procedure_supplier_detail('".$_GET['id']."')";
+	$sql = "CALL procedure_supplier_detail('".$_GET['id']."')";
 	$result	= mysqli_query($db, $sql);
 
 	$failure = "";

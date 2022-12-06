@@ -53,7 +53,7 @@
 			</div>
 			<div class="header_price border p-0">
 				<h5>Grand Total</h5>
-				<p class="pb-0 mr-2" style="float: right; font-size: 40px;" id="totalValue">₱ 0.00</p>
+				<p class="pb-0 mr-2" style="float: right; font-size: 40px;" id="totalValue">Rp 0.00</p>
 			</div>
 		</div>
 		<div id="content" class="mr-2">
@@ -81,8 +81,8 @@
 				<div class="">
 				<small>
 					<ul class="text-white justify-content-center">
-						<li class="d-flex mb-0">Total (₱): <p id="totalValue1" class="mb-0 ml-5 pl-3">0.00</p></li>
-						<li class="mb-0 mt-0">Discount (₱): <input style="width: 100px" class="text-right form-control-sm" type="number" name="discount" value="0" min="0" placeholder="Enter Discount" id="discount" ></li>
+						<li class="d-flex mb-0">Total (Rp): <p id="totalValue1" class="mb-0 ml-5 pl-3">0.00</p></li>
+						<li class="mb-0 mt-0">Discount (Rp): <input style="width: 100px" class="text-right form-control-sm" type="number" name="discount" value="0" min="0" placeholder="Enter Discount" id="discount" ></li>
 					</ul>
 				</small>
 				</div>
@@ -114,7 +114,7 @@
 				<button id="buttons" type="button" class="cancel btn btn-secondary border"><i class="fas fa-ban"></i> Cancel</button>
 			</div>
 		</div>
-		<div id="footer" class="w-100">
+		<div id="footer" class="w-75">
 			<button id="buttons" onclick="window.location.href='user/user.php'" class="btn btn-secondary border mr-2 ml-2"><i class="fas fa-users"></i> User</button>
 			<button id="buttons" onclick="window.location.href='products/products.php'" class="btn btn-secondary border mr-2"><i class="fas fa-box-open"></i> Product</button>
 			<button id="buttons" onclick="window.location.href='supplier/supplier.php'" class="btn btn-secondary border mr-2"><i class="fas fa-user-tie"></i> Supplier</button>
