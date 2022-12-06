@@ -2,8 +2,9 @@
 
 	if(isset($_POST["id"])){  
 		$output = '';
-		$id = $_POST['id'];  
-	  	$query = "SELECT * FROM logs WHERE id = '$id'";  
+		// $id = $_POST['id'];  
+	  	// $query = "SELECT * FROM logs WHERE id = '$id'"; 
+		$query = "CALL procedure_view_logs('".$_POST['id']."')";
 	  	$result = mysqli_query($db, $query);  
 
 	  	while($row = mysqli_fetch_array($result)){

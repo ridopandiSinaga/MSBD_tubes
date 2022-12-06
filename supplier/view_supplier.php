@@ -2,7 +2,8 @@
 
 	if(isset($_POST["id"])){  
 		$output = '';  
-	  	$query = "SELECT * FROM supplier WHERE supplier_id='".$_POST['id']."'";  
+	  	// $query = "SELECT * FROM supplier WHERE supplier_id='".$_POST['id']."'";  
+		$query = "CALL procedure_view_supplier('".$_POST['id']."')";
 	  	$result = mysqli_query($db, $query);  
 
 	  	while($row = mysqli_fetch_array($result)){

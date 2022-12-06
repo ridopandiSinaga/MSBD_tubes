@@ -2,7 +2,8 @@
 
 	if(isset($_POST["id"])){  
 		$output = '';  
-	  	$query = "SELECT * FROM customer WHERE customer_id = '".$_POST["id"]."'";  
+	  	// $query = "SELECT * FROM customer WHERE customer_id = '".$_POST["id"]."'";  
+		$query = "Call procedure_view_costumer('".$_POST["id"]."')";
 	  	$result = mysqli_query($db, $query);  
 
 	  	while($row = mysqli_fetch_array($result)){

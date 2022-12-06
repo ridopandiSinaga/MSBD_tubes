@@ -4,7 +4,7 @@
 
   	if (isset($_GET['id'])){
 		$id   =   $_GET['id'];
-		$sql  =   "SELECT * FROM products WHERE product_no='$id'";
+		$sql  =   "SELECT * FROM products WHERE product_no='$id'";//create procedure
 		$result1   = mysqli_query($db, $sql);
 		$row1  =   mysqli_fetch_array($result1);
 ?>
