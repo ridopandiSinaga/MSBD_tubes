@@ -16,15 +16,15 @@ html,body{
 #admin:hover,#user:hover{
 	background-color: green;
 }
-#container{
+/* #container{
 	display: grid;
-	grid-template-columns: auto 38%;
-	grid-template-rows: 20% auto 10%;
+	 grid-template-columns: auto 100% ; 
+	grid-template-rows:  auto 100%;
 	grid-template-areas: 
 	"header header"
 	"content sidebar"
-	"footer footer";
-}
+	"footer footer"; 
+} */
 #header{
 	grid-area: header;
 	display: grid;
@@ -81,9 +81,46 @@ ul li{
 	grid-template-columns: 1fr;
 }
 #footer{
-	grid-area: footer;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	margin: 8px;
+    grid-area: sidebar;
+    display: grid;
+    grid-template-rows: 10% 74% au
+	
+}
+#footer1{
+
+	
+	/* Box */
+	height: 301.188px;
+	width: 1583px;
+	border: 0px none rgb(189, 183, 175);
+	border-top: 0px none rgb(189, 183, 175);
+	border-right: 0px none rgb(189, 183, 175);
+	border-bottom: 0px none rgb(189, 183, 175);
+	border-left: 0px none rgb(189, 183, 175);
+	margin: 0px;
+	padding: 60px 0px 30px;
+	max-height: none;
+	min-height: 0px;
+	max-width: none;
+	min-width: 0px;
+
+	/* Positioning */
+	position: static;
+	top: auto;
+	bottom: auto;
+	right: auto;
+	left: auto;
+	float: none;
+	display: block;
+	clear: none;
+	z-index: auto;
+
+	/* List */
+
+
+	
+
 }
 #tableData tr:hover,#products tr:hover{
 	background-color: #ffff99;
@@ -91,7 +128,6 @@ ul li{
 #table1 th{
 	font-style: bold;
 }
-
 
 .my-custom-scrollbar-a{
 	position: relative;
