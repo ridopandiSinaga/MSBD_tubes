@@ -30,8 +30,7 @@ and Setup the database and create your login details
 * [DataTables](https://datatables.net/) - Table used
 * [Fontawesome](https://fontawesome.com/) - Icons use
 
-## Acknowledgments
+## Db desain
+ ![db_desainer](https://user-images.githubusercontent.com/89272004/206255505-e3126029-c361-408e-8d80-50db4674fa01.png)
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+password : admin
