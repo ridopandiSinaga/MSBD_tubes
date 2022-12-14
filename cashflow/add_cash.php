@@ -40,7 +40,7 @@
 					<div class="text-left mt-5" style="margin-top: 50px;">
 						<input type="hidden" name="username" value="<?php echo $_SESSION['username'];?>"/>
 						<button type="submit" name="add_customer" class="btn btn-secondary"><i class="fas fa-check-circle"></i> Submit</button>
-						<button class="btn btn-danger ml-2" onclick="window.location.href='../cashflow/cashflow.php" ><i class="fas fa-ban"></i> Cancel</button>
+						<button class="btn btn-danger ml-2" onclick="window.location.href='../cashflow/cashflow.php'" ><i class="fas fa-ban"></i> Cancel</button>
 					</div>
 				</form>
 			</dir>

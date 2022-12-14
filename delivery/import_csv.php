@@ -113,7 +113,7 @@
 					</table>
 					<div class="text-left mt-2 pt-1">
 						<input type="submit" name="upload" class="btn btn-secondary" value="Done"/>
-						<button class="btn btn-danger" onclick="window.location.href='../delivery/delivery.php"><i class="fas fa-ban"></i> Cancel</button>
+						<button class="btn btn-danger" onclick="window.location.href='../delivery/delivery.php'"><i class="fas fa-ban"></i> Cancel</button>
 					</div>
 				</form>
 			</div>

@@ -125,7 +125,7 @@
 			<button id="buttons" onclick="window.location.href='sales/sales.php'" class="btn btn-secondary border mr-2"><i class="fas fa-shopping-cart"></i> Sales</button>
 			<button id="buttons" onclick="window.location.href='delivery/delivery.php'" class="btn btn-secondary border mr-2"><i class="fas fa-truck"></i> Deliveries</button>
 			<button id="buttons" onclick="window.location.href='delivery/delivery.php'" class="btn btn-secondary border mr-2"><i class="fas fa-truck"></i> Deliveries</button>
-			<button id="buttons" onclick="window.location.href=''" class="btn btn-secondary border mr-2"><i class=""></i> Report</button>
+			<button id="buttons" onclick="window.location.href='report/report.php'" class="btn btn-secondary border mr-2"><i class=""></i> Report</button>
 			<button id="buttons" onclick="window.location.href=''" class="btn btn-secondary border mr-2"><i class=""></i> Report</button>
 			<button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
 		</div>
