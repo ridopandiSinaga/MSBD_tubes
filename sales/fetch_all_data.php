@@ -3,14 +3,22 @@
 	include("../server/connection.php");
 
 	$column = array('reciept_no','username','firstname','lastname','discount','TotalPrice','date');
-
+// mau dibuatkn procedure atau view
 	$query = "SELECT sales_product.reciept_no,sales.discount , sales.total as TotalPrice,username,date,customer.firstname,customer.lastname FROM sales_product JOIN sales ON sales_product.reciept_no=sales.reciept_no JOIN customer ON sales.customer_id = customer.customer_id ";
 
+	// $is_date_search_ = $_POST['is_date_search'];
+	// $start_date = $_POST["start_date"];
+	// $end_date = $_POST["end_date"];
+	// $search_value_enum = isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"]);
+	// $search_value = $_POST["search"]["value"];
+
+
+	
 	if($_POST['is_date_search'] == "yes"){
 		$query .= 'WHERE sales.date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'"'; 
 	}
 
-	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
+	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {'''
 		$query .= '
 			WHERE sales.reciept_no LIKE "%' .$_POST["search"]["value"].'%"
 			OR username LIKE "%' .$_POST["search"]["value"].'%"
@@ -31,7 +39,7 @@
 
 	$query1 = '';
 
-	$_POST["length"] = 4;
+	$_POST["length"] = 6;
 
 	if($_POST['length'] != -1){
 		$query1 = 'LIMIT ' .$_POST["start"].','.$_POST["length"];
