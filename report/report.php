@@ -207,12 +207,11 @@
                     <tbody class="table-hover">
                         <?php 
                           while($row = mysqli_fetch_assoc($result)){
-                          ?>
+                        ?>
                         <tr class="table-active">
                           <td><?php echo $row['date'];?></td>
                           <td><?php echo $row['product_name'];?></td>
                           <td><?php echo $row['qty'];?></td>
-                         
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -226,12 +225,12 @@
             <div class="title">Best Selling Product</div>
               <ul class="top-sales-details">
            
-                  <table class="table table-striped table-bordered" id="" style="margin-top: 50px;">
+                  <table class="table table table-striped table-bordered table-condensed" id="" style="margin-top: 50px;">
                     <thead>
                       <tr>
-                        <th scope="col" class="column-text">Name</th>
-                        <th scope="col" class="column-text">Sold</th>
-                        <th scope="col" class="column-text">Stock</th>
+                        <th scope="col" class="column-text ">Name</th>
+                        <th scope="col" class="column-text ">Sold</th>
+                        <th scope="col" class="column-text ">Stock</th>
                       </tr>
                     </thead>
                       <tbody class="table-hover">
