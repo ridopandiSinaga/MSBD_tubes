@@ -3,11 +3,11 @@
   include("../server/connection.php");
   include '../set.php';
   $sql = "CALL find_recent_sale_added('7')";
-  $sql1 = "CALL find_higest_saleing_product('7')";
-
+  $higest_selling_product = "CALL find_higest_saleing_product('7')";
   $result = mysqli_query($db, $sql);
-  $result1 = mysqli_query($db, $sql1);
-
+  while($db->next_result()) continue;//supaya tidak out sync
+  $result1 = mysqli_query($db, $higest_selling_product);
+  
 
   if (!$result) {
     die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
@@ -212,7 +212,7 @@
                           <td><?php echo $row['date'];?></td>
                           <td><?php echo $row['product_name'];?></td>
                           <td><?php echo $row['qty'];?></td>
-                          <td><?php echo $row['price'];?></td>
+                         
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -229,22 +229,20 @@
                   <table class="table table-striped table-bordered" id="" style="margin-top: 50px;">
                     <thead>
                       <tr>
-                        <th scope="col" class="column-text">Date</th>
-                        <th scope="col" class="column-text">Product Name</th>
-                        <th scope="col" class="column-text">Amount</th>
-                        <th scope="col" class="column-text">Price/Item</th>
-                  
+                        <th scope="col" class="column-text">Name</th>
+                        <th scope="col" class="column-text">Sold</th>
+                        <th scope="col" class="column-text">Stock</th>
                       </tr>
                     </thead>
                       <tbody class="table-hover">
-                          <?php 
+                      <?php 
                             while($row1 = mysqli_fetch_assoc($result1)){
                             ?>
                           <tr class="table-active">
-                            <td><?php echo $row1['date'];?></td>
                             <td><?php echo $row1['product_name'];?></td>
-                            <td><?php echo $row1['qty'];?></td>
-                            <td><?php echo $row1['price'];?></td>
+                            <td><?php echo $row1['totalSold'];?></td>
+                            <td><?php echo $row1['Stock'];?></td>
+                           
                           </tr>
                           <?php } ?>
                       </tbody>
