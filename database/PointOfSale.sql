@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2022 at 09:42 AM
+-- Generation Time: Dec 15, 2022 at 06:46 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -25,22 +25,19 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_higest_saleing_product` (IN `lim` INT(25))   
-SELECT p.product_name, COUNT(s.product_id) AS totalSold, SUM(s.qty) AS totalQty
-FROM sales_product s
-LEFT JOIN products p ON p.product_no = s.product_id
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_higest_saleing_product` (IN `lim` INT(25))   SELECT p.product_name, sp.qty AS totalSold, p.quantity AS Stock
+FROM sales_product sp
+LEFT JOIN products p ON p.product_no = sp.product_id
 GROUP BY p.product_no
-ORDER BY SUM(s.qty) DESC LIMIT lim$$
+ORDER BY sp.qty DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT(25))   
-SELECT sp.reciept_no,sp.qty,s.total,s.date,p.product_name
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT(25))   SELECT sp.reciept_no,sp.qty,s.total,s.date,p.product_name
 FROM sales_product sp
 LEFT JOIN products p ON sp.product_id= p.product_no
 LEFT JOIN sales s ON s.reciept_no = sp.reciept_no
 ORDER BY s.date DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_sale_by_dates` (IN `date_from` DATE, IN `date_to` DATE)   
-SELECT s.date, p.product_name, p.sell_price, pd.buy_price, 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_sale_by_dates` (IN `date_from` DATE, IN `date_to` DATE)   SELECT s.date, p.product_name, p.sell_price, pd.buy_price, 
 COUNT(sp.product_id) AS total_records, SUM(sp.qty) AS total_sales, 
 SUM(p.sell_price * p.quantity) AS total_saleing_price, 
 SUM(pd.buy_price * p.quantity) AS total_buying_price
@@ -52,8 +49,7 @@ WHERE s.date BETWEEN date_from AND date_to
 GROUP BY DATE(s.date), p.product_name
 ORDER BY DATE(s.date) DESC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_supplier_detail` (IN `id` INT)   
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_supplier_detail` (IN `id` INT)   BEGIN
 SELECT * FROM supplier,delivery,product_delivered,products 
 WHERE supplier.supplier_id = id AND delivery.supplier_id = id AND delivery.transaction_no = product_delivered.transaction_no AND products.product_no = product_delivered.product_id 
 GROUP BY products.product_no;
@@ -265,7 +261,11 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (924, 'admin', 'Product 153 kretek updated', '2022-12-06 03:35:55'),
 (925, 'admin', 'User admin logout', '2022-12-06 04:47:59'),
 (926, 'admin', 'User admin login', '2022-12-06 04:48:09'),
-(927, 'admin', 'User admin login', '2022-12-12 23:22:40');
+(927, 'admin', 'User admin login', '2022-12-12 23:22:40'),
+(928, 'admin', 'User admin login', '2022-12-15 11:05:30'),
+(929, 'admin', 'User admin login', '2022-12-15 11:34:06'),
+(930, 'admin', 'User admin login', '2022-12-15 11:43:49'),
+(931, 'admin', 'Product Surya 12 updated', '2022-12-15 12:38:02');
 
 -- --------------------------------------------------------
 
@@ -297,7 +297,7 @@ INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, 
 ('10012', 'Sofa', '2400.00', 92, 'Each', 20, NULL, NULL, NULL),
 ('2', 'Surya 16', '256000.00', 19, 'Slop', 25, '-', '-', NULL),
 ('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
-('3', 'Surya 12', '200500.00', -3, 'Slop', 20, '-', '-', NULL),
+('3', 'Surya 12', '200500.00', 3, 'Slop', 20, '-', '-', NULL),
 ('4', 'Sampoerna Mild 16', '256500.00', 24, 'Slop', 30, '-', '-', NULL),
 ('5', 'Magnum Hitam 12', '180500.00', 9, 'Slop', 10, '-', '-', NULL);
 
@@ -563,7 +563,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=928;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=932;
 
 --
 -- AUTO_INCREMENT for table `sales`
