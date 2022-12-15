@@ -55,7 +55,7 @@
 		</div>
 	</div>
 	<script src="../bootstrap4/jquery/jquery.min.js"></script>
-	<script src="bootstrap4/jquery/accounting.min.js"></script>
+	<script src="../bootstrap4/jquery/accounting.min.js"></script>
 	<script src="../bootstrap4/jquery/datepicker.js"></script>
 	<script src="../bootstrap4/js/jquery.dataTables.js"></script>
 	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>

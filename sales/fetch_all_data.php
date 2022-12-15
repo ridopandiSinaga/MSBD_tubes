@@ -18,7 +18,7 @@
 		$query .= 'WHERE sales.date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'"'; 
 	}
 
-	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {'''
+	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
 		$query .= '
 			WHERE sales.reciept_no LIKE "%' .$_POST["search"]["value"].'%"
 			OR username LIKE "%' .$_POST["search"]["value"].'%"
