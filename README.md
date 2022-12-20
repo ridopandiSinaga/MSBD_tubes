@@ -19,4 +19,6 @@
 ## Db desain
  ![db_desainer](https://user-images.githubusercontent.com/89272004/206255505-e3126029-c361-408e-8d80-50db4674fa01.png)
 
-password : admin
+password administator : admin
+username user : user
+password user : user
