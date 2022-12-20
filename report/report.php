@@ -15,7 +15,7 @@
   if (!$result1) {
     die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
   }
-?>
+  ?>
 
 
 <!DOCTYPE html>
@@ -36,76 +36,63 @@
     <div class="sidebar">
       <div class="logo-details">
         <i class="bx bxl-c-plus-plus"></i>
-        <span class="logo_name">D-CLIC</span>
+        <span class="logo_name">MEDAN</span>
       </div>
       <ul class="nav-links">
         <li>
-          <a href="#" class="active">
+          <a href="" class="active">
             <i class="bx bx-grid-alt"></i>
             <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="#">
+            <a href="../user/user.php">
+              <i class="bx bx-user"></i>
+              <span class="links_name">User</span>
+            </a>
+        </li>
+        <li>
+          <a href="../products/products.php">
             <i class="bx bx-box"></i>
             <span class="links_name">Product</span>
           </a>
         </li>
         <li>
-            <a href="#">
+            <a href="../supplier/supplier.php">
               <i class="bx bx-user"></i>
               <span class="links_name">Supplier</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="../customer/customer.php">
               <i class="bx bx-user"></i>
               <span class="links_name">Costumer</span>
             </a>
         </li>
         <li>
-        <li>
-          <a href="#">
-            <i class="bx bx-list-ul"></i>
-            <span class="links_name">Commandes</span>
+          <a href="../logs/logs.php">
+            <i class="bx bx-book-alt"></i>
+            <span class="links_name">Logs</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="../cashflow/cashflow.php">
             <i class="bx bx-pie-chart-alt-2"></i>
             <span class="links_name">Analyses</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="../sales/sales.php">
             <i class="bx bx-coin-stack"></i>
-            <span class="links_name">Stock</span>
+            <span class="links_name">Sales</span>
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="bx bx-book-alt"></i>
-            <span class="links_name">Tout les commmandes</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-user"></i>
-            <span class="links_name">Utilisateur</span>
-          </a>
-        </li>
-        <!-- <li>
-          <a href="#">
+          <a href="../delivery/delivery.php">
             <i class="bx bx-message" ></i>
-            <span class="links_name">Messages</span>
+            <span class="links_name">Delivery</span>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-heart" ></i>
-            <span class="links_name">Favrorites</span>
-          </a>
-        </li> -->
         <li>
           <a href="#">
             <i class="bx bx-cog"></i>
@@ -187,7 +174,7 @@
             <i class="bx bxs-cart-download cart four"></i>
           </div>
         </div>
-<!--  -->
+
         <div class="sales-boxes">
           <div class="recent-sales box">
             <div class="title">Recent Product Added</div>
