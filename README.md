@@ -9,7 +9,7 @@
   * kalau sempat,prosedur menampilkan barang dan jumlah akan expired dihitung dari product in(delivery) berdasarkan tanggal transaction_no max 2 tahun
   * trigger utk table product_delivered dan sale_product terhadap table products 
   * view belum tau buat apa
-  *
+  * bagusi frontend
 
 
     
