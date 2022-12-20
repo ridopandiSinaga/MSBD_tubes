@@ -1,6 +1,7 @@
 <?php
 	include("../server/connection.php");
 	include '../set.php';
+	$success = isset($_GET['success']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,6 +62,7 @@
 	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="../bootstrap4/js/bootstrap.bundle.min.js"></script>
 	<script src="../sales/javascript.js"></script>
+
 
 </body>
 </html>

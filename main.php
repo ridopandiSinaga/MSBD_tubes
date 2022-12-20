@@ -1,4 +1,5 @@
 <?php 
+	
 	include('server/connection.php');
 	if(!isset($_SESSION['username'])){
 		header('location: index.php');
@@ -12,128 +13,253 @@
 	
 	$query 	= "SELECT * FROM `customer`";
 	$show	= mysqli_query($db,$query);
-	if(isset($_SESSION['username'])){
-		$user = $_SESSION['username'];
-		$sql = "SELECT position FROM users WHERE username='$user'";
-		$result	= mysqli_query($db, $sql);
-		if (mysqli_num_rows($result) > 0){
-			while($row = mysqli_fetch_assoc($result)){
+
+	include 'set.php';
+  	$sql = "CALL find_recent_sale_added('7')";
+  	$higest_selling_product = "CALL find_higest_saleing_product('7')";
+  	$result = mysqli_query($db, $sql);
+  	while($db->next_result()) continue;//supaya tidak out sync
+  	$result1 = mysqli_query($db, $higest_selling_product);
+  
+
+  	if (!$result) {
+    	die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
+  	}
+  	if (!$result1) {
+    	die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
+  	}
 ?>
+
+
 <!DOCTYPE html>
-<html>
-<head>
-	<?php include('templates/head.php'); ?>
-</head>
-<body>
-	<div class="h-100 bg-dark" id="container">
-		<div id="header">
-			<?php include('alert.php'); ?>
-			<div>
-				<!-- <img class="img-fluid m-2 w-100" src="images/logo.png"/> -->
-			</div>
-			<div class="text-white mt-0 ml-5">
-				<table class="table-responsive-sm">
-					<tbody>
-						<tr>
-							<td valign="baseline"><small>User Logged on:</small></td>
-							<td valign="baseline"><small><p class="pt-3 ml-5"><i class="fas fa-user-shield"></i> <?php echo $row['position'];}}}?></p></small></td>
-						</tr>
-						<tr>
-							<td valign="baseline"><small class="pb-1">Date:</small></td>
-							<td valign="baseline"><small><p class="p-0 ml-5"><i class="fas fa-calendar-alt">&nbsp</i><span id='time'></span></p></small></td>
-						</tr>
-						<tr>
-							<td valign="baseline"><small class="mt-5">Customer Name:</small></td>
-							<td valign="baseline"><small><div class="content p-0 ml-5"><input type="text" class="form-control form-control-sm customer_search" autocomplete="off" data-provide="typeahead" id="customer_search" placeholder="Customer Search" name="customer"/></small></div>
-							</td>
-							<td valign="baseline"><button class="btn-sm btn-info border ml-2" data-toggle="modal" data-target=".bd-example-modal-md" style="padding-top: 1px; padding-bottom: 2px;"><span class="badge badge-info"><i class="fas fa-user-plus"></i> New</span></button></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="header_price border p-0">
-				<h5>Grand Total</h5>
-				<p class="pb-0 mr-2" style="float: right; font-size: 40px;" id="totalValue">Rp 0.00</p>
-			</div>
-		</div>
-		<div id="sidebar">
-			<div class="mt-1 ">
-			<div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span></div>
-				   <input class="form-control" type="text" placeholder="Product Search" aria-label="Search" id="search" name="search" onkeyup="loadproducts();"/>
-			   </div></div>
-			<div id="product_area" class="table-responsive-sm mt-2 table-wrapper-scroll-y my-custom-scrollbar" >
-				<table class="w-100 table-striped font-weight-bold" style="cursor: pointer;" id="table1">
-					<thead>
-						<tr claclass='text-center'><b>
-							<td>Barcode</td>
-							<td>Product Name</td>
-							<td>Price</td>
-							<td>Unit</td>
-							<td>Stocks</td>
-							<td>Location</td>
-						</tr></b>
-						<tbody id="products">
-							
-						</tbody>
-					</thead>
-				</table>
-			</div>
-			<div class="w-100 mt-2" id="enter_area">
-				<button id="buttons" type="button" class="cancel btn btn-secondary border"><i class="fas fa-ban"></i> Cancel</button>
-			</div>
-		</div>
-		<div id="content" class="mr-2">
-			<div id="price_column" class="m-2 table-responsive-sm table-wrapper-scroll-y my-custom-scrollbar-a">
-				<form method="POST" action="">
-				<table class="table-striped w-100 font-weight-bold" style="cursor: pointer;" id="table2">
-					<thead>
-						<tr class='text-center'>
-							<th>Barcode</th>
-							<th>Description</th>
-							<th>Price</th>
-							<th>Unit</th>
-							<th>Qty</th>
-							<th>Sub.Total</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody id="tableData">
-					</tbody>
-				</table>
-				</form>
-			</div>
-			<div id="table_buttons">
-				<button id="buttons" type="button" name='enter' class="Enter btn btn-secondary border ml-2"><i class="fas fa-handshake"></i> Finish</button>
-				<div class="">
-				<small>
-					<ul class="text-white justify-content-center">
-						<li class="d-flex mb-0">Total (Rp): <p id="totalValue1" class="mb-0 ml-5 pl-3">0.00</p></li>
-						<li class="mb-0 mt-0">Discount (Rp): <input style="width: 100px" class="text-right form-control-sm" type="number" name="discount" value="0" min="0" placeholder="Enter Discount" id="discount" ></li>
-					</ul>
-				</small>
-				</div>
-			</div>
-		</div>
-		
-		<div id="footer1" class="w-100">
-			<button id="buttons" onclick="window.location.href='user/user.php'" class="btn btn-secondary border mr-2 ml-2"><i class="fas fa-users"></i> User</button>
-			<button id="buttons" onclick="window.location.href='products/products.php'" class="btn btn-secondary border mr-2"><i class="fas fa-box-open"></i> Product</button>
-			<button id="buttons" onclick="window.location.href='supplier/supplier.php'" class="btn btn-secondary border mr-2"><i class="fas fa-user-tie"></i> Supplier</button>
-			<button id="buttons" onclick="window.location.href='customer/customer.php'" class="btn btn-secondary border mr-2"><i class="fas fa-user-friends"></i> Customer</button>
-			<button id="buttons" onclick="window.location.href='logs/logs.php'" class="btn btn-secondary border mr-2"><i class="fas fa-globe"></i> Logs</button>
-			<button id="buttons" onclick="window.location.href='cashflow/cashflow.php'" class="btn btn-secondary border mr-2"><i class="fas fa-money-bill-wave"></i> Cash-Flow</button>
-			<button id="buttons" onclick="window.location.href='sales/sales.php'" class="btn btn-secondary border mr-2"><i class="fas fa-shopping-cart"></i> Sales</button>
-			<button id="buttons" onclick="window.location.href='delivery/delivery.php'" class="btn btn-secondary border mr-2"><i class="fas fa-truck"></i> Deliveries</button>
-			<button id="buttons" onclick="window.location.href='delivery/delivery.php'" class="btn btn-secondary border mr-2"><i class="fas fa-truck"></i> Deliveries</button>
-			<button id="buttons" onclick="window.location.href='report/report.php'" class="btn btn-secondary border mr-2"><i class=""></i> Report</button>
-			<button id="buttons" onclick="window.location.href=''" class="btn btn-secondary border mr-2"><i class=""></i> Report</button>
-			<button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
-		</div>
-		
-	</div>
-	<?php include('add.php');?>
-	<?php include('templates/js_popper.php');?>
-	<script type="text/javascript" src="script.js"></script>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>report</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Boxicons CDN Link -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <!-- side bar -->
+    <div class="sidebar">
+      <div class="logo-details">
+        <i class="bx bxl-c-plus-plus"></i>
+        <span class="logo_name">TOKOKU</span>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="" class="active">
+            <i class="bx bx-grid-alt"></i>
+            <span class="links_name">Dashboard</span>
+          </a>
+        </li>
+        <li>
+            <a href="user/user.php">
+              <i class="bx bx-user"></i>
+              <span class="links_name">User</span>
+            </a>
+        </li>
+        <li>
+          <a href="products/products.php">
+            <i class="bx bx-box"></i>
+            <span class="links_name">Product</span>
+          </a>
+        </li>
+        <li>
+            <a href="supplier/supplier.php">
+              <i class="bx bx-user"></i>
+              <span class="links_name">Supplier</span>
+            </a>
+        </li>
+        <li>
+            <a href="customer/customer.php">
+              <i class="bx bx-user"></i>
+              <span class="links_name">Costumer</span>
+            </a>
+        </li>
+        <li>
+          <a href="logs/logs.php">
+            <i class="bx bx-book-alt"></i>
+            <span class="links_name">Logs</span>
+          </a>
+        </li>
+        <li>
+          <a href="cashflow/cashflow.php">
+            <i class="bx bx-pie-chart-alt-2"></i>
+            <span class="links_name">Analyses</span>
+          </a>
+        </li>
+        <li>
+          <a href="sales/sales.php">
+            <i class="bx bx-coin-stack"></i>
+            <span class="links_name">Sales</span>
+          </a>
+        </li>
+        <li>
+          <a href="delivery/delivery.php">
+            <i class="bx bx-message" ></i>
+            <span class="links_name">Delivery</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="links_name">Configuration</span>
+          </a>
+        </li>
+        <li class="log_out">
+            <i class="bx bx-log-out"></i>
+            <button id="buttons" name="logout" type="button" onclick="out();" class="logout mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- end sidebar -->
+    <!-- header -->
+    <section class="home-section">
+      <nav>
+        <div class="sidebar-button">
+          <i class="bx bx-menu sidebarBtn"></i>
+          <span class="dashboard">Dashboard</span>
+        </div>
+        <div class="search-box">
+          <input type="text" placeholder="Recherche..." />
+          <i class="bx bx-search"></i>
+        </div>
+        <div class="profile-details">
+          <!--<img src="images/profile.jpg" alt="">-->
+          <span class="admin_name">Komche</span>
+          <i class="bx bx-chevron-down"></i>
+        </div>
+      </nav>
+      <!-- end header -->
+
+      <div class="home-content">
+        <div class="overview-boxes">
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Out</div>
+              <div class="number">40,876</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">Depuis hier</span>
+              </div>
+            </div>
+            <i class="bx bx-cart-alt cart"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">In</div>
+              <div class="number">38,876</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">Depuis hier</span>
+              </div>
+            </div>
+            <i class="bx bxs-cart-add cart two"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Stock</div>
+              <div class="number">12,876 F</div>
+              <div class="indicator">
+                <i class="bx bx-up-arrow-alt"></i>
+                <span class="text">Depuis hier</span>
+              </div>
+            </div>
+            <i class="bx bx-cart cart three"></i>
+          </div>
+          <div class="box">
+            <div class="right-side">
+              <div class="box-topic">Revenu</div>
+              <div class="number">11,086</div>
+              <div class="indicator">
+                <i class="bx bx-down-arrow-alt down"></i>
+                <span class="text">Aujourd'hui</span>
+              </div>
+            </div>
+            <i class="bx bxs-cart-download cart four"></i>
+          </div>
+        </div>
+
+        <div class="sales-boxes">
+          <div class="recent-sales box">
+            <div class="title">Recent Product Added</div>
+            <div class="sales-details">
+              <ul class="details">
+            
+                  <table class="table table-striped table-bordered" id="" style="margin-top: 50px;">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="column-text">Date</th>
+                      <th scope="col" class="column-text">Product Name</th>
+                      <th scope="col" class="column-text">Amount</th>
+                      <th scope="col" class="column-text">Price/Item</th>
+                
+                    </tr>
+                  </thead>
+                    <tbody class="table-hover">
+                        <?php 
+                          while($row = mysqli_fetch_assoc($result)){
+                        ?>
+                        <tr class="table-active">
+                          <td><?php echo $row['date'];?></td>
+                          <td><?php echo $row['product_name'];?></td>
+                          <td><?php echo $row['qty'];?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            
+              </ul>
+            </div>
+            
+          </div>
+          <div class="top-sales box">
+            <div class="title">Best Selling Product</div>
+              <ul class="top-sales-details">
+           
+                  <table class="table table table-striped table-bordered table-condensed" id="" style="margin-top: 50px;">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="column-text ">Name</th>
+                        <th scope="col" class="column-text ">Sold</th>
+                        <th scope="col" class="column-text ">Stock</th>
+                      </tr>
+                    </thead>
+                      <tbody class="table-hover">
+                      <?php 
+                            while($row1 = mysqli_fetch_assoc($result1)){
+                            ?>
+                          <tr class="table-active">
+                            <td><?php echo $row1['product_name'];?></td>
+                            <td><?php echo $row1['totalSold'];?></td>
+                            <td><?php echo $row1['Stock'];?></td>
+                           
+                          </tr>
+                          <?php } ?>
+                      </tbody>
+                </table>
+              
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+  <?php include('add.php');?>
+  <?php include('templates/js_popper.php');?>
+  <script src="../bootstrap4/jquery/jquery.min.js"></script>
+	<script src="../bootstrap4/js/jquery.dataTables.js"></script>
+	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="../bootstrap4/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
 	<script src="bootstrap4/js/time.js"></script>
-</body>
-</html> 
+	
+</html>
