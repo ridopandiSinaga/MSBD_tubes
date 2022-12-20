@@ -1,5 +1,4 @@
 <?php 
-	
 	include('server/connection.php');
 	if(!isset($_SESSION['username'])){
 		header('location: index.php');
@@ -10,24 +9,37 @@
 	$updated = '';
 	$deleted = '';
 	$failure = isset($_GET['failure']);
-	
 	$query 	= "SELECT * FROM `customer`";
 	$show	= mysqli_query($db,$query);
 
 	include 'set.php';
-  	$sql = "CALL find_recent_sale_added('7')";
-  	$higest_selling_product = "CALL find_higest_saleing_product('7')";
-  	$result = mysqli_query($db, $sql);
-  	while($db->next_result()) continue;//supaya tidak out sync
-  	$result1 = mysqli_query($db, $higest_selling_product);
-  
+    
+  	$sql = "CALL find_recent_sale_added('7')";//panggil prosedur untuk recend sale, dibatasi 7 row
+  	$higest_selling_product = "CALL find_higest_saleing_product('7')";//panggil prosedur untuk product keluar terbanyak, rows diabatsi 7
+    $product_in = "SELECT count_product_in()";//fungsi menghitung banyak product  masuk
+    $product_out = "SELECT count_product_out()";//fungsi menghitung banyak product keluar
+    $stock = "SELECT count_stock()";//fungsi menghitung banyak product/stock
 
+    $result = mysqli_query($db, $sql);
+    while($db->next_result()) continue;//supaya tidak out sync
+    $result1 = mysqli_query($db, $higest_selling_product);
+    while($db->next_result()) continue;//supaya tidak out sync
+    $result_product_in = mysqli_query($db, $product_in);
+    while($db->next_result()) continue;//supaya tidak out sync
+    $result_product_out = mysqli_query($db, $product_out);
+    while($db->next_result()) continue;//supaya tidak out sync
+    $result_stock = mysqli_query($db, $stock);
+    // while($db->next_result()) continue;//supaya tidak out sync
+  
   	if (!$result) {
-    	die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
-  	}
-  	if (!$result1) {
-    	die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
-  	}
+    die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
+    }
+    if (!$result1) {
+      die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
+    }
+    if (!$result1) {
+      die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
+    }
 ?>
 
 
@@ -59,12 +71,6 @@
           </a>
         </li>
         <li>
-            <a href="user/user.php">
-              <i class="bx bx-user"></i>
-              <span class="links_name">User</span>
-            </a>
-        </li>
-        <li>
           <a href="products/products.php">
             <i class="bx bx-box"></i>
             <span class="links_name">Product</span>
@@ -74,6 +80,24 @@
             <a href="supplier/supplier.php">
               <i class="bx bx-user"></i>
               <span class="links_name">Supplier</span>
+            </a>
+        </li>
+        <li>
+          <a href="sales/sales.php">
+            <i class="bx bx-coin-stack"></i>
+            <span class="links_name">Sales</span>
+          </a>
+        </li>
+        <li>
+          <a href="delivery/delivery.php">
+            <i class="bx bx-message" ></i>
+            <span class="links_name">Order</span>
+          </a>
+        </li>
+          <li>
+            <a href="user/user.php">
+              <i class="bx bx-user"></i>
+              <span class="links_name">User</span>
             </a>
         </li>
         <li>
@@ -94,18 +118,7 @@
             <span class="links_name">Analyses</span>
           </a>
         </li>
-        <li>
-          <a href="sales/sales.php">
-            <i class="bx bx-coin-stack"></i>
-            <span class="links_name">Sales</span>
-          </a>
-        </li>
-        <li>
-          <a href="delivery/delivery.php">
-            <i class="bx bx-message" ></i>
-            <span class="links_name">Delivery</span>
-          </a>
-        </li>
+        
         <li>
           <a href="#">
             <i class="bx bx-cog"></i>
@@ -114,7 +127,7 @@
         </li>
         <li class="log_out">
             <i class="bx bx-log-out"></i>
-            <button id="buttons" name="logout" type="button" onclick="out();" class="logout mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
+            <button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
           </a>
         </li>
       </ul>
@@ -141,39 +154,52 @@
 
       <div class="home-content">
         <div class="overview-boxes">
+          <!--  -->
           <div class="box">
             <div class="right-side">
               <div class="box-topic">Out</div>
-              <div class="number">40,876</div>
+              <?php while($row1 = mysqli_fetch_array($result_product_out)){ ?>
+              <div class="number"><?php   echo $row1['0']; ?></div>
+              <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
-                <span class="text">Depuis hier</span>
+                <span class="text">Product Out</span>
               </div>
             </div>
             <i class="bx bx-cart-alt cart"></i>
           </div>
+          <!--  -->
+          <!--  -->
           <div class="box">
             <div class="right-side">
               <div class="box-topic">In</div>
-              <div class="number">38,876</div>
+              <?php while($row1 = mysqli_fetch_array($result_product_in)){?>
+              <div class="number"> <?php   echo $row1['0']; ?></div>
+              <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
-                <span class="text">Depuis hier</span>
+                <span class="text">Product In</span>
               </div>
             </div>
             <i class="bx bxs-cart-add cart two"></i>
           </div>
+          <!--  -->
+          <!--  -->
           <div class="box">
             <div class="right-side">
               <div class="box-topic">Stock</div>
-              <div class="number">12,876 F</div>
+               <?php while($row1 = mysqli_fetch_array($result_stock)){?>
+              <div class="number"><?php   echo $row1['0']; ?></div>
+              <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
-                <span class="text">Depuis hier</span>
+                <span class="text">Product Exist</span>
               </div>
             </div>
             <i class="bx bx-cart cart three"></i>
           </div>
+          <!--  -->
+          <!--  -->
           <div class="box">
             <div class="right-side">
               <div class="box-topic">Revenu</div>
@@ -185,8 +211,8 @@
             </div>
             <i class="bx bxs-cart-download cart four"></i>
           </div>
+          <!--  -->
         </div>
-
         <div class="sales-boxes">
           <div class="recent-sales box">
             <div class="title">Recent Product Added</div>
@@ -210,7 +236,7 @@
                         <tr class="table-active">
                           <td><?php echo $row['date'];?></td>
                           <td><?php echo $row['product_name'];?></td>
-                          <td><?php echo $row['qty'];?></td>
+                          <td><?php echo $row['quantity'];?></td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -251,10 +277,6 @@
           </div>
         </div>
       </section>
-
-
-  <?php include('add.php');?>
-  <?php include('templates/js_popper.php');?>
   <script src="../bootstrap4/jquery/jquery.min.js"></script>
 	<script src="../bootstrap4/js/jquery.dataTables.js"></script>
 	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>
