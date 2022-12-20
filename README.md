@@ -2,12 +2,12 @@
  ## * input no telp
  ## * buat menu. report isinya report data barang/stock perbulan, hari atau per jangkauan data yg diinputkan
  ## * Buat halaman dashboard, supaya nanti ketika admin siap login, direct ke dashboard yg isinya:
- * data barang yg terakhir kali dibeli berdasarkn tnggl(tanggal, barang, jumlah) dibatasi 5 rows 
+ ![image](https://user-images.githubusercontent.com/89272004/208247506-90fb6a71-99fe-4761-95a0-0d621a9c38ea.png)
+ * page ini dijadikan main.php yaitu sebagai dashboard
+ * lalu isi main.php kn sebelumnya  proses sale/product out , dijadikan  page sale/product out yg diakses dri sidebar 
  * data barang yang stoknya kurang dari 10/minimum stock (nama barang, jlh barang)
- * data barang yg paling banyak keluar (nama barang, jlh barang keluar)
-## * dan hanya ada satu tombol menu yaitu  quick akses ke main.php
 
-    
+
     
 ## Built With
 

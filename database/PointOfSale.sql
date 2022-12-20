@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2022 at 06:46 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Waktu pembuatan: 17 Des 2022 pada 15.01
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -23,15 +23,15 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
--- Procedures
+-- Prosedur
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_higest_saleing_product` (IN `lim` INT(25))   SELECT p.product_name, sp.qty AS totalSold, p.quantity AS Stock
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_higest_saleing_product` (IN `lim` INT(25))   SELECT p.product_name, CONCAT(sp.qty, ' ', p.unit) AS totalSold, CONCAT(p.quantity,' ',p.unit) AS Stock
 FROM sales_product sp
 LEFT JOIN products p ON p.product_no = sp.product_id
 GROUP BY p.product_no
 ORDER BY sp.qty DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT(25))   SELECT sp.reciept_no,sp.qty,s.total,s.date,p.product_name
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT(25))   SELECT sp.reciept_no,CONCAT(sp.qty, ' ' , p.unit) AS quantity,s.total,s.date,p.product_name,CONCAT('Rp.',' ',sp.price,'/',p.unit) AS price_
 FROM sales_product sp
 LEFT JOIN products p ON sp.product_id= p.product_no
 LEFT JOIN sales s ON s.reciept_no = sp.reciept_no
@@ -75,12 +75,39 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_view_supplier` (IN `id` I
 SELECT * FROM supplier WHERE supplier_id=id;
 END$$
 
+--
+-- Fungsi
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `count_by_id` (`table_name` VARCHAR(25)) RETURNS INT(20)  BEGIN
+DECLARE a INT(10);
+SET a = IFNULL((SELECT COUNT(table_id) AS total FROM table_name),"0") ;
+RETURN a;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `count_product_in` () RETURNS VARCHAR(11) CHARSET utf8mb4  BEGIN
+DECLARE p_in VARCHAR(10);
+SET p_in = IFNULL((SELECT SUM(pd.total_qty) AS total FROM product_delivered pd),"0") ;
+RETURN p_in ;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `count_product_out` () RETURNS VARCHAR(15) CHARSET utf8mb4  BEGIN
+DECLARE p_out VARCHAR(10);
+SET p_out = IFNULL((SELECT SUM(sp.qty) AS total FROM sales_product sp),"0") ;
+RETURN p_out ;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `count_stock` () RETURNS VARCHAR(15) CHARSET utf8mb4  BEGIN
+DECLARE stock VARCHAR(10);
+SET stock = IFNULL((SELECT SUM(p.quantity) AS total FROM products p),"0") ;
+RETURN stock ;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cashflow`
+-- Struktur dari tabel `cashflow`
 --
 
 CREATE TABLE `cashflow` (
@@ -89,10 +116,10 @@ CREATE TABLE `cashflow` (
   `amount` decimal(18,2) DEFAULT NULL,
   `username` varchar(30) DEFAULT NULL,
   `transaction_date` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `cashflow`
+-- Dumping data untuk tabel `cashflow`
 --
 
 INSERT INTO `cashflow` (`transaction_id`, `description`, `amount`, `username`, `transaction_date`) VALUES
@@ -101,7 +128,7 @@ INSERT INTO `cashflow` (`transaction_id`, `description`, `amount`, `username`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Struktur dari tabel `customer`
 --
 
 CREATE TABLE `customer` (
@@ -111,10 +138,10 @@ CREATE TABLE `customer` (
   `address` text DEFAULT NULL,
   `contact_number` varchar(30) DEFAULT NULL,
   `image` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `customer`
+-- Dumping data untuk tabel `customer`
 --
 
 INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
@@ -125,7 +152,7 @@ INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `cont
 -- --------------------------------------------------------
 
 --
--- Table structure for table `delivery`
+-- Struktur dari tabel `delivery`
 --
 
 CREATE TABLE `delivery` (
@@ -133,10 +160,10 @@ CREATE TABLE `delivery` (
   `supplier_id` int(11) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `delivery`
+-- Dumping data untuk tabel `delivery`
 --
 
 INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VALUES
@@ -144,21 +171,22 @@ INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VAL
 ('5CAAFDEEDB333', 22, 'admin', '2019-04-08 15:54:19'),
 ('5CAAFE37D21E8', 21, 'admin', '2019-04-08 15:55:28'),
 ('5E7F00084C934', 22, 'admin', '2020-03-28 15:43:22'),
-('5E81DF2B7B8F7', 22, 'admin', '2020-03-30 20:00:48');
+('5E81DF2B7B8F7', 22, 'admin', '2020-03-30 20:00:48'),
+('639B28F949118', 23, 'admin', '2022-12-15 21:04:28');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `initial_products`
+-- Struktur dari tabel `initial_products`
 --
 
 CREATE TABLE `initial_products` (
   `id` varchar(50) NOT NULL,
   `initial_quantity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `initial_products`
+-- Dumping data untuk tabel `initial_products`
 --
 
 INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
@@ -176,7 +204,7 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logs`
+-- Struktur dari tabel `logs`
 --
 
 CREATE TABLE `logs` (
@@ -184,10 +212,10 @@ CREATE TABLE `logs` (
   `username` varchar(30) NOT NULL,
   `purpose` varchar(30) NOT NULL,
   `logs_time` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `logs`
+-- Dumping data untuk tabel `logs`
 --
 
 INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
@@ -265,12 +293,25 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (928, 'admin', 'User admin login', '2022-12-15 11:05:30'),
 (929, 'admin', 'User admin login', '2022-12-15 11:34:06'),
 (930, 'admin', 'User admin login', '2022-12-15 11:43:49'),
-(931, 'admin', 'Product Surya 12 updated', '2022-12-15 12:38:02');
+(931, 'admin', 'Product Surya 12 updated', '2022-12-15 12:38:02'),
+(932, 'admin', 'User admin login', '2022-12-15 18:07:54'),
+(933, 'admin', 'Product Sampoerna Mild 16 upda', '2022-12-15 18:57:05'),
+(934, 'admin', 'Product Surya 12 updated', '2022-12-15 18:57:17'),
+(935, 'admin', 'Product Surya 16 updated', '2022-12-15 18:57:23'),
+(936, 'admin', 'Product 153 kretek updated', '2022-12-15 18:57:35'),
+(937, 'admin', 'Delivery Added', '2022-12-15 21:04:28'),
+(939, 'admin', 'User admin logout', '2022-12-16 00:31:37'),
+(940, 'admin', 'User admin login', '2022-12-16 00:31:53'),
+(942, 'admin', 'User admin logout', '2022-12-16 00:33:47'),
+(943, 'tito', 'User tito login', '2022-12-16 00:34:03'),
+(944, 'admin', 'User admin login', '2022-12-16 23:51:49'),
+(945, 'admin', 'User admin login', '2022-12-17 13:08:29'),
+(946, 'admin', 'User admin login', '2022-12-17 20:57:48');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Struktur dari tabel `products`
 --
 
 CREATE TABLE `products` (
@@ -283,26 +324,26 @@ CREATE TABLE `products` (
   `remarks` text DEFAULT NULL,
   `location` varchar(50) DEFAULT NULL,
   `images` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `products`
+-- Dumping data untuk tabel `products`
 --
 
 INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, `unit`, `min_stocks`, `remarks`, `location`, `images`) VALUES
-('1', '153 kretek', '120000.00', 100, 'Slop', 5, 'sfdsfdsf', 'fsdfdsfdsfd', NULL),
+('1', '153 kretek', '120000.00', 100, 'Slop', 10, 'sfdsfdsf', 'fsdfdsfdsfd', NULL),
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
 ('10011', 'Chair', '600.00', 198, 'Each', 20, NULL, NULL, NULL),
 ('10012', 'Sofa', '2400.00', 92, 'Each', 20, NULL, NULL, NULL),
-('2', 'Surya 16', '256000.00', 19, 'Slop', 25, '-', '-', NULL),
+('2', 'Surya 16', '256000.00', 19, 'Slop', 10, '-', '-', NULL),
 ('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
-('3', 'Surya 12', '200500.00', 3, 'Slop', 20, '-', '-', NULL),
-('4', 'Sampoerna Mild 16', '256500.00', 24, 'Slop', 30, '-', '-', NULL),
+('3', 'Surya 12', '200500.00', 3, 'Slop', 10, '-', '-', NULL),
+('4', 'Sampoerna Mild 16', '256500.00', 24, 'Slop', 10, '-', '-', NULL),
 ('5', 'Magnum Hitam 12', '180500.00', 9, 'Slop', 10, '-', '-', NULL);
 
 --
--- Triggers `products`
+-- Trigger `products`
 --
 DELIMITER $$
 CREATE TRIGGER `delete` BEFORE DELETE ON `products` FOR EACH ROW DELETE FROM initial_products WHERE id=old.product_no
@@ -316,7 +357,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_delivered`
+-- Struktur dari tabel `product_delivered`
 --
 
 CREATE TABLE `product_delivered` (
@@ -325,10 +366,10 @@ CREATE TABLE `product_delivered` (
   `total_qty` int(11) NOT NULL,
   `buy_price` decimal(18,2) NOT NULL,
   `tax_rate` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `product_delivered`
+-- Dumping data untuk tabel `product_delivered`
 --
 
 INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `buy_price`, `tax_rate`) VALUES
@@ -341,12 +382,13 @@ INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `b
 ('5CAAFE37D21E8', '4', 125, '15.00', 15),
 ('5CAAFE37D21E8', '5', 100, '10.00', 20),
 ('5E7F00084C934', '23213', 23, '32.00', 32),
-('5E81DF2B7B8F7', '10000', 21, '21313.00', 20);
+('5E81DF2B7B8F7', '10000', 21, '21313.00', 20),
+('639B28F949118', '3', 3, '6.00', 10);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales`
+-- Struktur dari tabel `sales`
 --
 
 CREATE TABLE `sales` (
@@ -356,10 +398,10 @@ CREATE TABLE `sales` (
   `discount` int(11) NOT NULL,
   `total` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sales`
+-- Dumping data untuk tabel `sales`
 --
 
 INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total`, `date`) VALUES
@@ -379,7 +421,7 @@ INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_product`
+-- Struktur dari tabel `sales_product`
 --
 
 CREATE TABLE `sales_product` (
@@ -387,10 +429,10 @@ CREATE TABLE `sales_product` (
   `product_id` varchar(20) NOT NULL,
   `price` decimal(18,2) NOT NULL,
   `qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sales_product`
+-- Dumping data untuk tabel `sales_product`
 --
 
 INSERT INTO `sales_product` (`reciept_no`, `product_id`, `price`, `qty`) VALUES
@@ -416,7 +458,7 @@ INSERT INTO `sales_product` (`reciept_no`, `product_id`, `price`, `qty`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplier`
+-- Struktur dari tabel `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -427,10 +469,10 @@ CREATE TABLE `supplier` (
   `address` text DEFAULT NULL,
   `contact_number` varchar(30) DEFAULT NULL,
   `image` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `supplier`
+-- Dumping data untuk tabel `supplier`
 --
 
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
@@ -441,7 +483,7 @@ INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -453,36 +495,37 @@ CREATE TABLE `users` (
   `contact_number` varchar(30) NOT NULL,
   `image` varchar(30) NOT NULL,
   `password` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `position`, `contact_number`, `image`, `password`) VALUES
 (7, 'admin', 'Juan', 'Cruz', 'admin', '+63(09)1234-1234', 'Myprofile.jpg', '21232f297a57a5a743894a0e4a801fc3'),
 (13, 'user', 'Chris', 'Doe', 'Employee', '+63(09)1234-1234', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee'),
-(15, 'ridopandi', 'rido', 'pandi', 'Employee', '+99(99)9999-9999', 'Ambassador-pana.png', '9d3aa98720813362b99c5626db91186c');
+(15, 'ridopandi', 'rido', 'pandi', 'Employee', '+99(99)9999-9999', 'Ambassador-pana.png', '9d3aa98720813362b99c5626db91186c'),
+(16, 'tito', 'tito', 'trinidad', 'Employee', '+99(99)9999-9999', '17378.jpg', '5a5831b9bc64bc5bad1eebcceb4b24ba');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `cashflow`
+-- Indeks untuk tabel `cashflow`
 --
 ALTER TABLE `cashflow`
   ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `username` (`username`);
 
 --
--- Indexes for table `customer`
+-- Indeks untuk tabel `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
 
 --
--- Indexes for table `delivery`
+-- Indeks untuk tabel `delivery`
 --
 ALTER TABLE `delivery`
   ADD PRIMARY KEY (`transaction_no`),
@@ -490,33 +533,33 @@ ALTER TABLE `delivery`
   ADD KEY `username` (`username`);
 
 --
--- Indexes for table `initial_products`
+-- Indeks untuk tabel `initial_products`
 --
 ALTER TABLE `initial_products`
   ADD KEY `id` (`id`);
 
 --
--- Indexes for table `logs`
+-- Indeks untuk tabel `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `username` (`username`);
 
 --
--- Indexes for table `products`
+-- Indeks untuk tabel `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_no`);
 
 --
--- Indexes for table `product_delivered`
+-- Indeks untuk tabel `product_delivered`
 --
 ALTER TABLE `product_delivered`
   ADD KEY `product_id` (`product_id`),
   ADD KEY `transaction_no` (`transaction_no`);
 
 --
--- Indexes for table `sales`
+-- Indeks untuk tabel `sales`
 --
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`reciept_no`),
@@ -524,116 +567,116 @@ ALTER TABLE `sales`
   ADD KEY `username` (`username`);
 
 --
--- Indexes for table `sales_product`
+-- Indeks untuk tabel `sales_product`
 --
 ALTER TABLE `sales_product`
   ADD KEY `product_id` (`product_id`),
   ADD KEY `reciept_no` (`reciept_no`);
 
 --
--- Indexes for table `supplier`
+-- Indeks untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`supplier_id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD UNIQUE KEY `user_id` (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `cashflow`
+-- AUTO_INCREMENT untuk tabel `cashflow`
 --
 ALTER TABLE `cashflow`
   MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `customer`
+-- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `logs`
+-- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=932;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=947;
 
 --
--- AUTO_INCREMENT for table `sales`
+-- AUTO_INCREMENT untuk tabel `sales`
 --
 ALTER TABLE `sales`
   MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `sales_product`
+-- AUTO_INCREMENT untuk tabel `sales_product`
 --
 ALTER TABLE `sales_product`
   MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `supplier`
+-- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `cashflow`
+-- Ketidakleluasaan untuk tabel `cashflow`
 --
 ALTER TABLE `cashflow`
   ADD CONSTRAINT `cashflow_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
 --
--- Constraints for table `delivery`
+-- Ketidakleluasaan untuk tabel `delivery`
 --
 ALTER TABLE `delivery`
   ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
   ADD CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
 --
--- Constraints for table `initial_products`
+-- Ketidakleluasaan untuk tabel `initial_products`
 --
 ALTER TABLE `initial_products`
   ADD CONSTRAINT `initial_products_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`product_no`);
 
 --
--- Constraints for table `logs`
+-- Ketidakleluasaan untuk tabel `logs`
 --
 ALTER TABLE `logs`
   ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
 --
--- Constraints for table `product_delivered`
+-- Ketidakleluasaan untuk tabel `product_delivered`
 --
 ALTER TABLE `product_delivered`
   ADD CONSTRAINT `product_delivered_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_no`),
   ADD CONSTRAINT `product_delivered_ibfk_2` FOREIGN KEY (`transaction_no`) REFERENCES `delivery` (`transaction_no`);
 
 --
--- Constraints for table `sales`
+-- Ketidakleluasaan untuk tabel `sales`
 --
 ALTER TABLE `sales`
   ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
   ADD CONSTRAINT `sales_ibfk_3` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
 --
--- Constraints for table `sales_product`
+-- Ketidakleluasaan untuk tabel `sales_product`
 --
 ALTER TABLE `sales_product`
   ADD CONSTRAINT `sales_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_no`),

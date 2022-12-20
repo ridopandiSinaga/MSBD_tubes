@@ -2,20 +2,32 @@
 <?php 
   include("../server/connection.php");
   include '../set.php';
+
   $sql = "CALL find_recent_sale_added('7')";
   $higest_selling_product = "CALL find_higest_saleing_product('7')";
+  $product_in = "SELECT count_product_in()";
+  $product_out = "SELECT count_product_out()";
+  $stock = "SELECT count_stock()";
+
   $result = mysqli_query($db, $sql);
   while($db->next_result()) continue;//supaya tidak out sync
   $result1 = mysqli_query($db, $higest_selling_product);
+  while($db->next_result()) continue;//supaya tidak out sync
+  $result_product_in = mysqli_query($db, $product_in);
+  while($db->next_result()) continue;//supaya tidak out sync
+  $result_product_out = mysqli_query($db, $product_out);
+  while($db->next_result()) continue;//supaya tidak out sync
+  $result_stock = mysqli_query($db, $stock);
+  // while($db->next_result()) continue;//supaya tidak out sync
   
-
+ 
   if (!$result) {
     die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
   }
   if (!$result1) {
     die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
   }
-  ?>
+
 
 
 <!DOCTYPE html>
@@ -132,10 +144,16 @@
           <div class="box">
             <div class="right-side">
               <div class="box-topic">Out</div>
-              <div class="number">40,876</div>
+               <?php
+              while($row1 = mysqli_fetch_array($result_product_out)){
+                              ?>
+              <div class="number">
+                  <?php   echo $row1['0']; ?>
+              </div>
+               <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
-                <span class="text">Depuis hier</span>
+                <span class="text">Product Out</span>
               </div>
             </div>
             <i class="bx bx-cart-alt cart"></i>
@@ -143,10 +161,17 @@
           <div class="box">
             <div class="right-side">
               <div class="box-topic">In</div>
-              <div class="number">38,876</div>
+              <?php
+              while($row1 = mysqli_fetch_array($result_product_in)){
+                              ?>
+              <div class="number">
+                  <?php   echo $row1['0']; ?>
+              </div>
+              <div class="number"></div>
+                 <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
-                <span class="text">Depuis hier</span>
+                <span class="text">Product In</span>
               </div>
             </div>
             <i class="bx bxs-cart-add cart two"></i>
@@ -154,7 +179,13 @@
           <div class="box">
             <div class="right-side">
               <div class="box-topic">Stock</div>
-              <div class="number">12,876 F</div>
+              <?php
+              while($row1 = mysqli_fetch_array($result_stock)){
+                              ?>
+              <div class="number">
+              </div>
+              <div class="number">  <?php   echo $row1['0']; ?></div>
+              <?php } ?>
               <div class="indicator">
                 <i class="bx bx-up-arrow-alt"></i>
                 <span class="text">Depuis hier</span>
@@ -176,18 +207,50 @@
         </div>
 
         <div class="sales-boxes">
+          <!--  -->
+          <div class="top-sales box">
+              <div class="title">Best Selling Product</div>
+                <ul class="top-sales-details">
+             
+                    <table class="table table table-striped table-bordered table-condensed" id="" style="margin-top: 50px;">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="column-text ">Name</th>
+                          <th scope="col" class="column-text ">Stock</th>
+                          <th scope="col" class="column-text ">Sold</th>
+                        </tr>
+                      </thead>
+                        <tbody class="table-hover">
+                        <?php 
+                              while($row1 = mysqli_fetch_assoc($result1)){
+                              ?>
+                            <tr class="table-active">
+                              <td><?php echo $row1['product_name'];?></td>
+                              <td><?php echo $row1['Stock'];?></td>
+                              <td><?php echo $row1['totalSold'];?></td>
+                             
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                  </table>
+                
+                </ul>
+              </div>
+
+        <!--  -->
+        <!--  -->
           <div class="recent-sales box">
-            <div class="title">Recent Product Added</div>
+            <div class="title">Latest Product Added</div>
             <div class="sales-details">
               <ul class="details">
             
                   <table class="table table-striped table-bordered" id="" style="margin-top: 50px;">
                   <thead>
                     <tr>
+                      <th scope="col" class="column-text ">Product Name</th>
+                      <th scope="col" class="column-text">Amount </th>
+                      <th scope="col" class="column-text">Price</th>
                       <th scope="col" class="column-text">Date</th>
-                      <th scope="col" class="column-text">Product Name</th>
-                      <th scope="col" class="column-text">Amount</th>
-                      <th scope="col" class="column-text">Price/Item</th>
                 
                     </tr>
                   </thead>
@@ -196,9 +259,11 @@
                           while($row = mysqli_fetch_assoc($result)){
                         ?>
                         <tr class="table-active">
-                          <td><?php echo $row['date'];?></td>
                           <td><?php echo $row['product_name'];?></td>
-                          <td><?php echo $row['qty'];?></td>
+                          <td><?php echo $row['quantity'];?></td>
+                          <td><?php echo $row['price_'];?></td>
+                          <td><?php echo $row['date'];?></td>
+
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -206,36 +271,9 @@
             
               </ul>
             </div>
-            
           </div>
-          <div class="top-sales box">
-            <div class="title">Best Selling Product</div>
-              <ul class="top-sales-details">
-           
-                  <table class="table table table-striped table-bordered table-condensed" id="" style="margin-top: 50px;">
-                    <thead>
-                      <tr>
-                        <th scope="col" class="column-text ">Name</th>
-                        <th scope="col" class="column-text ">Sold</th>
-                        <th scope="col" class="column-text ">Stock</th>
-                      </tr>
-                    </thead>
-                      <tbody class="table-hover">
-                      <?php 
-                            while($row1 = mysqli_fetch_assoc($result1)){
-                            ?>
-                          <tr class="table-active">
-                            <td><?php echo $row1['product_name'];?></td>
-                            <td><?php echo $row1['totalSold'];?></td>
-                            <td><?php echo $row1['Stock'];?></td>
-                           
-                          </tr>
-                          <?php } ?>
-                      </tbody>
-                </table>
-              
-              </ul>
-            </div>
+
+
           </div>
         </div>
       </section>
