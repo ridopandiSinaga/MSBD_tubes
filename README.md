@@ -1,12 +1,12 @@
 # Yang mau diperbaiki
-  * input no telp
+  * syarat input no telp, user name,firstname,lasname
   * buat menu. report isinya report data barang/stock perbulan, hari atau per jangkauan data yg diinputkan
   * data barang yang stoknya kurang dari minimum stock (nama barang, jlh barang)
   * buat diagram batang dan donut diagram
   * ketika akun user selesai melakukan sale jangan direct ke tampilan admin
   * buat tabel log untuk setiap delivery dan sale
   * buat relasi dan diagram baru ke table log, sehingga saat view detail logs bisa ditampilkan lebih lengkap
-  * 
+  * kalau sempat, buat tabel baru menampilkan barang dan jumlah akan expired dihitung dari product in(delivery) berdasarkan tanggal transaction_no max 2 tahun
 
 
     
