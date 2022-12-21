@@ -12,6 +12,7 @@
   * bagusi frontend
   * untuk buat db kalo boleh jangan aku root
   * buat manajement transaksi untuk proses yg melakukan pembacaan data lebih dari satu tabel
+  * pangkas beberapa properties pada table, seperti locatin pd table product
 
     
 ## Built With
