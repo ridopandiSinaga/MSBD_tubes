@@ -10,6 +10,8 @@
   * trigger utk table product_delivered dan sale_product terhadap table products 
   * view belum tau buat apa
   * bagusi frontend
+  * untuk buat db kalo boleh jangan aku root
+  *
 
 
     
