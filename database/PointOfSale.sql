@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Des 2022 pada 15.01
+-- Waktu pembuatan: 21 Des 2022 pada 09.15
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -196,8 +196,6 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 ('1', 100),
 ('2', 200),
 ('3', 150),
-('4', 125),
-('5', 100),
 ('23213', 23),
 ('10000', 21);
 
@@ -306,7 +304,28 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (943, 'tito', 'User tito login', '2022-12-16 00:34:03'),
 (944, 'admin', 'User admin login', '2022-12-16 23:51:49'),
 (945, 'admin', 'User admin login', '2022-12-17 13:08:29'),
-(946, 'admin', 'User admin login', '2022-12-17 20:57:48');
+(946, 'admin', 'User admin login', '2022-12-17 20:57:48'),
+(947, 'admin', 'User admin login', '2022-12-18 12:58:10'),
+(948, 'admin', 'User admin login', '2022-12-19 02:17:01'),
+(949, 'admin', 'User admin login', '2022-12-19 09:12:09'),
+(950, 'admin', 'User admin login', '2022-12-19 12:37:39'),
+(951, 'admin', 'User admin login', '2022-12-20 11:06:45'),
+(952, 'admin', 'User admin logout', '2022-12-20 19:53:05'),
+(953, 'user', 'User user login', '2022-12-20 19:54:19'),
+(954, 'user', 'Product sold', '2022-12-20 19:55:36'),
+(955, 'user', 'User user logout', '2022-12-20 19:56:00'),
+(956, 'user', 'User user login', '2022-12-20 19:56:11'),
+(957, 'user', 'User user logout', '2022-12-20 20:31:56'),
+(958, 'admin', 'User admin login', '2022-12-20 20:32:01'),
+(959, 'admin', 'User admin logout', '2022-12-20 23:01:30'),
+(960, 'user', 'User user login', '2022-12-20 23:01:40'),
+(961, 'user', 'User user logout', '2022-12-20 23:03:10'),
+(962, 'admin', 'User admin login', '2022-12-20 23:03:15'),
+(963, 'admin', 'User admin logout', '2022-12-20 23:17:58'),
+(964, 'user', 'User user login', '2022-12-20 23:18:07'),
+(965, 'user', 'User user logout', '2022-12-21 01:44:02'),
+(966, 'admin', 'User admin login', '2022-12-21 01:44:08'),
+(967, 'admin', 'User admin login', '2022-12-21 12:33:10');
 
 -- --------------------------------------------------------
 
@@ -335,12 +354,10 @@ INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, 
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
 ('10011', 'Chair', '600.00', 198, 'Each', 20, NULL, NULL, NULL),
-('10012', 'Sofa', '2400.00', 92, 'Each', 20, NULL, NULL, NULL),
-('2', 'Surya 16', '256000.00', 19, 'Slop', 10, '-', '-', NULL),
-('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
-('3', 'Surya 12', '200500.00', 3, 'Slop', 10, '-', '-', NULL),
-('4', 'Sampoerna Mild 16', '256500.00', 24, 'Slop', 10, '-', '-', NULL),
-('5', 'Magnum Hitam 12', '180500.00', 9, 'Slop', 10, '-', '-', NULL);
+('10012', 'Sofa', '2400.00', 91, 'Each', 20, NULL, NULL, NULL),
+('2', 'Surya 16', '256000.00', 18, 'Slop', 10, '-', '-', NULL),
+('23213', 'sdfsd', '42.24', 18, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
+('3', 'Surya 12', '200500.00', 2, 'Slop', 10, '-', '-', NULL);
 
 --
 -- Trigger `products`
@@ -385,6 +402,14 @@ INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `b
 ('5E81DF2B7B8F7', '10000', 21, '21313.00', 20),
 ('639B28F949118', '3', 3, '6.00', 10);
 
+--
+-- Trigger `product_delivered`
+--
+DELIMITER $$
+CREATE TRIGGER `update_product_in` BEFORE INSERT ON `product_delivered` FOR EACH ROW UPDATE `products` SET `products`.`quantity` = `products`.`quantity` + NEW.total_qty WHERE `products`.`product_no` = NEW.product_id
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -416,7 +441,8 @@ INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total
 (28, 16, 'admin', 20, 1920, '2020-03-28 08:14:30'),
 (29, 16, 'admin', 20, 4017, '2020-03-30 01:07:10'),
 (30, 17, 'admin', 0, 893500, '2022-12-05 11:44:22'),
-(31, 18, 'ridopandi', 0, 3408500, '2022-12-05 16:01:27');
+(31, 18, 'ridopandi', 0, 3408500, '2022-12-05 16:01:27'),
+(32, 17, 'user', 0, 458942, '2022-12-20 12:55:36');
 
 -- --------------------------------------------------------
 
@@ -453,7 +479,20 @@ INSERT INTO `sales_product` (`reciept_no`, `product_id`, `price`, `qty`) VALUES
 (30, '5', '180500.00', 1),
 (30, '2', '256000.00', 1),
 (30, '3', '200500.00', 1),
-(31, '3', '200500.00', 17);
+(31, '3', '200500.00', 17),
+(32, '3', '200500.00', 1),
+(32, '2', '256000.00', 1),
+(32, '10012', '2400.00', 1),
+(32, '23213', '42.24', 1);
+
+--
+-- Trigger `sales_product`
+--
+DELIMITER $$
+CREATE TRIGGER `update_products_out` BEFORE INSERT ON `sales_product` FOR EACH ROW UPDATE `products` SET `products`.`quantity` = `products`.`quantity` - 
+NEW.qty WHERE `products`.`product_no` = NEW.product_id
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -606,19 +645,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=947;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=968;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales_product`
 --
 ALTER TABLE `sales_product`
-  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
