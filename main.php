@@ -21,13 +21,13 @@
     $stock = "SELECT count_stock()";//fungsi menghitung banyak product/stock
 
     $result = mysqli_query($db, $sql);
-    while($db->next_result()) continue;//supaya tidak out sync
+      while($db->next_result()) continue;//supaya tidak out sync
     $result1 = mysqli_query($db, $higest_selling_product);
-    while($db->next_result()) continue;//supaya tidak out sync
+      while($db->next_result()) continue;//supaya tidak out sync
     $result_product_in = mysqli_query($db, $product_in);
-    while($db->next_result()) continue;//supaya tidak out sync
+      while($db->next_result()) continue;//supaya tidak out sync
     $result_product_out = mysqli_query($db, $product_out);
-    while($db->next_result()) continue;//supaya tidak out sync
+      while($db->next_result()) continue;//supaya tidak out sync
     $result_stock = mysqli_query($db, $stock);
     // while($db->next_result()) continue;//supaya tidak out sync
   
@@ -47,13 +47,16 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <title>report</title>
+    <title>TOKOKU</title>
+    <link rel="icon" type="image/png" sizes="180x180" href="images/p-icon.png"/>
     <link rel="stylesheet" href="style.css" />
     <!-- Boxicons CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
@@ -126,8 +129,7 @@
           </a>
         </li>
         <li class="log_out">
-            <i class="bx bx-log-out"></i>
-            <button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"><i class="fas fa-sign-out-alt"></i> Logout</button> 
+            <button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-outline-danger mx-auto"><i class="fas fa-sign-out-alt"></i> Logout</button> 
           </a>
         </li>
       </ul>
@@ -137,17 +139,7 @@
     <section class="home-section">
       <nav>
         <div class="sidebar-button">
-          <i class="bx bx-menu sidebarBtn"></i>
           <span class="dashboard">Dashboard</span>
-        </div>
-        <div class="search-box">
-          <input type="text" placeholder="Recherche..." />
-          <i class="bx bx-search"></i>
-        </div>
-        <div class="profile-details">
-          <!--<img src="images/profile.jpg" alt="">-->
-          <span class="admin_name">Komche</span>
-          <i class="bx bx-chevron-down"></i>
         </div>
       </nav>
       <!-- end header -->
@@ -219,7 +211,7 @@
             <div class="sales-details">
               <ul class="details">
             
-                  <table class="table table-striped table-bordered" id="" style="margin-top: 50px;">
+                  <table class="table table-hover" id="" style="margin-top: 50px;">
                   <thead>
                     <tr>
                       <th scope="col" class="column-text">Date</th>
@@ -229,11 +221,11 @@
                 
                     </tr>
                   </thead>
-                    <tbody class="table-hover">
+                    <tbody class="table table-hover">
                         <?php 
                           while($row = mysqli_fetch_assoc($result)){
                         ?>
-                        <tr class="table-active">
+                        <tr>
                           <td><?php echo $row['date'];?></td>
                           <td><?php echo $row['product_name'];?></td>
                           <td><?php echo $row['quantity'];?></td>
@@ -250,7 +242,7 @@
             <div class="title">Best Selling Product</div>
               <ul class="top-sales-details">
            
-                  <table class="table table table-striped table-bordered table-condensed" id="" style="margin-top: 50px;">
+                  <table class="table table-hover" id="" style="margin-top: 50px;">
                     <thead>
                       <tr>
                         <th scope="col" class="column-text ">Name</th>
@@ -262,7 +254,7 @@
                       <?php 
                             while($row1 = mysqli_fetch_assoc($result1)){
                             ?>
-                          <tr class="table-active">
+                          <tr>
                             <td><?php echo $row1['product_name'];?></td>
                             <td><?php echo $row1['totalSold'];?></td>
                             <td><?php echo $row1['Stock'];?></td>
@@ -277,6 +269,9 @@
           </div>
         </div>
       </section>
+      <?php include('templates/js_popper.php');?>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="../bootstrap4/jquery/jquery.min.js"></script>
 	<script src="../bootstrap4/js/jquery.dataTables.js"></script>
 	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>
