@@ -45,14 +45,9 @@
 		$query1 = 'LIMIT ' .$_POST["start"].','.$_POST["length"];
 	}
 
-
-
 	$data = array();
-
 	$result = mysqli_query($db, $query . $query1);
-
 	$number_filter_row = mysqli_num_rows(mysqli_query($db, $query));
-
 
 	while($row = mysqli_fetch_array($result)){
 			$sub_array = array();
