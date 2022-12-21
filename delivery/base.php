@@ -2,7 +2,7 @@
 	<img class="img-fluid w-100 mt-2 ml-1" src="../images/logo.png" >
 </div>
 <div class="sidebar">
-	<button><h3><i class="fas fa-tachometer-alt"></i> Dashboard</h3></button>
+	<button><h3><i class="fa-solid fa-pen-field"></i> Details</h3></button>
 	<button id="sidebar_button" onclick="window.location.href='../delivery/delivery.php'"><i class="fas fa-hands-helping"></i> Transaction Details</button>
 	<button id="sidebar_button" onclick="window.location.href='../delivery/add_delivery.php'"><i class="fas fa-truck"></i> Add Deliveries</button>
 	<button id="sidebar_button" onclick="window.location.href='../delivery/import_csv.php'"><i class="fas fa-file-upload"></i> Import CSV</button>
