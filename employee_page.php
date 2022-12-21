@@ -59,7 +59,7 @@
 			</div>
 			<div class="header_price border p-0">
 				<h5>Grand Total</h5>
-				<p class="pb-0 mr-2 mb-2" style="float: right; font-size: 40px;" id="totalValue">₱ 0.00</p>
+				<p class="pb-0 mr-2 mb-2" style="float: right; font-size: 40px;" id="totalValue">Rp 0.00</p>
 			</div>
 		</div>
 		<div id="content" class="mr-2">
@@ -89,7 +89,7 @@
 					<ul class="text-white justify-content-center">
 						<li class="mb-0">Discount (%): <input style="width: 100px" type="number" name="discount" value="" min="1" placeholder="Enter Discount" id="discount"></li>
 						<li class="d-flex mb-0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<p class="dis m-0"></p></li>
-						<li class="d-flex">Total:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<p id="totalValue1">₱ 0.00</p></li>
+						<li class="d-flex">Total:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<p id="totalValue1">Rp 0.00</p></li>
 					</ul>
 				</small>
 				</div>
