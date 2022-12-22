@@ -59,7 +59,7 @@
 							</tr>
 							<tr>
 								<td  valign="baseline">Contact number:</td>
-								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span></div><input type="text" pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' title='Phone Number (Format: +99(99)9999-9999)'  name="number" value="<?php echo $row['contact_number'];?>" class="form-control form-control-sm" required></div></td>
+								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span></div><input type="text" pattern='\d{12}' title='Phone Number (Format: 081234567890)'  name="number" value="<?php echo $row['contact_number'];?>" class="form-control form-control-sm" required></div></td>
 							</tr>
 							<tr>
 								<td  valign="baseline">Position:</td>
@@ -75,7 +75,7 @@
 							</tr>
 							<tr>
 								<td>Change Photo:</td>
-								<td><input class="form-control-sm pl-5" type="file" name="image" style="padding-left:80px;"></td>
+								<td><input class="form-control-sm pl-5 w-100" type="file" name="image" style="padding-left:80px;"></td>
 							</tr>
 						</tbody>
 					</table>
