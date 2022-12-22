@@ -13,11 +13,11 @@
 	// $search_value = $_POST["search"]["value"];
 
 
-	
+	//untuk mencari data berdasarkan range date yang diberikan
 	if($_POST['is_date_search'] == "yes"){
 		$query .= 'WHERE sales.date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'"'; 
 	}
-
+	//
 	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
 		$query .= '
 			WHERE sales.reciept_no LIKE "%' .$_POST["search"]["value"].'%"
