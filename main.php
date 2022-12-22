@@ -63,14 +63,14 @@
     <!-- side bar -->
     <div class="sidebar">
       <div class="logo-details">
-        <i class="bx bxl-c-plus-plus"></i>
+        <i class="bx bxl-store-alt"></i>
         <span class="logo_name">TOKOKU</span>
       </div>
       <ul class="nav-links">
         <li>
-          <a href="" class="active">
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Dashboard</span>
+          <a href="" class="links_name">
+            <i class="bx bx-grid-alt text-dark"></i>
+            <span class="links_name text-dark">Dashboard</span>
           </a>
         </li>
         <li>
