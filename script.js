@@ -46,7 +46,7 @@ function GrandTotal(){
   var discount = $('#discount').val();
 
   $(TotalPriceArr).each(function(){
-    TotalValue += parseFloat($(this).text().replace(/,/g, "").replace("₱",""));
+    TotalValue += parseFloat($(this).text().replace(/,/g, "").replace("Rp. ",""));
   });
 
   if(discount != null){
@@ -54,10 +54,10 @@ function GrandTotal(){
 
     f_discount = TotalValue - discount;
 
-    $("#totalValue").text(accounting.formatMoney(f_discount,{symbol:"₱",format: "%s %v"}));
+    $("#totalValue").text(accounting.formatMoney(f_discount,{symbol:"Rp. ",format: "%s %v"}));
     $("#totalValue1").text(accounting.formatMoney(TotalValue,{format: "%v"}));
   }else{
-    $("#totalValue").text(accounting.formatMoney(TotalValue,{symbol:"₱",format: "%s %v"}));
+    $("#totalValue").text(accounting.formatMoney(TotalValue,{symbol:"Rp. ",format: "%s %v"}));
     $("#totalValue1").text(accounting.formatMoney(TotalValue,{format: "%v"}));
   }
 };
@@ -88,7 +88,7 @@ $('body').on('click','.js-add',function(){
             swal("Error","Please enter a number!","error");
     		  }else{
     				var total = parseInt(value,10) * parseFloat(price);
-    				$('#tableData').append("<tr class='prd'><td class='barcode text-center'>"+barcode+"</td><td class='text-center'>"+product+"</td><td class='price text-center'>"+accounting.formatMoney(price,{symbol:"₱",format: "%s %v"})+"</td><td class='text-center'>"+unit+"</td><td class='qty text-center'>"+value+"</td><td class='totalPrice text-center'>"+accounting.formatMoney(total,{symbol:"₱",format: "%s %v"})+"</td><td class='text-center p-1'><button class='btn btn-danger btn-sm' type='button' id='delete-row'><i class='fas fa-times-circle'></i></button><tr>");
+    				$('#tableData').append("<tr class='prd'><td class='barcode text-center'>"+barcode+"</td><td class='text-center'>"+product+"</td><td class='price text-center'>"+accounting.formatMoney(price,{symbol:"Rp. ",format: "%s %v"})+"</td><td class='text-center'>"+unit+"</td><td class='qty text-center'>"+value+"</td><td class='totalPrice text-center'>"+accounting.formatMoney(total,{symbol:"Rp. ",format: "%s %v"})+"</td><td class='text-center p-1'><button class='btn btn-danger btn-sm' type='button' id='delete-row'><i class='fas fa-times-circle'></i></button><tr>");
 	          GrandTotal();
         }
 			}
@@ -146,7 +146,7 @@ $(document).on('click','.Enter',function(){
       quantity.push($(this).text());
     });
     $('.price').each(function(){
-      price.push($(this).text().replace(/,/g, "").replace("₱",""));
+      price.push($(this).text().replace(/,/g, "").replace("Rp. ",""));
     });
 
     swal({
@@ -168,9 +168,9 @@ $(document).on('click','.Enter',function(){
           var change = 0;
           // var TotalPriceArr = $('#tableData tr .totalPrice').get()
           // $(TotalPriceArr).each(function(){
-          //   TotalValue += parseFloat($(this).text().replace(/,/g, "").replace("₱",""));
+          //   TotalValue += parseFloat($(this).text().replace(/,/g, "").replace("Rp. ",""));
           // });
-          var TotalValue = parseFloat($('#totalValue').text().replace(/,/g, "").replace("₱",""));
+          var TotalValue = parseFloat($('#totalValue').text().replace(/,/g, "").replace("Rp. ",""));
 
           if(TotalValue > qtynum){
             swal("Error","Can't process a smaller number","error");
@@ -184,7 +184,7 @@ $(document).on('click','.Enter',function(){
                 
                 if( data == "success"){
                   swal({
-                    title: "Change is " + accounting.formatMoney(change,{symbol:"₱",format: "%s %v"}),
+                    title: "Change is " + accounting.formatMoney(change,{symbol:"Rp. ",format: "%s %v"}),
                     icon: "success",
                     buttons: "Okay",
                   })

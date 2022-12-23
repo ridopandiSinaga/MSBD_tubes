@@ -1,6 +1,7 @@
 <?php 
 	include("../server/connection.php");
 	include '../set.php';
+	// create view
 	$sql = "SELECT * FROM logs ORDER BY id DESC";
 	$result	= mysqli_query($db, $sql);
 	?>
@@ -32,7 +33,6 @@
 					<tr class="table-active">
 						<td><?php echo $row['username'];?></td>
 						<td><?php echo $row['purpose'];?></td>
-						
 						<td><?php echo date('d M Y, g:i A', strtotime($row['logs_time']));?></td>
 						<td>
 							<button type="button" name="view" value="View" style='font-size:10px; border-radius:5px;padding:4px;' id="<?php echo $row['id'];?>" class="btn btn-success btn-xs view_data"><i class="fas fa-eye fa-lg"></i></button>

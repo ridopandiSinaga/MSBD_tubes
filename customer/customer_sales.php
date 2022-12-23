@@ -2,15 +2,25 @@
 	include("../server/connection.php");
 	include '../set.php';
 	$customer_id = $_GET['customer_id'];
-	$sql = "SELECT sales_product.reciept_no,sales_product.price,sales_product.qty FROM customer,sales,sales_product WHERE customer.customer_id = $customer_id AND sales.customer_id = $customer_id AND sales.reciept_no = sales_product.reciept_no";
-	$result	= mysqli_query($db, $sql);
+	// $sql = "SELECT sales_product.reciept_no,sales_product.price,sales_product.qty FROM customer,sales,sales_product WHERE customer.customer_id = $customer_id AND sales.customer_id = $customer_id AND sales.reciept_no = sales_product.reciept_no";
+	$sql = "CALL procedure_customer_sales($customer_id)";
 	$query = "SELECT firstname,lastname FROM customer WHERE customer_id=$customer_id";
+
+	$result	= mysqli_query($db,$sql);  
+	while($db->next_result()) continue;//supaya tidak out sync
 	$result1 = mysqli_query($db, $query);
+	while($db->next_result()) continue;//supaya tidak out sync
+
 	$deleted = isset($_GET['deleted']);
 	$added  = isset($_GET['added']);
 	$updated = isset($_GET['updated']);
 	$undelete = isset($_GET['undelete']);
 	$error = "";
+	$failure = "";
+
+	if (!$result) {
+    die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +32,7 @@
 	<div class="contain h-100">
 		<?php 
 			include('../customer/base.php');
-			//include('../alert.php');
+			include('../alert.php');
 		?>
 		<div>
 			<h1 class="ml-4 pt-2"><i class="fas fa-user-friends"></i> Customer Management</h1>
@@ -48,9 +58,9 @@
 						<td><?php echo $row['reciept_no'];?></td>
 						<td><?php echo $row['price'];?></td>
 						<td><?php echo $row['qty'];?></td>
-						<td>
+						<!-- <td>
 							<button type="button" name="view" style='font-size:10px; border-radius:5px;padding:4px;' id="<?php echo $row['customer_id'];?>" class="btn btn-success btn-xs view_data"><i class="fas fa-eye"></i></button>
-						</td>
+						</td> -->
 					</tr>
 					<?php } ?>
 				</tbody>

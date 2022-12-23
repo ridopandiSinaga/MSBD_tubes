@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Des 2022 pada 09.15
+-- Waktu pembuatan: 23 Des 2022 pada 04.14
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -48,6 +48,10 @@ INNER JOIN product_delivered pd ON pd.product_id = p.product_no
 WHERE s.date BETWEEN date_from AND date_to
 GROUP BY DATE(s.date), p.product_name
 ORDER BY DATE(s.date) DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_customer_sales` (IN `id` INT(25))   BEGIN 
+SELECT sales_product.reciept_no,sales_product.price,sales_product.qty FROM customer,sales,sales_product WHERE customer.customer_id = id AND sales.customer_id = id AND sales.reciept_no = sales_product.reciept_no;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_supplier_detail` (IN `id` INT)   BEGIN
 SELECT * FROM supplier,delivery,product_delivered,products 
@@ -145,9 +149,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
-(16, 'jersel', 'Bill', 'Philippines', '+63(09)1234-1234', 'user.png'),
+(16, 'jersel', 'Bill', 'Philippines', '082211804772', 'user.png'),
 (17, 'ridopandi', 'sinaga', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
-(18, 'Bayu', 'Permata', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png');
+(18, 'Bayu', 'Permata', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
+(19, 'Eru erlangga', 'nasution', 'Pariksabungan\r\nSipintuangin', '082211804921', '2022-12-19 (3).png');
 
 -- --------------------------------------------------------
 
@@ -325,7 +330,19 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (964, 'user', 'User user login', '2022-12-20 23:18:07'),
 (965, 'user', 'User user logout', '2022-12-21 01:44:02'),
 (966, 'admin', 'User admin login', '2022-12-21 01:44:08'),
-(967, 'admin', 'User admin login', '2022-12-21 12:33:10');
+(967, 'admin', 'User admin login', '2022-12-21 12:33:10'),
+(968, 'admin', 'User admin login', '2022-12-21 15:23:05'),
+(969, 'admin', 'User admin logout', '2022-12-21 19:24:51'),
+(970, 'user', 'User user login', '2022-12-21 19:25:01'),
+(971, 'user', 'User user logout', '2022-12-21 19:36:38'),
+(972, 'admin', 'User admin login', '2022-12-21 19:36:43'),
+(973, 'admin', 'User admin login', '2022-12-22 21:47:25'),
+(974, 'admin', 'User admin logout', '2022-12-22 21:48:22'),
+(975, 'admin', 'User admin login', '2022-12-22 21:53:15'),
+(976, 'admin', 'User admin logout', '2022-12-22 21:57:24'),
+(977, 'admin', 'User admin login', '2022-12-22 21:59:14'),
+(978, 'admin', 'User admin logout', '2022-12-22 23:52:20'),
+(979, 'admin', 'User admin login', '2022-12-22 23:52:29');
 
 -- --------------------------------------------------------
 
@@ -515,8 +532,8 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
-(21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '+63(09)1234-1234', 'Internship-Web-Graphic-01.png'),
-(22, 'BrandName', 'Bill', 'Joe', 'Africa', '+63(09)1234-1234', 'multi-user-icon.png'),
+(21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '082245456751', 'Internship-Web-Graphic-01.png'),
+(22, 'BrandName', 'Bill', 'Joe', 'Africa', '082245456741', 'multi-user-icon.png'),
 (23, 'Limbong Mula', 'limbong', 'mula', 'siantar', '082211804931', 'Ambassador-pana.png');
 
 -- --------------------------------------------------------
@@ -639,13 +656,13 @@ ALTER TABLE `cashflow`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=968;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=981;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
