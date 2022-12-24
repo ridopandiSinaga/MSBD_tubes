@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Des 2022 pada 04.14
+-- Waktu pembuatan: 24 Des 2022 pada 06.35
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -82,12 +82,6 @@ END$$
 --
 -- Fungsi
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `count_by_id` (`table_name` VARCHAR(25)) RETURNS INT(20)  BEGIN
-DECLARE a INT(10);
-SET a = IFNULL((SELECT COUNT(table_id) AS total FROM table_name),"0") ;
-RETURN a;
-END$$
-
 CREATE DEFINER=`root`@`localhost` FUNCTION `count_product_in` () RETURNS VARCHAR(11) CHARSET utf8mb4  BEGIN
 DECLARE p_in VARCHAR(10);
 SET p_in = IFNULL((SELECT SUM(pd.total_qty) AS total FROM product_delivered pd),"0") ;
@@ -149,10 +143,11 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
-(16, 'jersel', 'Bill', 'Philippines', '082211804772', 'user.png'),
+(16, 'jersel', 'Bill', 'Philippines', '+63(09)1234-1234', 'user.png'),
 (17, 'ridopandi', 'sinaga', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
 (18, 'Bayu', 'Permata', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
-(19, 'Eru erlangga', 'nasution', 'Pariksabungan\r\nSipintuangin', '082211804921', '2022-12-19 (3).png');
+(19, 'Eru erlangga', 'nasution', 'Pariksabungan\r\nSipintuangin', '082211804921', '2022-12-19 (3).png'),
+(20, 'gihon', 'sinaga', 'Medan', '082211805566', 'E_YqCK_VgAANr3-.jpg');
 
 -- --------------------------------------------------------
 
@@ -342,7 +337,12 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (976, 'admin', 'User admin logout', '2022-12-22 21:57:24'),
 (977, 'admin', 'User admin login', '2022-12-22 21:59:14'),
 (978, 'admin', 'User admin logout', '2022-12-22 23:52:20'),
-(979, 'admin', 'User admin login', '2022-12-22 23:52:29');
+(979, 'admin', 'User admin login', '2022-12-22 23:52:29'),
+(981, 'admin', 'User admin logout', '2022-12-23 16:47:24'),
+(982, 'admin', 'User admin login', '2022-12-23 16:48:43'),
+(983, 'admin', 'User admin logout', '2022-12-23 17:03:45'),
+(984, 'user', 'User user login', '2022-12-23 17:03:56'),
+(986, 'admin', 'User admin login', '2022-12-23 21:00:12');
 
 -- --------------------------------------------------------
 
@@ -532,8 +532,8 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
-(21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '082245456751', 'Internship-Web-Graphic-01.png'),
-(22, 'BrandName', 'Bill', 'Joe', 'Africa', '082245456741', 'multi-user-icon.png'),
+(21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '+63(09)1234-1234', 'Internship-Web-Graphic-01.png'),
+(22, 'BrandName', 'Bill', 'Joe', 'Africa', '+63(09)1234-1234', 'multi-user-icon.png'),
 (23, 'Limbong Mula', 'limbong', 'mula', 'siantar', '082211804931', 'Ambassador-pana.png');
 
 -- --------------------------------------------------------
@@ -562,6 +562,30 @@ INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `position`, `con
 (13, 'user', 'Chris', 'Doe', 'Employee', '+63(09)1234-1234', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee'),
 (15, 'ridopandi', 'rido', 'pandi', 'Employee', '+99(99)9999-9999', 'Ambassador-pana.png', '9d3aa98720813362b99c5626db91186c'),
 (16, 'tito', 'tito', 'trinidad', 'Employee', '+99(99)9999-9999', '17378.jpg', '5a5831b9bc64bc5bad1eebcceb4b24ba');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `view_record_delivery`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `view_record_delivery` (
+`transaction_no` varchar(20)
+,`company_name` varchar(30)
+,`username` varchar(20)
+,`TotalPrice` decimal(50,2)
+,`TotalQuantity` decimal(32,0)
+,`date` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `view_record_delivery`
+--
+DROP TABLE IF EXISTS `view_record_delivery`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_record_delivery`  AS SELECT `delivery`.`transaction_no` AS `transaction_no`, `supplier`.`company_name` AS `company_name`, `delivery`.`username` AS `username`, sum(`product_delivered`.`buy_price` * `product_delivered`.`total_qty`) AS `TotalPrice`, sum(`product_delivered`.`total_qty`) AS `TotalQuantity`, `delivery`.`date` AS `date` FROM (((`delivery` join `product_delivered` on(`delivery`.`transaction_no` = `product_delivered`.`transaction_no`)) join `supplier` on(`delivery`.`supplier_id` = `supplier`.`supplier_id`)) join `products` on(`product_delivered`.`product_id` = `products`.`product_no`)) GROUP BY `delivery`.`transaction_no` ORDER BY `delivery`.`date` AS `DESCdesc` ASC  ;
 
 --
 -- Indexes for dumped tables
@@ -656,13 +680,13 @@ ALTER TABLE `cashflow`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=981;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=987;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
