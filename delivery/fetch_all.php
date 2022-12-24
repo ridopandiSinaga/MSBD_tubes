@@ -5,25 +5,17 @@
 	$column = array('transaction_no','username','company_name','TotalPrice','TotalQuantity','date');
 
 	$query = "SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no ";
-	// $status_date_search = $_POST['is_date_search'];
+	// $status_date_search = $_POST['is_date_search'];	
+	// $start_date = $_POST["start_date"];
 	if($_POST['is_date_search'] == "yes"){
 		$query .= 'WHERE delivery.date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'"'; 
 	}
 	//$status_search_value = $_POST["search"]["value"];
-
-	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
-		$query .= '
-			WHERE delivery.transaction_no LIKE "%' .$_POST["search"]["value"].'%"
-			OR username LIKE "%' .$_POST["search"]["value"].'%"
-			OR company_name LIKE "%' .$_POST["search"]["value"].'%"
-		';
-	}else{
-		$query .= '';
-	}
-
-	$query .= "GROUP BY transaction_no ";
 	
-
+	$query .= "GROUP BY transaction_no ";
+	// $isset_order = isset($_POST['order']);
+	// $order_column = $column[$_POST['order']['0']['column']];
+	// $order_dir =$_POST['order']['0']['dir'];
 	if(isset($_POST['order'])){
 		$query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
 	}else{

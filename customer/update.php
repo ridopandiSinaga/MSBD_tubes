@@ -15,6 +15,7 @@
 		  	mysqli_query($db, $sql);
 		  	if(move_uploaded_file($_FILES['image']['tmp_name'], $target)){
 		  		$msg = "Image successfully uploaded!";
+				//proc udh, trigger blm
 		  		$sql 	= "INSERT INTO logs (username,purpose) VALUES('$user','Customer $fname updated')";
  				$insert = mysqli_query($db,$sql);
  				header('location: ../customer/customer.php?updated');

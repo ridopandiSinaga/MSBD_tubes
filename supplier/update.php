@@ -16,6 +16,7 @@
 		  	mysqli_query($db, $sql);
 		  	if(move_uploaded_file($_FILES['image']['tmp_name'], $target)){
 		  		$msg = "Image successfully uploaded!";
+				//sudah dibuat procedure, triiger belum
 		  		$logs 	= "INSERT INTO logs (username,purpose) VALUES('$user','Supplier $company updated')";
  				mysqli_query($db,$logs);
  				header('location: ../supplier/supplier.php?updated');

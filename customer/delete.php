@@ -4,6 +4,7 @@
         $use = $_SESSION['username'];
 		$query = "DELETE FROM customer WHERE customer_id = '$id'"; 
     	if(mysqli_query($db, $query)==true){
+			//sdh proc, trigg belum
     		$logs 	= "INSERT INTO logs (username,purpose) VALUES('$user','Customer deleted')";
  			$insert = mysqli_query($db,$logs);
 			header("location: customer.php?deleted");

@@ -5,6 +5,7 @@
 		$query = "DELETE FROM users WHERE id = '$id'"; 
     	$result = mysqli_query($db, $query);
     	if($result == true){
+			//proc dh, triiger belum
     		$insert 	= "INSERT INTO logs (username,purpose) VALUES('$user','User Deleted')";
  			mysqli_query($db,$insert);
 			header("location: user.php?deleted");

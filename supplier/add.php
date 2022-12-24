@@ -15,6 +15,7 @@
 	  	$result = mysqli_query($db, $sql);
 	  	if(move_uploaded_file($_FILES['image']['tmp_name'], $target) && $result == true){
 			$msg = "Image successfully uploaded!";
+			// sudah dibuat proc, trigger belum dibuat 
 			$query 	= "INSERT INTO logs (username,purpose) VALUES('$user','Supplier $company added')";
  			$insert = mysqli_query($db,$query);
 			header('location: ../supplier/supplier.php?added');

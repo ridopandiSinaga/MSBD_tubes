@@ -28,6 +28,7 @@
 	  		$result = mysqli_query($db, $sql);
 	  		if(move_uploaded_file($_FILES['image']['tmp_name'], $target) && $result == true){
 				$msg = "Image successfully uploaded!";
+				// procedure dh, trigger blm
 				$insert	= "INSERT INTO logs (username,purpose) VALUES('$user','User $firstname added')";
  				$logs = mysqli_query($db,$insert);
 				header('location: ../user/user.php?added');

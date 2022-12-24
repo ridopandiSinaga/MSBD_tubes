@@ -13,6 +13,7 @@
 		$sql  = "INSERT INTO customer (firstname,lastname,address,contact_number,image) VALUES ('$fname','$lname','$address','$number','$image')";
 	  	$result = mysqli_query($db, $sql);
  		if(move_uploaded_file($_FILES['image']['tmp_name'], $target) && $result == true){
+			//proc sdh, trigger blm
  			$query 	= "INSERT INTO logs (username,purpose) VALUES('$user','Customer $fname Added')";
  			$insert 	= mysqli_query($db,$query);
 			header('location: ../customer/customer.php?added');

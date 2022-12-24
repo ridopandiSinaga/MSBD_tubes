@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Des 2022 pada 06.35
+-- Waktu pembuatan: 24 Des 2022 pada 19.54
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -51,6 +51,51 @@ ORDER BY DATE(s.date) DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_customer_sales` (IN `id` INT(25))   BEGIN 
 SELECT sales_product.reciept_no,sales_product.price,sales_product.qty FROM customer,sales,sales_product WHERE customer.customer_id = id AND sales.customer_id = id AND sales.reciept_no = sales_product.reciept_no;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_costumer` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Customer ', first_name,' added'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_delivery` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Supplier', company_name, 'added'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_user` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('User ', first_name,' added'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_del_costumer` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'Customer deleted');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_del_delivery` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'Supplier Deleted');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_de_user` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'User Deleted');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_costumer` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Customer ',first_name,' updated'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_delivery` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Supplier ', company_name, ' updated'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_user` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('User ', first_name ,' updated'));
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_supplier_detail` (IN `id` INT)   BEGIN
@@ -342,7 +387,13 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (982, 'admin', 'User admin login', '2022-12-23 16:48:43'),
 (983, 'admin', 'User admin logout', '2022-12-23 17:03:45'),
 (984, 'user', 'User user login', '2022-12-23 17:03:56'),
-(986, 'admin', 'User admin login', '2022-12-23 21:00:12');
+(986, 'admin', 'User admin login', '2022-12-23 21:00:12'),
+(987, 'admin', 'User admin login', '2022-12-24 14:20:11'),
+(993, 'ridopandi', 'SupplierLimbong Mulaadded', '2022-12-25 00:58:05'),
+(994, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:00:34'),
+(995, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:01:10'),
+(996, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:02:59'),
+(997, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:04:15');
 
 -- --------------------------------------------------------
 
@@ -686,7 +737,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=987;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=998;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`

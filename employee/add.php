@@ -9,6 +9,7 @@
 		$sql  = "INSERT INTO cashflow (description,amount,username) VALUES ('$purpose','$amount','$user')";
 	  	$result = mysqli_query($db, $sql);
  		if($result == true){
+			
  			$query 	= "INSERT INTO logs (username,purpose) VALUES('$user','$purpose')";
  			$insert = mysqli_query($db,$query);
  			header('location: ../employee/cashflow.php?added');
