@@ -34,7 +34,7 @@
 						<th scope="col" class="column-text">Price</th>
 						<th scope="col" class="column-text">Unit</th>
 						<th scope="col" class="column-text">Tax Added</th>
-						<th scope="col" class="column-text">Sell Price</th>
+						<th scope="col" class="column-text">Buy Price</th>
 					</tr>
 				</thead>
 				<tbody class="table-hover">

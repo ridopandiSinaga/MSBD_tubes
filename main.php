@@ -21,7 +21,7 @@
     $stock = "SELECT count_stock()";//fungsi menghitung banyak product/stock
 
     $result = mysqli_query($db, $sql);
-      while($db->next_result()) continue;//supaya tidak out sync
+      while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
     $result1 = mysqli_query($db, $higest_selling_product);
       while($db->next_result()) continue;//supaya tidak out sync
     $result_product_in = mysqli_query($db, $product_in);

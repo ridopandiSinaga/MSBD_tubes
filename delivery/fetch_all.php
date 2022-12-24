@@ -5,10 +5,11 @@
 	$column = array('transaction_no','username','company_name','TotalPrice','TotalQuantity','date');
 
 	$query = "SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no ";
-
+	// $status_date_search = $_POST['is_date_search'];
 	if($_POST['is_date_search'] == "yes"){
 		$query .= 'WHERE delivery.date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'"'; 
 	}
+	//$status_search_value = $_POST["search"]["value"];
 
 	if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
 		$query .= '
@@ -21,6 +22,7 @@
 	}
 
 	$query .= "GROUP BY transaction_no ";
+	
 
 	if(isset($_POST['order'])){
 		$query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
@@ -30,7 +32,7 @@
 
 	$query1 = '';
 
-	$_POST["length"] = 5;
+	$_POST["length"] = 7;
 
 	if($_POST['length'] != -1){
 		$query1 = 'LIMIT ' .$_POST["start"].','.$_POST["length"];
@@ -54,7 +56,8 @@
 		}
 
 	function get_all_data($db){
-		$query = "SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no GROUP BY delivery.transaction_no ORDER BY date DESC";
+		//view
+		$query = "SELECT * FROM view_record_delivery";
 		$result = mysqli_query($db, $query);
 		return mysqli_num_rows($result);
 	}
