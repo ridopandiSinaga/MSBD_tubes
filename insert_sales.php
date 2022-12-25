@@ -17,7 +17,7 @@ if(isset($_POST['product'])){
 	}else{
 		$cust_id 	= mysqli_fetch_array($customer_id);
 		$cust_id_new = $cust_id['customer_id'];
-
+		
 		$sql = "INSERT INTO sales(customer_id,username,discount,total) VALUES($cust_id_new,'$user',$discount, $total)";
 		$result = mysqli_query($db,$sql);
 
@@ -43,7 +43,7 @@ if(isset($_POST['product'])){
 				$result2 = mysqli_query($db, $sql2);
 
 			}
-
+			//proc sudah, trig belum
 			$query1 	= "INSERT INTO logs (username,purpose) VALUES('$user','Product sold')";
 	 		$insert 	= mysqli_query($db,$query1);
 

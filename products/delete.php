@@ -5,7 +5,8 @@
 		$query = "DELETE FROM products WHERE product_no = $id"; 
     	$result = mysqli_query($db, $query);
     	if($result==true){
-    		$logs	= "INSERT INTO logs (username,purpose) VALUES('$user','Product deleted')";
+			//proc sudah. trigger belum
+			$logs = "CALL procedure_log_del_product($user,'Product deleted') ";
     		$insert = mysqli_query($db,$logs);
     		header("location: products.php?deleted");
     	}else{

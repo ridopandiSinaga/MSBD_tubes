@@ -7,8 +7,6 @@ if (isset($_POST['login'])){
 	$position	= mysqli_real_escape_string($db, $_POST['position']); 
 	$username 	= mysqli_real_escape_string($db, $_POST['username']);
 	
-
-
 	if($username != '' AND $password != '' AND $position != ''){
 		$query 		= "SELECT * FROM users WHERE username = '$username' AND position = '$position' AND password = '$password'";
 		

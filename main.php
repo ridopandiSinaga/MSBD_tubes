@@ -192,7 +192,7 @@
           </div>
           <!--  -->
           <!--  -->
-          <div class="box">
+          <!-- <div class="box">
             <div class="right-side">
               <div class="box-topic">Revenu</div>
               <div class="number">11,086</div>
@@ -202,7 +202,7 @@
               </div>
             </div>
             <i class="bx bxs-cart-download cart four"></i>
-          </div>
+          </div> -->
           <!--  -->
         </div>
         <div class="sales-boxes">

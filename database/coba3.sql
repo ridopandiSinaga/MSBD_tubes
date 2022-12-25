@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Des 2022 pada 19.54
+-- Waktu pembuatan: 25 Des 2022 pada 15.13
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pointofsale`
+-- Database: `coba3`
 --
 
 DELIMITER $$
@@ -58,7 +58,7 @@ INSERT INTO logs (username,purpose)
 VALUES(user_name,CONCAT('Customer ', first_name,' added'));
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_delivery` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_suplier` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,CONCAT('Supplier', company_name, 'added'));
 END$$
@@ -78,9 +78,19 @@ INSERT INTO logs (username,purpose)
 VALUES(user_name,'Supplier Deleted');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_de_user` (IN `user_name` VARCHAR(25))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_del_product` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'Product deleted');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_del_user` (IN `user_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,'User Deleted');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_ins_product` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'Product sold');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_costumer` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
@@ -91,6 +101,11 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_delivery` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,CONCAT('Supplier ', company_name, ' updated'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_product` (IN `user_name` VARCHAR(25), IN `product_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Product ',product_name ,' updated'));
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_user` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
@@ -188,11 +203,7 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
-(16, 'jersel', 'Bill', 'Philippines', '+63(09)1234-1234', 'user.png'),
-(17, 'ridopandi', 'sinaga', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
-(18, 'Bayu', 'Permata', 'Pariksabungan\r\nSipintuangin', '082211804921', 'Ambassador-pana.png'),
-(19, 'Eru erlangga', 'nasution', 'Pariksabungan\r\nSipintuangin', '082211804921', '2022-12-19 (3).png'),
-(20, 'gihon', 'sinaga', 'Medan', '082211805566', 'E_YqCK_VgAANr3-.jpg');
+(16, 'jersel', 'Bill', 'Philippines', '+63(09)1234-1234', 'user.png');
 
 -- --------------------------------------------------------
 
@@ -217,7 +228,10 @@ INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VAL
 ('5CAAFE37D21E8', 21, 'admin', '2019-04-08 15:55:28'),
 ('5E7F00084C934', 22, 'admin', '2020-03-28 15:43:22'),
 ('5E81DF2B7B8F7', 22, 'admin', '2020-03-30 20:00:48'),
-('639B28F949118', 23, 'admin', '2022-12-15 21:04:28');
+('63A811F16EA16', 23, 'admin', '2022-12-25 16:09:44'),
+('63A8176E7380A', 23, 'admin', '2022-12-25 16:27:28'),
+('63A8178B9262F', 23, 'admin', '2022-12-25 16:28:05'),
+('63A82C8D753F2', 23, 'admin', '2022-12-25 17:57:34');
 
 -- --------------------------------------------------------
 
@@ -241,6 +255,8 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 ('1', 100),
 ('2', 200),
 ('3', 150),
+('4', 125),
+('5', 100),
 ('23213', 23),
 ('10000', 21);
 
@@ -301,99 +317,8 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (889, 'admin', 'User admin login', '2020-03-30 19:59:24'),
 (890, 'admin', 'Delivery Added', '2020-03-30 20:00:48'),
 (891, 'admin', 'User admin login', '2020-03-30 22:26:03'),
-(892, 'admin', 'User admin login', '2022-12-05 16:33:07'),
-(893, 'admin', 'User admin login', '2022-12-05 17:11:34'),
-(895, 'admin', 'Customer limbong Added', '2022-12-05 17:23:48'),
-(896, 'admin', 'User admin logout', '2022-12-05 17:47:37'),
-(897, 'admin', 'User admin login', '2022-12-05 17:47:50'),
-(898, 'admin', 'User admin login', '2022-12-05 17:49:26'),
-(899, 'admin', 'User admin logout', '2022-12-05 17:52:23'),
-(900, 'admin', 'User admin login', '2022-12-05 17:52:55'),
-(901, 'admin', 'User admin login', '2022-12-05 18:05:18'),
-(902, 'admin', 'User admin login', '2022-12-05 18:09:08'),
-(903, 'admin', 'Product 153 kretek updated', '2022-12-05 18:16:25'),
-(904, 'admin', 'Product Surya 16 updated', '2022-12-05 18:18:07'),
-(905, 'admin', 'Product Surya 12 updated', '2022-12-05 18:21:39'),
-(906, 'admin', 'Product Sampoerna Mild 16 upda', '2022-12-05 18:22:30'),
-(907, 'admin', 'Product Magnum Hitam 12 update', '2022-12-05 18:23:46'),
-(908, 'admin', 'User admin login', '2022-12-05 18:42:23'),
-(909, 'admin', 'Product sold', '2022-12-05 18:44:22'),
-(910, 'admin', 'Product 153 kretek updated', '2022-12-05 18:46:28'),
-(911, 'admin', 'User admin login', '2022-12-05 19:01:22'),
-(912, 'admin', 'User admin login', '2022-12-05 21:58:59'),
-(913, 'admin', 'User admin logout', '2022-12-05 22:52:41'),
-(914, 'admin', 'User admin login', '2022-12-05 22:52:52'),
-(916, 'admin', 'User admin logout', '2022-12-05 22:57:04'),
-(917, 'ridopandi', 'User ridopandi login', '2022-12-05 22:57:19'),
-(919, 'ridopandi', 'Product sold', '2022-12-05 23:01:27'),
-(920, 'admin', 'User admin login', '2022-12-05 23:17:03'),
-(922, 'admin', 'User admin login', '2022-12-06 03:29:17'),
-(923, 'admin', 'Product 153 kretek updated', '2022-12-06 03:32:37'),
-(924, 'admin', 'Product 153 kretek updated', '2022-12-06 03:35:55'),
-(925, 'admin', 'User admin logout', '2022-12-06 04:47:59'),
-(926, 'admin', 'User admin login', '2022-12-06 04:48:09'),
-(927, 'admin', 'User admin login', '2022-12-12 23:22:40'),
-(928, 'admin', 'User admin login', '2022-12-15 11:05:30'),
-(929, 'admin', 'User admin login', '2022-12-15 11:34:06'),
-(930, 'admin', 'User admin login', '2022-12-15 11:43:49'),
-(931, 'admin', 'Product Surya 12 updated', '2022-12-15 12:38:02'),
-(932, 'admin', 'User admin login', '2022-12-15 18:07:54'),
-(933, 'admin', 'Product Sampoerna Mild 16 upda', '2022-12-15 18:57:05'),
-(934, 'admin', 'Product Surya 12 updated', '2022-12-15 18:57:17'),
-(935, 'admin', 'Product Surya 16 updated', '2022-12-15 18:57:23'),
-(936, 'admin', 'Product 153 kretek updated', '2022-12-15 18:57:35'),
-(937, 'admin', 'Delivery Added', '2022-12-15 21:04:28'),
-(939, 'admin', 'User admin logout', '2022-12-16 00:31:37'),
-(940, 'admin', 'User admin login', '2022-12-16 00:31:53'),
-(942, 'admin', 'User admin logout', '2022-12-16 00:33:47'),
-(943, 'tito', 'User tito login', '2022-12-16 00:34:03'),
-(944, 'admin', 'User admin login', '2022-12-16 23:51:49'),
-(945, 'admin', 'User admin login', '2022-12-17 13:08:29'),
-(946, 'admin', 'User admin login', '2022-12-17 20:57:48'),
-(947, 'admin', 'User admin login', '2022-12-18 12:58:10'),
-(948, 'admin', 'User admin login', '2022-12-19 02:17:01'),
-(949, 'admin', 'User admin login', '2022-12-19 09:12:09'),
-(950, 'admin', 'User admin login', '2022-12-19 12:37:39'),
-(951, 'admin', 'User admin login', '2022-12-20 11:06:45'),
-(952, 'admin', 'User admin logout', '2022-12-20 19:53:05'),
-(953, 'user', 'User user login', '2022-12-20 19:54:19'),
-(954, 'user', 'Product sold', '2022-12-20 19:55:36'),
-(955, 'user', 'User user logout', '2022-12-20 19:56:00'),
-(956, 'user', 'User user login', '2022-12-20 19:56:11'),
-(957, 'user', 'User user logout', '2022-12-20 20:31:56'),
-(958, 'admin', 'User admin login', '2022-12-20 20:32:01'),
-(959, 'admin', 'User admin logout', '2022-12-20 23:01:30'),
-(960, 'user', 'User user login', '2022-12-20 23:01:40'),
-(961, 'user', 'User user logout', '2022-12-20 23:03:10'),
-(962, 'admin', 'User admin login', '2022-12-20 23:03:15'),
-(963, 'admin', 'User admin logout', '2022-12-20 23:17:58'),
-(964, 'user', 'User user login', '2022-12-20 23:18:07'),
-(965, 'user', 'User user logout', '2022-12-21 01:44:02'),
-(966, 'admin', 'User admin login', '2022-12-21 01:44:08'),
-(967, 'admin', 'User admin login', '2022-12-21 12:33:10'),
-(968, 'admin', 'User admin login', '2022-12-21 15:23:05'),
-(969, 'admin', 'User admin logout', '2022-12-21 19:24:51'),
-(970, 'user', 'User user login', '2022-12-21 19:25:01'),
-(971, 'user', 'User user logout', '2022-12-21 19:36:38'),
-(972, 'admin', 'User admin login', '2022-12-21 19:36:43'),
-(973, 'admin', 'User admin login', '2022-12-22 21:47:25'),
-(974, 'admin', 'User admin logout', '2022-12-22 21:48:22'),
-(975, 'admin', 'User admin login', '2022-12-22 21:53:15'),
-(976, 'admin', 'User admin logout', '2022-12-22 21:57:24'),
-(977, 'admin', 'User admin login', '2022-12-22 21:59:14'),
-(978, 'admin', 'User admin logout', '2022-12-22 23:52:20'),
-(979, 'admin', 'User admin login', '2022-12-22 23:52:29'),
-(981, 'admin', 'User admin logout', '2022-12-23 16:47:24'),
-(982, 'admin', 'User admin login', '2022-12-23 16:48:43'),
-(983, 'admin', 'User admin logout', '2022-12-23 17:03:45'),
-(984, 'user', 'User user login', '2022-12-23 17:03:56'),
-(986, 'admin', 'User admin login', '2022-12-23 21:00:12'),
-(987, 'admin', 'User admin login', '2022-12-24 14:20:11'),
-(993, 'ridopandi', 'SupplierLimbong Mulaadded', '2022-12-25 00:58:05'),
-(994, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:00:34'),
-(995, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:01:10'),
-(996, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:02:59'),
-(997, 'admin', 'SupplierLimbong Mulaadded', '2022-12-25 01:04:15');
+(892, 'admin', 'Customer PT Limbong Added', '2022-12-25 16:03:45'),
+(893, 'admin', 'Delivery Added', '2022-12-25 16:28:05');
 
 -- --------------------------------------------------------
 
@@ -418,14 +343,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, `unit`, `min_stocks`, `remarks`, `location`, `images`) VALUES
-('1', '153 kretek', '120000.00', 100, 'Slop', 10, 'sfdsfdsf', 'fsdfdsfdsfd', NULL),
+('1', 'Coffee', '12.00', 75, 'sachet', 20, 'sfdsfdsf', 'fsdfdsfdsfds', NULL),
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
 ('10011', 'Chair', '600.00', 198, 'Each', 20, NULL, NULL, NULL),
-('10012', 'Sofa', '2400.00', 91, 'Each', 20, NULL, NULL, NULL),
-('2', 'Surya 16', '256000.00', 18, 'Slop', 10, '-', '-', NULL),
-('23213', 'sdfsd', '42.24', 18, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
-('3', 'Surya 12', '200500.00', 2, 'Slop', 10, '-', '-', NULL);
+('10012', 'Sofa', '2400.00', 92, 'Each', 20, NULL, NULL, NULL),
+('2', 'Tooth Paste', '24.00', 200, 'sachet', 10, NULL, NULL, NULL),
+('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
+('3', 'Shampoo', '6.60', 148, 'sachet', 20, NULL, NULL, NULL),
+('4', 'Soap', '17.25', 122, 'sachet', 20, NULL, NULL, NULL),
+('5', 'Conditioner', '12.00', 100, 'sachet', 10, NULL, NULL, NULL);
 
 --
 -- Trigger `products`
@@ -468,7 +395,7 @@ INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `b
 ('5CAAFE37D21E8', '5', 100, '10.00', 20),
 ('5E7F00084C934', '23213', 23, '32.00', 32),
 ('5E81DF2B7B8F7', '10000', 21, '21313.00', 20),
-('639B28F949118', '3', 3, '6.00', 10);
+('63A8178B9262F', '1', 5, '10.00', 20);
 
 --
 -- Trigger `product_delivered`
@@ -498,7 +425,7 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total`, `date`) VALUES
-(20, 16, 'admin', 0, 0, '2019-03-27 17:00:00'),
+(20, 16, 'admin', 0, 0, '2019-04-08 07:56:39'),
 (21, 16, 'admin', 0, 0, '2019-04-08 12:29:27'),
 (22, 16, 'admin', 0, 0, '2020-03-28 06:06:26'),
 (23, 16, 'admin', 0, 0, '2020-03-28 06:07:27'),
@@ -507,10 +434,7 @@ INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total
 (26, 16, 'admin', 10, 0, '2020-03-28 06:22:55'),
 (27, 16, 'admin', 10, 2160, '2020-03-28 06:27:51'),
 (28, 16, 'admin', 20, 1920, '2020-03-28 08:14:30'),
-(29, 16, 'admin', 20, 4017, '2020-03-30 01:07:10'),
-(30, 17, 'admin', 0, 893500, '2022-12-05 11:44:22'),
-(31, 18, 'ridopandi', 0, 3408500, '2022-12-05 16:01:27'),
-(32, 17, 'user', 0, 458942, '2022-12-20 12:55:36');
+(29, 16, 'admin', 20, 4017, '2020-03-30 01:07:10');
 
 -- --------------------------------------------------------
 
@@ -542,16 +466,7 @@ INSERT INTO `sales_product` (`reciept_no`, `product_id`, `price`, `qty`) VALUES
 (28, '10012', '2400.00', 1),
 (29, '10012', '2400.00', 2),
 (29, '4', '17.25', 3),
-(29, '23213', '42.24', 4),
-(30, '4', '256500.00', 1),
-(30, '5', '180500.00', 1),
-(30, '2', '256000.00', 1),
-(30, '3', '200500.00', 1),
-(31, '3', '200500.00', 17),
-(32, '3', '200500.00', 1),
-(32, '2', '256000.00', 1),
-(32, '10012', '2400.00', 1),
-(32, '23213', '42.24', 1);
+(29, '23213', '42.24', 4);
 
 --
 -- Trigger `sales_product`
@@ -585,7 +500,7 @@ CREATE TABLE `supplier` (
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
 (21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '+63(09)1234-1234', 'Internship-Web-Graphic-01.png'),
 (22, 'BrandName', 'Bill', 'Joe', 'Africa', '+63(09)1234-1234', 'multi-user-icon.png'),
-(23, 'Limbong Mula', 'limbong', 'mula', 'siantar', '082211804931', 'Ambassador-pana.png');
+(23, 'Limbong Mula', 'PT Limbong', 'Mula', 'Panei Tongah, Kab. Simalungun', '082211804923', 'E_YqCK_VgAANr3-.jpg');
 
 -- --------------------------------------------------------
 
@@ -609,10 +524,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `position`, `contact_number`, `image`, `password`) VALUES
-(7, 'admin', 'Juan', 'Cruz', 'admin', '+63(09)1234-1234', 'Myprofile.jpg', '21232f297a57a5a743894a0e4a801fc3'),
-(13, 'user', 'Chris', 'Doe', 'Employee', '+63(09)1234-1234', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee'),
-(15, 'ridopandi', 'rido', 'pandi', 'Employee', '+99(99)9999-9999', 'Ambassador-pana.png', '9d3aa98720813362b99c5626db91186c'),
-(16, 'tito', 'tito', 'trinidad', 'Employee', '+99(99)9999-9999', '17378.jpg', '5a5831b9bc64bc5bad1eebcceb4b24ba');
+(7, 'admin', 'Juan', 'Cruz', 'admin', '082211804911', 'Myprofile.jpg', '21232f297a57a5a743894a0e4a801fc3'),
+(13, 'user', 'Chris', 'Doe', 'Employee', '082211804933', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee');
 
 -- --------------------------------------------------------
 
@@ -636,7 +549,7 @@ CREATE TABLE `view_record_delivery` (
 --
 DROP TABLE IF EXISTS `view_record_delivery`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_record_delivery`  AS SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no GROUP BY delivery.transaction_no ORDER BY date DESC;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_record_delivery`  AS SELECT `delivery`.`transaction_no` AS `transaction_no`, `supplier`.`company_name` AS `company_name`, `delivery`.`username` AS `username`, sum(`product_delivered`.`buy_price` * `product_delivered`.`total_qty`) AS `TotalPrice`, sum(`product_delivered`.`total_qty`) AS `TotalQuantity`, `delivery`.`date` AS `date` FROM (((`delivery` join `product_delivered` on(`delivery`.`transaction_no` = `product_delivered`.`transaction_no`)) join `supplier` on(`delivery`.`supplier_id` = `supplier`.`supplier_id`)) join `products` on(`product_delivered`.`product_id` = `products`.`product_no`)) GROUP BY `delivery`.`transaction_no` ORDER BY `delivery`.`date` AS `DESCdesc` ASC  ;
 
 --
 -- Indexes for dumped tables
@@ -731,25 +644,25 @@ ALTER TABLE `cashflow`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=998;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=896;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales_product`
 --
 ALTER TABLE `sales_product`
-  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
@@ -761,7 +674,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

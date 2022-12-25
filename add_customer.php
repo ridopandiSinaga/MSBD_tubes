@@ -13,7 +13,7 @@
 	  	$result = mysqli_query($db, $sql);
  		if(move_uploaded_file($_FILES['image']['tmp_name'], $target) && $result == true){
  			$query 	= "INSERT INTO logs (username,purpose,logs_time) VALUES('$user','Customer $fname Added',CURRENT_TIMESTAMP)";
- 			$insert 	= mysqli_query($db,$query);
+ 			$insert = mysqli_query($db,$query);
 			header('location: main.php?username='.$user.'&added');
 	  	}else{
 			$msg = "Something went wrong!";

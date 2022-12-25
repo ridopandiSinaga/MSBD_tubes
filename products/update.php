@@ -19,6 +19,8 @@
 		  	$sql  = "UPDATE products SET product_name='$pro_name',sell_price=$price,quantity=$qty,unit='$unit',min_stocks=$min_stocks,remarks='$remarks', location='$location', images='$image' WHERE product_no = '$id'";
 		  	mysqli_query($db, $sql);
 		  	if(move_uploaded_file($_FILES['images']['tmp_name'], $target)){
+				//proc sudah, trigg blm
+				$sql = "CALL ";
 		  		$sql 	= "INSERT INTO logs (username,purpose) VALUES('$username','Product $pro_name updated')";
  				$insert = mysqli_query($db,$sql);
  				header('location: ../products/products.php?updated');
