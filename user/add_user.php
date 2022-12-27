@@ -31,7 +31,7 @@
 				</div>
 			<form method="post" enctype="multipart/form-data">
 				<input type="hidden" name="size" class="form-control-sm" value="1000000">
-				<input class="form-control-sm w-25" type="file" name="image" required>
+				<input class="form-control-sm w-100" type="file" name="image" required>
 			</div>
 			<div class="second_side ml-4">
 					<table class="table-responsive mt-5">

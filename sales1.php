@@ -29,7 +29,7 @@
 	<title>Toko Kita</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" type="image/png" sizes="180x180" href="images/icon.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="images/tokogrosir.png">
 	<link rel="stylesheet" type="text/css" href="bootstrap4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap4/css/style2.css">
 	<link rel="stylesheet" href="bootstrap4/css/all.min.css"/>
@@ -40,7 +40,7 @@
 		<div id="header">
 			<?php include('alert.php'); ?>
 			<div>
-				<img class="img-fluid m-2 w-100" src="images/logo1.jpg"/>
+				<img class="img-fluid m-2 w-100" src="images/tokogrosir.png"/>
 			</div>
 			<div class="text-white mt-0 ml-5">
 				<table class="table-responsive-sm">

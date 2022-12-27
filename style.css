@@ -24,7 +24,6 @@
 .sidebar .logo-details i {
   font-size: 28px;
   font-weight: 500;
-  color: #fff;
   min-width: 60px;
   text-align: center;
 }
@@ -49,12 +48,12 @@
   text-decoration: none;
   transition: all 0.4s ease;
 }
-.sidebar .nav-links li a.active {
+/* .sidebar .nav-links li a.active {
   background: #06521E;
 }
 .sidebar .nav-links li a:hover {
   background: #06521E;
-}
+} */
 .sidebar .nav-links li i {
   min-width: 60px;
   text-align: center;
@@ -437,3 +436,9 @@ nav .profile-details i {
     width: calc(100% - 60px);
   }
 }
+
+#sidebar_button:hover{
+	background-color: #06521E;
+	color:white;
+}
+

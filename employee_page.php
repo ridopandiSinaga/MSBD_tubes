@@ -24,7 +24,7 @@
 	<title>Toko Kita</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" type="image/png" sizes="180x180" href="images/icon.png">
+	<link rel="icon" type="image/png" sizes="180x180" href="images/tokogrosir.png">
 	<link rel="stylesheet" type="text/css" href="bootstrap4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap4/css/style2.css">
 	<link rel="stylesheet" href="bootstrap4/css/all.min.css"/>
@@ -35,7 +35,7 @@
 		<div id="header">
 			<?php include('alert.php'); ?>
 			<div>
-				<img class="img-fluid m-2 w-100" src="images/logo1.jpg"/>
+				<img class="img-fluid m-2 w-100" src="images/tokogrosir.png"/>
 			</div>
 			<div class="text-white mt-0 ml-5">
 				<table class="table-responsive-sm">
@@ -64,7 +64,7 @@
 		</div>
 		<div id="content" class="mr-2">
 			<div id="price_column" class="m-2 table-responsive-sm">
-				<form method="POST" action="">
+				<form method="POST" action="employee_page.php">
 				<table class="table-striped w-100 font-weight-bold" style="cursor: pointer;" id="table2">
 					<thead>
 						<tr class='text-center'>
@@ -89,7 +89,7 @@
 					<ul class="text-white justify-content-center">
 						<li class="mb-0">Discount (%): <input style="width: 100px" type="number" name="discount" value="" min="1" placeholder="Enter Discount" id="discount"></li>
 						<li class="d-flex mb-0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<p class="dis m-0"></p></li>
-						<li class="d-flex">Total:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<p id="totalValue1">Rp 0.00</p></li>
+						<li class="d-flex">Total:<p id="totalValue1">Rp 0.00</p></li>
 					</ul>
 				</small>
 				</div>
@@ -120,11 +120,11 @@
 				<button id="buttons" type="button" class="cancel btn btn-secondary border"><i class="fas fa-ban"></i> Cancel</button>
 			</div>
 		</div>
-		<div id="footer" class="w-100" align="center" style="">
+		<div id="footer" class="w-100" align="center">
 			<button id="buttons" onclick="window.location.href='employee/profile.php'" class="btn btn-secondary border mr-2 ml-2"><i class="fas fa-user-circle"></i> My Profile</button>
 			<button id="buttons" onclick="window.location.href='employee/inventory.php'" class="btn btn-secondary border mr-2"><i class="fas fa-box-open"></i> Inventory</button>
 			<button id="buttons" onclick="window.location.href='employee/cashflow.php'" class="btn btn-secondary border mr-2"><i class="fas fa-money-bill-wave"></i> Cash-Flow</button>
-			<button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"/> <i class="fas fa-sign-out-alt"></i> Logout</div>
+			<button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger border mr-2"><i class="fas fa-sign-out-alt"></i> Logout</div>
 		</div>
 	</div>
 	<?php include('add.php');?>

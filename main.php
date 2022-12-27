@@ -67,69 +67,69 @@
         <span class="logo_name">TOKOKU</span>
       </div>
       <ul class="nav-links">
-        <li>
+        <!-- <li id="sidebar_button">
           <a href="" class="links_name">
-            <i class="bx bx-grid-alt text-dark"></i>
-            <span class="links_name text-dark">Dashboard</span>
+            <i class="bx bx-grid-alt"></i>
+            <span class="links_name">Dashboard</span>
           </a>
-        </li>
-        <li>
+        </li> -->
+        <li class="row gx-5" id="sidebar_button">
           <a href="products/products.php">
-            <i class="bx bx-box"></i>
-            <span class="links_name">Product</span>
+            <i class="bx bx-box" style="color: black;"></i>
+            <span class=" links_name">Product</span>
           </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
             <a href="supplier/supplier.php">
-              <i class="bx bx-user"></i>
+              <i class="bx bx-user" style="color: black;"></i>
               <span class="links_name">Supplier</span>
             </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
           <a href="sales/sales.php">
-            <i class="bx bx-coin-stack"></i>
+            <i class="bx bx-coin-stack" style="color: black;"></i>
             <span class="links_name">Sales</span>
           </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
           <a href="delivery/delivery.php">
-            <i class="bx bx-message" ></i>
+            <i class="bx bx-message" style="color: black;"></i>
             <span class="links_name">Order</span>
           </a>
         </li>
-          <li>
+          <li class="row gx-5" id="sidebar_button">
             <a href="user/user.php">
-              <i class="bx bx-user"></i>
+              <i class="bx bx-user" style="color: black;"></i>
               <span class="links_name">User</span>
             </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
             <a href="customer/customer.php">
-              <i class="bx bx-user"></i>
+              <i class="bx bx-user" style="color: black;"></i>
               <span class="links_name">Costumer</span>
             </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
           <a href="logs/logs.php">
-            <i class="bx bx-book-alt"></i>
+            <i class="bx bx-book-alt" style="color: black;"></i>
             <span class="links_name">Logs</span>
           </a>
         </li>
-        <li>
+        <li class="row gx-5" id="sidebar_button">
           <a href="cashflow/cashflow.php">
-            <i class="bx bx-pie-chart-alt-2"></i>
+            <i class="bx bx-pie-chart-alt-2" style="color: black;"></i>
             <span class="links_name">Analyses</span>
           </a>
         </li>
         
-        <li>
+        <li class="row gx-5" id="sidebar_button">
           <a href="#">
-            <i class="bx bx-cog"></i>
+            <i class="bx bx-cog" style="color: black;"></i>
             <span class="links_name">Configuration</span>
           </a>
         </li>
         <li class="log_out">
-            <button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-outline-danger mx-auto"><i class="fas fa-sign-out-alt"></i> Logout</button> 
+            <button id="buttons" name="logout" type="button" onclick="out();" class="logout btn btn-danger mx-auto"><i class="fas fa-sign-out-alt"></i> Logout</button> 
           </a>
         </li>
       </ul>

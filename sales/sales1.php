@@ -32,7 +32,7 @@
 		<div id="header">
 			<?php include('alert.php'); ?>
 			<div>
-				<!-- <img class="img-fluid m-2 w-100" src="images/logo.png"/> -->
+				<img class="img-fluid m-2 w-100" src="images/logo.png"/>
 			</div>
 			<div class="text-white mt-0 ml-5">
 				<table class="table-responsive-sm">
