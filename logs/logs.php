@@ -9,6 +9,11 @@
 <html>
 <head>
 	<?php include('../templates/head1.php');?>
+	<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+	<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
+	<!-- <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script> -->
 </head>
 <body>
 	<div class="contain h-100">
@@ -44,7 +49,8 @@
 			</div>
 		</div>
 	</div>
-	<script src="../bootstrap4/jquery/jquery.min.js"></script>
+ 	
+	<script src="../bootstrap4/jquery/jquery.min.js"></script> -->
 	<script src="../bootstrap4/js/jquery.dataTables.js"></script>
 	<script src="../bootstrap4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="../bootstrap4/js/bootstrap.bundle.min.js"></script>

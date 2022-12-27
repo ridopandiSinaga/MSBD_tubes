@@ -226,7 +226,7 @@
                           while($row = mysqli_fetch_assoc($result)){
                         ?>
                         <tr>
-                          <td><?php echo $row['date'];?></td>
+                          <td><?php echo date('d M Y, g:i A', strtotime($row['date']));?></td>
                           <td><?php echo $row['product_name'];?></td>
                           <td><?php echo $row['quantity'];?></td>
                         </tr>
