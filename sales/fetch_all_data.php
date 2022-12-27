@@ -62,8 +62,8 @@
 
 	function get_all_data($db){
 		//ganti view
-		$query = "SELECT sales_product.reciept_no,sales.discount, sales.total AS TotalPrice,username,date,customer.firstname,customer.lastname FROM sales_product JOIN sales ON sales_product.reciept_no=sales.reciept_no JOIN customer ON sales.customer_id = customer.customer_id GROUP BY reciept_no";
-		// $query = "SELECT * FROM ";
+		// $query = "SELECT sales_product.reciept_no,sales.discount, sales.total AS TotalPrice,username,date,customer.firstname,customer.lastname FROM sales_product JOIN sales ON sales_product.reciept_no=sales.reciept_no JOIN customer ON sales.customer_id = customer.customer_id GROUP BY reciept_no";
+		 $query = "SELECT * FROM get_all_sales";
 		$result = mysqli_query($db, $query);
 		return mysqli_num_rows($result);
 	}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Des 2022 pada 09.24
+-- Waktu pembuatan: 27 Des 2022 pada 10.10
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -338,6 +338,22 @@ DECLARE uname VARCHAR(25);
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `get_all_sales`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `get_all_sales` (
+`reciept_no` int(11)
+,`discount` int(11)
+,`TotalPrice` int(11)
+,`username` varchar(30)
+,`date` timestamp
+,`firstname` varchar(30)
+,`lastname` varchar(30)
+);
 
 -- --------------------------------------------------------
 
@@ -801,6 +817,15 @@ CREATE TABLE `view_record_delivery` (
 ,`TotalQuantity` decimal(32,0)
 ,`date` datetime
 );
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `get_all_sales`
+--
+DROP TABLE IF EXISTS `get_all_sales`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `get_all_sales`  AS SELECT `sales_product`.`reciept_no` AS `reciept_no`, `sales`.`discount` AS `discount`, `sales`.`total` AS `TotalPrice`, `sales`.`username` AS `username`, `sales`.`date` AS `date`, `customer`.`firstname` AS `firstname`, `customer`.`lastname` AS `lastname` FROM ((`sales_product` join `sales` on(`sales_product`.`reciept_no` = `sales`.`reciept_no`)) join `customer` on(`sales`.`customer_id` = `customer`.`customer_id`)) GROUP BY `sales_product`.`reciept_no``reciept_no`  ;
 
 -- --------------------------------------------------------
 
