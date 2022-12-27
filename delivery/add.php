@@ -31,9 +31,11 @@
 			$supplier_1 = $row['supplier_id'];
 			$sql = "INSERT INTO delivery(transaction_no,supplier_id,username) VALUES('$transaction_no',$supplier_1,'$user')";
 			$result = mysqli_query($db, $sql);
-
-			$insert1 = "INSERT INTO logs (username,purpose) VALUES('$user','Delivery Added')";
+			//ambil username utk di insert ke temp_variables
+			// $insert1 = "INSERT INTO logs (username,purpose) VALUES('$user','Delivery Added')";
+			$insert1 ="CALL procedure_get_session_username('$user')";
 			$res = mysqli_query($db, $insert1);
+
 			if($res == true){
 				for($count = 0; $count<count($_POST['barcode']); $count++){
 					$transaction[] = $transaction_no;

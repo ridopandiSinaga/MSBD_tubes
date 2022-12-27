@@ -1,6 +1,7 @@
 <?php 
 	include('server/connection.php');
     include '../set.php';
+	//jika belum login, direct ke index
 	if(!isset($_SESSION['username'])){
 		header('location: index.php');
 	}

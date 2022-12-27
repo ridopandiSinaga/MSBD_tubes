@@ -4,6 +4,8 @@
 		$user = $_SESSION['username'];
 		$query = "DELETE FROM supplier WHERE supplier_id='$id'"; 
     	$delete = mysqli_query($db, $query);
+
+		
     	if($delete == true){
 			//sudah dibuat proc, belum triiger
     		$logs 	= "INSERT INTO logs (username,purpose) VALUES('$user','Supplier Deleted')";

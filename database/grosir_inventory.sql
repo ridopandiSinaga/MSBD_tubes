@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Des 2022 pada 21.04
+-- Waktu pembuatan: 27 Des 2022 pada 06.36
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -66,6 +66,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_get_name_fname` (IN `unam
  INSERT INTO `temporary_var`(tempt_username,tempt_first_name) VALUES (uname,fname);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_get_name_namec` (IN `username` VARCHAR(25), IN `companyname` VARCHAR(25))   BEGIN
+DROP TABLE IF EXISTS `temporary_var`;
+ 
+ CREATE  TABLE `temporary_var`(
+ tempt_username VARCHAR( 20 ) ,
+ tempt_productname VARCHAR( 30 ),
+ tempt_first_name VARCHAR( 30 ),
+ tempt_company VARCHAR( 30 )
+ )Engine = MyISAM;
+
+ INSERT INTO `temporary_var`(tempt_username ,tempt_company ) VALUES ( username,companyname);
+ END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_get_name_namep` (IN `name` VARCHAR(25), IN `pname` VARCHAR(25))  DETERMINISTIC BEGIN
  DROP TABLE IF EXISTS `temporary_var`;
  
@@ -98,6 +111,11 @@ INSERT INTO logs(username,purpose)
 VALUES(user_name, CONCAT('Customer ', first_name,' added'));
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_delivery` (IN `user_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,'Delivery added/ product added');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_add_suplier` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,CONCAT('Supplier', company_name, 'added'));
@@ -128,24 +146,19 @@ INSERT INTO logs (username,purpose)
 VALUES(user_name,'User Deleted');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_ins_product` (IN `user_name` VARCHAR(25))   BEGIN
-INSERT INTO logs (username,purpose) 
-VALUES(user_name,'Product sold');
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_costumer` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,CONCAT('Customer ',first_name,' updated'));
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_delivery` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
-INSERT INTO logs (username,purpose) 
-VALUES(user_name,CONCAT('Supplier ', company_name, ' updated'));
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_product` (IN `user_name` VARCHAR(25), IN `product_name` VARCHAR(25))   BEGIN
 INSERT INTO logs (username,purpose) 
 VALUES(user_name,CONCAT('Product ',product_name ,' updated'));
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_supplier` (IN `user_name` VARCHAR(25), IN `company_name` VARCHAR(25))   BEGIN
+INSERT INTO logs (username,purpose) 
+VALUES(user_name,CONCAT('Supplier ', company_name, ' updated'));
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procedure_log_upd_user` (IN `user_name` VARCHAR(25), IN `first_name` VARCHAR(25))   BEGIN
@@ -244,7 +257,7 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
 (16, 'jersel', 'Bill', 'Philippines', '+63(09)1234-1234', 'user.png'),
-(26, 'Andra', 'Bastian', 'jl. Hakim Sembiring Medan', '+63(09)1234-1266', 'E_YqCK_VgAANr3-.jpg');
+(26, 'Andra', 'Wijaksana', 'jl. Hakim Sembiring Medan', '+63(09)1234-1266', 'E_YqCK_VgAANr3-.jpg');
 
 --
 -- Trigger `customer`
@@ -265,6 +278,16 @@ DECLARE name VARCHAR(25);
  SELECT temporary_var.tempt_username INTO name FROM temporary_var;
  CALL procedure_log_del_costumer(name);
 END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `tr_log_upd_cos` AFTER UPDATE ON `customer` FOR EACH ROW BEGIN
+DECLARE uname VARCHAR(25);
+DECLARE fname VARCHAR(25);
+ SELECT temporary_var.tempt_username INTO uname FROM temporary_var;
+ SELECT temporary_var.tempt_first_name INTO fname FROM temporary_var;
+ CALL procedure_log_upd_costumer(uname,fname);
+ END
 $$
 DELIMITER ;
 
@@ -295,7 +318,21 @@ INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VAL
 ('63A8176E7380A', 23, 'admin', '2022-12-25 16:27:28'),
 ('63A8178B9262F', 23, 'admin', '2022-12-25 16:28:05'),
 ('63A82C8D753F2', 23, 'admin', '2022-12-25 17:57:34'),
-('63A8F1BB3B037', 22, 'admin', '2022-12-26 07:59:41');
+('63A8F1BB3B037', 22, 'admin', '2022-12-26 07:59:41'),
+('63AA66002BD0D', 24, 'admin', '2022-12-27 11:22:30'),
+('63AA739275056', 23, 'admin', '2022-12-27 11:26:25');
+
+--
+-- Trigger `delivery`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_log_add_dlv` AFTER INSERT ON `delivery` FOR EACH ROW BEGIN
+DECLARE uname VARCHAR(25);
+ SELECT temporary_var.tempt_username INTO uname FROM temporary_var;
+ CALL procedure_log_add_delivery(uname);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -322,7 +359,8 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 ('4', 125),
 ('5', 100),
 ('23213', 23),
-('10000', 21);
+('10000', 21),
+('006', 92);
 
 -- --------------------------------------------------------
 
@@ -409,7 +447,23 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (937, 'admin', 'Customer Andi added', '2022-12-27 02:29:34'),
 (938, 'admin', 'Customer Andi added', '2022-12-27 02:33:04'),
 (939, 'admin', 'Customer Andi added', '2022-12-27 02:34:28'),
-(940, 'admin', 'Customer Andra added', '2022-12-27 02:44:29');
+(940, 'admin', 'Customer Andra added', '2022-12-27 02:44:29'),
+(941, 'admin', 'User admin login', '2022-12-27 08:46:14'),
+(942, '', 'Customer Andra updated', '2022-12-27 09:01:14'),
+(943, '', 'Customer Andra updated', '2022-12-27 09:01:14'),
+(944, 'admin', 'Customer Andra updated', '2022-12-27 09:06:26'),
+(945, 'admin', 'Customer Andra updated', '2022-12-27 09:06:26'),
+(946, 'admin', 'Supplier PTINDOMARCO added', '2022-12-27 11:21:24'),
+(947, 'admin', 'Delivery added/ product added', '2022-12-27 11:22:30'),
+(948, 'admin', 'Delivery added/ product added', '2022-12-27 11:26:25'),
+(949, 'admin', 'User admin logout', '2022-12-27 11:58:38'),
+(950, 'user', 'User user login', '2022-12-27 11:58:45'),
+(951, 'user', 'Product sold', '2022-12-27 11:59:57'),
+(952, 'user', 'Product sold', '2022-12-27 12:00:17'),
+(953, 'user', 'Product sold', '2022-12-27 12:01:09'),
+(954, 'user', 'Product sold', '2022-12-27 12:01:44'),
+(955, 'user', 'Product sold', '2022-12-27 12:01:58'),
+(956, 'admin', 'User admin login', '2022-12-27 12:06:40');
 
 -- --------------------------------------------------------
 
@@ -434,6 +488,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, `unit`, `min_stocks`, `remarks`, `location`, `images`) VALUES
+('006', 'FRF SCM BKM CAN 370gr', '11463.90', 92, 'CAN', 10, '-', '-', NULL),
 ('1', 'Coffee', '12.00', 75, 'sachet', 20, '-', '-', NULL),
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
@@ -543,7 +598,12 @@ INSERT INTO `sales` (`reciept_no`, `customer_id`, `username`, `discount`, `total
 (26, 16, 'admin', 10, 0, '2020-03-28 06:22:55'),
 (27, 16, 'admin', 10, 2160, '2020-03-28 06:27:51'),
 (28, 16, 'admin', 20, 1920, '2020-03-28 08:14:30'),
-(29, 16, 'admin', 20, 4017, '2020-03-30 01:07:10');
+(29, 16, 'admin', 20, 4017, '2020-03-30 01:07:10'),
+(30, 26, 'user', 0, 17, '2022-12-27 04:59:57'),
+(31, 26, 'user', 0, 17, '2022-12-27 05:00:17'),
+(32, 26, 'user', 0, 17, '2022-12-27 05:01:09'),
+(33, 26, 'user', 0, 17, '2022-12-27 05:01:44'),
+(34, 26, 'user', 0, 17, '2022-12-27 05:01:58');
 
 -- --------------------------------------------------------
 
@@ -609,7 +669,22 @@ CREATE TABLE `supplier` (
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
 (21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '+63(09)1234-1234', 'Internship-Web-Graphic-01.png'),
 (22, 'BrandName', 'Bill', 'Joe', 'Africa', '+63(09)1234-1234', 'multi-user-icon.png'),
-(23, 'Limbong Mula', 'PT Limbong', 'Mula', 'Panei Tongah, Kab. Simalungun', '082211804923', 'E_YqCK_VgAANr3-.jpg');
+(23, 'Limbong Mula', 'PT Limbong', 'Mula', 'Panei Tongah, Kab. Simalungun', '082211804923', 'E_YqCK_VgAANr3-.jpg'),
+(24, 'PTINDOMARCO', 'ADI', 'PRIMA', 'JL.JEND SUDIRMAN KAV 76-78 SetiaBudi JAKARTA SELATAN', '+99(99)9999-9932', 'E_YqCK_VgAANr3-.jpg');
+
+--
+-- Trigger `supplier`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_log_upd_sup` AFTER UPDATE ON `supplier` FOR EACH ROW BEGIN
+DECLARE a VARCHAR(25);
+DECLARE b VARCHAR(25);
+ SELECT temporary_var.tempt_username INTO a FROM temporary_var;
+ SELECT temporary_var.tempt_company INTO b FROM temporary_var;
+ CALL procedure_log_upd_costumer(a,b);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -779,13 +854,13 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=941;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=957;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `reciept_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales_product`
@@ -797,7 +872,7 @@ ALTER TABLE `sales_product`
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
