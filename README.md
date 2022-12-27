@@ -18,6 +18,7 @@
 * [Fontawesome](https://fontawesome.com/) - Icons use
 
 ## Db desain
+![image](https://user-images.githubusercontent.com/89272004/209642338-681e382e-8932-407f-8d32-d259738a7abb.png)
 * password administator : admin
 * username user : user
 * password user : user
