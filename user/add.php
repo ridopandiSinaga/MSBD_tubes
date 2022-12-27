@@ -22,6 +22,14 @@
 		  array_push($error, "The Password did not match"); 
 		}
 
+		//insert username dan firstname ke table tempt_variables
+		$logs	="CALL procedure_get_name_fname('$user','$firstname')";
+		$insert = mysqli_query($db,$logs);
+		while($db->next_result()) continue;//mengantisipasi tidak sync out
+		if (!$insert ) {
+        die ('ERROR: Proses ' .  $logs . ': '. mysqli_error($db));
+		}
+
 		if (count($error) == 0){
 			$password = md5($password1);
 			$sql  = "INSERT INTO users (username,firstname,lastname,position,contact_number,password,image) VALUES ('$username','$firstname','$lastname','$position','$number','$password','$image')";
@@ -29,8 +37,8 @@
 	  		if(move_uploaded_file($_FILES['image']['tmp_name'], $target) && $result == true){
 				$msg = "Image successfully uploaded!";
 				// procedure dh, trigger blm
-				$insert	= "INSERT INTO logs (username,purpose) VALUES('$user','User $firstname added')";
- 				$logs = mysqli_query($db,$insert);
+				// $insert	= "INSERT INTO logs (username,purpose) VALUES('$user','User $firstname added')";
+ 				// $logs = mysqli_query($db,$insert);
 				header('location: ../user/user.php?added');
 	  		}else{
 				$msg = "There was a problem uploading the image!";
