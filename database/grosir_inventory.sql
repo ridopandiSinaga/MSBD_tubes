@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Des 2022 pada 10.10
+-- Waktu pembuatan: 28 Des 2022 pada 11.10
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -31,10 +31,16 @@ LEFT JOIN products p ON p.product_no = sp.product_id
 GROUP BY p.product_no
 ORDER BY sp.qty DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT(25))   SELECT sp.reciept_no,CONCAT(sp.qty, ' ' , p.unit) AS quantity,s.total,s.date,p.product_name,CONCAT('Rp.',' ',sp.price,'/',p.unit) AS price_
-FROM sales_product sp
-LEFT JOIN products p ON sp.product_id= p.product_no
-LEFT JOIN sales s ON s.reciept_no = sp.reciept_no
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_delivery_added` (IN `lim` INT(25))   SELECT CONCAT(product_name,' --- ',CONCAT(pd.total_qty,' ',p.unit)) as product_in ,d.date
+FROM products p
+JOIN product_delivered pd ON pd.product_id = p.product_no
+JOIN delivery  d ON d.transaction_no = pd.transaction_no
+ORDER BY d.date DESC LIMIT lim$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT)   SELECT CONCAT(product_name,' --- ',CONCAT(sp.qty,' ',p.unit)) as product_out ,s.date
+FROM products p
+JOIN sales_product sp ON sp.product_id = p.product_no
+JOIN sales  s ON s.reciept_no = sp.reciept_no
 ORDER BY s.date DESC LIMIT lim$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `find_sale_by_dates` (IN `date_from` DATE, IN `date_to` DATE)   SELECT s.date, p.product_name, p.sell_price, pd.buy_price, 
@@ -325,7 +331,79 @@ INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VAL
 ('63A82C8D753F2', 23, 'admin', '2022-12-25 17:57:34'),
 ('63A8F1BB3B037', 22, 'admin', '2022-12-26 07:59:41'),
 ('63AA66002BD0D', 24, 'admin', '2022-12-27 11:22:30'),
-('63AA739275056', 23, 'admin', '2022-12-27 11:26:25');
+('63AA739275056', 23, 'admin', '2022-12-27 11:26:25'),
+('63AAE2067D99E', 23, 'admin', '2022-12-27 19:16:32'),
+('63AAE31E0064E', 23, 'admin', '2022-12-27 19:21:15'),
+('63AB36D34F31C', 26, 'admin', '2022-12-28 01:18:19'),
+('63AB388CE598A', 23, 'admin', '2022-12-28 01:26:10'),
+('63AB543038EAC', 26, 'admin', '2022-12-28 03:29:03'),
+('63AB5FB617F34', 26, 'admin', '2022-12-28 04:12:37'),
+('63AB6047E8FB3', 26, 'admin', '2022-12-28 04:15:01'),
+('63ABCD739BB92', 26, 'admin', '2022-12-28 12:00:52'),
+('63ABCE7C50731', 26, 'admin', '2022-12-28 12:05:17'),
+('63ABCEBC65FDF', 26, 'admin', '2022-12-28 12:06:14'),
+('63ABCF13C4693', 26, 'admin', '2022-12-28 12:07:41'),
+('63ABCF3783EBE', 23, 'admin', '2022-12-28 12:08:18'),
+('63ABD20E6F5BF', 26, 'admin', '2022-12-28 12:20:29'),
+('63ABD40F307FA', 26, 'admin', '2022-12-28 12:28:57'),
+('63ABD45F99EA5', 23, 'admin', '2022-12-28 12:30:17'),
+('63ABD73C85B25', 26, 'admin', '2022-12-28 12:42:30'),
+('63ABD75EDAF87', 26, 'admin', '2022-12-28 12:43:06'),
+('63ABD7FDA9525', 26, 'admin', '2022-12-28 12:45:43'),
+('63ABDBE9A41C6', 26, 'admin', '2022-12-28 13:02:26'),
+('63ABDC2D810BC', 23, 'admin', '2022-12-28 13:03:35'),
+('63ABDCD3D22AC', 26, 'admin', '2022-12-28 13:06:20'),
+('63ABE32C1062C', 23, 'admin', '2022-12-28 13:33:29'),
+('63ABE3C4D56ED', 26, 'admin', '2022-12-28 13:36:00'),
+('63ABE3FC7B985', 23, 'admin', '2022-12-28 13:37:43'),
+('63ABE4A0B8C51', 26, 'admin', '2022-12-28 13:39:39'),
+('63ABE50A6A5D8', 26, 'admin', '2022-12-28 13:41:29'),
+('63ABE5BB85081', 24, 'admin', '2022-12-28 13:44:25'),
+('63ABE6FE10D63', 26, 'admin', '2022-12-28 13:49:48'),
+('63ABE7BA7D830', 26, 'admin', '2022-12-28 13:52:58'),
+('63ABE7DE45943', 26, 'admin', '2022-12-28 13:53:27'),
+('63ABE8F7EE1A7', 24, 'admin', '2022-12-28 13:58:11'),
+('63ABE93040BE0', 24, 'admin', '2022-12-28 13:59:07'),
+('63ABE989B11EB', 26, 'admin', '2022-12-28 14:00:36'),
+('63ABE9E5495F8', 24, 'admin', '2022-12-28 14:02:05'),
+('63ABEA22323DE', 24, 'admin', '2022-12-28 14:03:07'),
+('63ABEA625E884', 26, 'admin', '2022-12-28 14:04:26'),
+('63ABEBCABA936', 24, 'admin', '2022-12-28 14:10:16'),
+('63ABECA5D6478', 24, 'admin', '2022-12-28 14:13:50'),
+('63ABF99DD0C84', 24, 'admin', '2022-12-28 15:11:22'),
+('63ABFA4DD47D5', 24, 'admin', '2022-12-28 15:12:06'),
+('63ABFA8B11BB9', 24, 'admin', '2022-12-28 15:13:09'),
+('63ABFAC9B0424', 24, 'admin', '2022-12-28 15:14:14'),
+('63ABFAF832C39', 24, 'admin', '2022-12-28 15:14:57'),
+('63ABFD9AD9B55', 24, 'admin', '2022-12-28 15:26:10'),
+('63ABFDCB0A8A9', 24, 'admin', '2022-12-28 15:27:01'),
+('63AC00FB6CB62', 24, 'admin', '2022-12-28 15:40:41'),
+('63AC011DC524E', 24, 'admin', '2022-12-28 15:41:11'),
+('63AC0172B7991', 24, 'admin', '2022-12-28 15:42:34'),
+('63AC029EC521D', 24, 'admin', '2022-12-28 15:47:37'),
+('63AC05CD24950', 24, 'admin', '2022-12-28 16:01:12'),
+('63AC069226D9E', 24, 'admin', '2022-12-28 16:04:30'),
+('63AC07118FB7C', 24, 'admin', '2022-12-28 16:06:34'),
+('63AC074420ECC', 24, 'admin', '2022-12-28 16:08:15'),
+('63AC079278E4B', 24, 'admin', '2022-12-28 16:08:42'),
+('63AC08349AEF0', 24, 'admin', '2022-12-28 16:11:31'),
+('63AC08DBDEF49', 24, 'admin', '2022-12-28 16:14:12'),
+('63AC0961A3054', 24, 'admin', '2022-12-28 16:16:29'),
+('63AC09B861497', 24, 'admin', '2022-12-28 16:17:52'),
+('63AC0B1885F78', 24, 'admin', '2022-12-28 16:23:45'),
+('63AC0BAEA2028', 24, 'admin', '2022-12-28 16:26:16'),
+('63AC0BD7BA9E5', 24, 'admin', '2022-12-28 16:26:56'),
+('63AC0CB9BCC04', 24, 'admin', '2022-12-28 16:30:44'),
+('63AC0D3F9E3D0', 24, 'admin', '2022-12-28 16:32:59'),
+('63AC0DDC71DA8', 24, 'admin', '2022-12-28 16:35:41'),
+('63AC0EC6E198B', 24, 'admin', '2022-12-28 16:39:31'),
+('63AC0F5F6C9B6', 24, 'admin', '2022-12-28 16:41:59'),
+('63AC0F9F649A3', 24, 'admin', '2022-12-28 16:43:04'),
+('63AC0FD39A238', 24, 'admin', '2022-12-28 16:43:55'),
+('63AC101124BD9', 24, 'admin', '2022-12-28 16:44:56'),
+('63AC103FA3AF2', 24, 'admin', '2022-12-28 16:45:45'),
+('63AC109BC75D3', 24, 'admin', '2022-12-28 16:47:16'),
+('63AC118716AB3', 24, 'admin', '2022-12-28 16:51:16');
 
 --
 -- Trigger `delivery`
@@ -380,7 +458,19 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 ('4', 125),
 ('5', 100),
 ('23213', 23),
-('10000', 21);
+('10000', 21),
+('006', 1),
+('barcode1', 25),
+('barcode2', 25),
+('barcode3', 25),
+('barcode4', 25),
+('barcode5', 25),
+('barcode6', 25),
+('barcode7', 25),
+('barcode8', 25),
+('barcode9', 25),
+('barcode10', 25),
+('barcode11', 25);
 
 -- --------------------------------------------------------
 
@@ -390,8 +480,8 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `purpose` varchar(30) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `purpose` varchar(225) NOT NULL,
   `logs_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -495,7 +585,120 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (968, 'admin', 'User admin login', '2022-12-27 14:49:46'),
 (969, 'admin', 'User Chris updated', '2022-12-27 15:05:54'),
 (970, 'admin', 'User admin logout', '2022-12-27 15:10:54'),
-(971, 'admin', 'User admin login', '2022-12-27 15:10:58');
+(971, 'admin', 'User admin login', '2022-12-27 15:10:58'),
+(972, 'admin', 'Delivery added/ product added', '2022-12-27 19:16:32'),
+(973, 'admin', 'Delivery added/ product added', '2022-12-27 19:21:15'),
+(974, 'admin', 'Supplier PT. GLOBAL MITRA PRIM', '2022-12-27 19:43:09'),
+(975, 'admin', 'Supplier PT. GLOBAL MITRA PRIM', '2022-12-27 19:49:42'),
+(976, 'admin', 'Supplier PT. GLOBAL MITRA PRIM', '2022-12-27 19:49:42'),
+(977, 'admin', 'Supplier PT. GLOBAL MITRA PRIMA updated', '2022-12-27 19:52:34'),
+(978, 'admin', 'Supplier PT. GLOBAL MITRA PRIMA updated', '2022-12-27 19:52:34'),
+(979, 'admin', 'Supplier PT. GLOBAL MITRA PRIMA updated', '2022-12-27 19:53:50'),
+(980, 'admin', 'Supplier PT. GLOBAL MITRA PRIMA updated', '2022-12-27 19:53:50'),
+(981, 'admin', 'Supplier PT. INDOMARCO ADI PRIMA updated', '2022-12-27 19:54:56'),
+(982, 'admin', 'Supplier PT. INDOMARCO ADI PRIMA updated', '2022-12-27 19:54:56'),
+(983, 'admin', 'Supplier Limbong Mula updated', '2022-12-27 19:55:21'),
+(984, 'admin', 'Supplier Limbong Mula updated', '2022-12-27 19:55:21'),
+(986, 'admin', 'User admin logout', '2022-12-27 21:21:27'),
+(987, 'user', 'User user login', '2022-12-27 21:21:34'),
+(988, 'user', 'User user logout', '2022-12-27 21:23:15'),
+(989, 'admin', 'User admin login', '2022-12-27 21:23:20'),
+(990, '', 'Delivery added/ product added', '2022-12-28 01:18:19'),
+(991, 'admin', 'Delivery added/ product added', '2022-12-28 01:26:10'),
+(992, 'admin', 'Delivery added/ product added', '2022-12-28 03:29:03'),
+(993, 'admin', 'Delivery added/ product added', '2022-12-28 04:12:37'),
+(994, 'admin', 'Delivery added/ product added', '2022-12-28 04:15:01'),
+(995, 'admin', 'User admin login', '2022-12-28 08:50:25'),
+(996, 'admin', 'User admin logout', '2022-12-28 10:54:23'),
+(997, 'admin', 'User admin login', '2022-12-28 10:55:01'),
+(998, 'admin', 'Delivery added/ product added', '2022-12-28 12:00:52'),
+(999, 'admin', 'Delivery added/ product added', '2022-12-28 12:05:17'),
+(1000, 'admin', 'Delivery added/ product added', '2022-12-28 12:06:14'),
+(1001, 'admin', 'Delivery added/ product added', '2022-12-28 12:07:41'),
+(1002, 'admin', 'Delivery added/ product added', '2022-12-28 12:08:18'),
+(1003, 'admin', 'Delivery added/ product added', '2022-12-28 12:20:29'),
+(1004, 'admin', 'Delivery added/ product added', '2022-12-28 12:28:57'),
+(1005, 'admin', 'Delivery added/ product added', '2022-12-28 12:30:17'),
+(1006, 'admin', 'Delivery added/ product added', '2022-12-28 12:42:30'),
+(1007, 'admin', 'Delivery added/ product added', '2022-12-28 12:43:06'),
+(1008, 'admin', 'Delivery added/ product added', '2022-12-28 12:45:43'),
+(1009, 'admin', 'Delivery added/ product added', '2022-12-28 13:02:26'),
+(1010, 'admin', 'Delivery added/ product added', '2022-12-28 13:03:35'),
+(1011, 'admin', 'Delivery added/ product added', '2022-12-28 13:06:20'),
+(1012, 'admin', 'Delivery added/ product added', '2022-12-28 13:33:29'),
+(1013, 'admin', 'Delivery Added', '2022-12-28 13:33:29'),
+(1014, 'admin', 'Delivery added/ product added', '2022-12-28 13:36:00'),
+(1015, 'admin', 'Delivery Added', '2022-12-28 13:36:00'),
+(1016, 'admin', 'Delivery added/ product added', '2022-12-28 13:37:43'),
+(1017, 'admin', 'Delivery Added', '2022-12-28 13:37:43'),
+(1018, 'admin', 'Delivery added/ product added', '2022-12-28 13:39:39'),
+(1019, 'admin', 'Delivery added/ product added', '2022-12-28 13:41:29'),
+(1020, 'admin', 'Delivery Added', '2022-12-28 13:41:29'),
+(1021, 'admin', 'Delivery added/ product added', '2022-12-28 13:44:25'),
+(1022, 'admin', 'Delivery Added', '2022-12-28 13:44:25'),
+(1023, 'admin', 'Delivery added/ product added', '2022-12-28 13:49:48'),
+(1024, 'admin', 'Delivery Added', '2022-12-28 13:49:48'),
+(1025, 'admin', 'Delivery added/ product added', '2022-12-28 13:52:58'),
+(1026, 'admin', 'Delivery Added', '2022-12-28 13:52:58'),
+(1027, 'admin', 'Delivery added/ product added', '2022-12-28 13:53:27'),
+(1028, 'admin', 'Delivery Added', '2022-12-28 13:53:27'),
+(1029, 'admin', 'Delivery added/ product added', '2022-12-28 13:58:11'),
+(1030, 'admin', 'Delivery Added', '2022-12-28 13:58:11'),
+(1031, 'admin', 'Delivery added/ product added', '2022-12-28 13:59:07'),
+(1032, 'admin', 'Delivery added/ product added', '2022-12-28 14:00:36'),
+(1033, 'admin', 'Delivery added/ product added', '2022-12-28 14:02:05'),
+(1034, 'admin', 'Delivery added/ product added', '2022-12-28 14:03:07'),
+(1035, 'admin', 'Delivery added/ product added', '2022-12-28 14:04:26'),
+(1036, 'admin', 'Delivery added/ product added', '2022-12-28 14:10:16'),
+(1037, 'admin', 'Delivery added/ product added', '2022-12-28 14:13:50'),
+(1038, 'admin', 'Delivery added/ product added', '2022-12-28 15:11:22'),
+(1039, 'admin', 'Delivery added/ product added', '2022-12-28 15:12:06'),
+(1040, 'admin', 'Delivery added/ product added', '2022-12-28 15:13:09'),
+(1041, 'admin', 'Delivery added/ product added', '2022-12-28 15:14:14'),
+(1042, 'admin', 'Delivery added/ product added', '2022-12-28 15:14:57'),
+(1043, 'admin', 'Delivery Added', '2022-12-28 15:14:58'),
+(1044, 'admin', 'Delivery added/ product added', '2022-12-28 15:26:10'),
+(1045, 'admin', 'Delivery added/ product added', '2022-12-28 15:27:01'),
+(1046, 'admin', 'Delivery added/ product added', '2022-12-28 15:40:41'),
+(1047, 'admin', 'Delivery added/ product added', '2022-12-28 15:41:11'),
+(1048, 'admin', 'Delivery Added', '2022-12-28 15:41:11'),
+(1049, 'admin', 'Delivery added/ product added', '2022-12-28 15:42:34'),
+(1050, 'admin', 'Delivery Added', '2022-12-28 15:42:34'),
+(1051, 'admin', 'Delivery added/ product added', '2022-12-28 15:47:37'),
+(1052, 'admin', 'Delivery added/ product added', '2022-12-28 16:01:12'),
+(1053, 'admin', 'Delivery added/ product added', '2022-12-28 16:04:30'),
+(1054, 'admin', 'Delivery added/ product added', '2022-12-28 16:06:34'),
+(1055, 'admin', 'Delivery added/ product added', '2022-12-28 16:08:15'),
+(1056, 'admin', 'Delivery added/ product added', '2022-12-28 16:08:42'),
+(1057, 'admin', 'Delivery added/ product added', '2022-12-28 16:11:31'),
+(1058, 'admin', 'Delivery Added', '2022-12-28 16:11:31'),
+(1059, 'admin', 'Delivery added/ product added', '2022-12-28 16:14:12'),
+(1060, 'admin', 'Delivery Added', '2022-12-28 16:14:12'),
+(1061, 'admin', 'Delivery added/ product added', '2022-12-28 16:16:29'),
+(1062, 'admin', 'Delivery Added', '2022-12-28 16:16:29'),
+(1063, 'admin', 'Delivery added/ product added', '2022-12-28 16:17:52'),
+(1064, 'admin', 'Delivery added/ product added', '2022-12-28 16:23:45'),
+(1065, 'admin', 'Delivery added/ product added', '2022-12-28 16:26:16'),
+(1066, 'admin', 'Delivery added/ product added', '2022-12-28 16:26:56'),
+(1067, 'admin', 'Delivery Added', '2022-12-28 16:26:56'),
+(1068, 'admin', 'Delivery added/ product added', '2022-12-28 16:30:44'),
+(1069, 'admin', 'Delivery added/ product added', '2022-12-28 16:32:59'),
+(1070, 'admin', 'Delivery added/ product added', '2022-12-28 16:35:41'),
+(1071, 'admin', 'Delivery Added', '2022-12-28 16:35:41'),
+(1072, 'admin', 'Delivery added/ product added', '2022-12-28 16:39:31'),
+(1073, 'admin', 'Delivery Added', '2022-12-28 16:39:31'),
+(1074, 'admin', 'Delivery added/ product added', '2022-12-28 16:41:59'),
+(1075, 'admin', 'Delivery Added', '2022-12-28 16:41:59'),
+(1076, 'admin', 'Delivery added/ product added', '2022-12-28 16:43:04'),
+(1077, 'admin', 'Delivery added/ product added', '2022-12-28 16:43:55'),
+(1078, 'admin', 'Delivery Added', '2022-12-28 16:43:55'),
+(1079, 'admin', 'Delivery added/ product added', '2022-12-28 16:44:56'),
+(1080, 'admin', 'Delivery added/ product added', '2022-12-28 16:45:45'),
+(1081, 'admin', 'Delivery Added', '2022-12-28 16:45:45'),
+(1082, 'admin', 'Delivery added/ product added', '2022-12-28 16:47:16'),
+(1083, 'admin', 'Delivery Added', '2022-12-28 16:47:16'),
+(1084, 'admin', 'Delivery added/ product added', '2022-12-28 16:51:16'),
+(1085, 'admin', 'Delivery Added', '2022-12-28 16:51:16');
 
 -- --------------------------------------------------------
 
@@ -520,7 +723,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, `unit`, `min_stocks`, `remarks`, `location`, `images`) VALUES
-('1', 'Coffee', '12.00', 75, 'sachet', 20, '-', '-', NULL),
+('006', '153 kretek', '10500.00', 2, 'Slop', 1, '-', '-', NULL),
+('1', 'Coffee', '12.00', 86, 'sachet', 20, '-', '-', NULL),
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
 ('10011', 'Chair', '600.00', 198, 'Each', 20, NULL, NULL, NULL),
@@ -529,7 +733,18 @@ INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, 
 ('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
 ('3', 'Shampoo', '6.60', 148, 'sachet', 20, '-', '-', NULL),
 ('4', 'Soap', '17.25', 122, 'sachet', 20, '------', '-', NULL),
-('5', 'Conditioner', '12.00', 100, 'sachet', 10, NULL, NULL, NULL);
+('5', 'Conditioner', '12.00', 100, 'sachet', 10, NULL, NULL, NULL),
+('barcode1', 'Aqua 1,5 Liter', '405135.00', 125, '1', 310000, '-', '-', NULL),
+('barcode10', 'Lenovo Ideapad 1550', '156002.00', 125, '1', 7810000, '-', '-,', NULL),
+('barcode11', 'Aqua 1,5 Liter', '1350300.00', 125, '1', 460000, '-', '-', NULL),
+('barcode2', 'Mouse Wireless Logitech M220', '270015.00', 125, '1', 1810000, '-', '-,', NULL),
+('barcode3', 'Aqua 1,5 Liter', '125050.00', 125, '1', 260000, '-', '-', NULL),
+('barcode4', 'Samsung Galaxy J1 Ace', '3120040.00', 125, '1', 7810000, '-', '-,', NULL),
+('barcode5', 'Mouse Wireless Logitech M220', '67515.00', 125, '1', 460000, '-', '-,', NULL),
+('barcode6', 'Samsung Galaxy J1 Ace', '23010.00', 125, '1', 240000, '-', '-,', NULL),
+('barcode7', 'Lenovo Ideapad 1550', '60020.00', 125, '1', 310000, '-', '-,', NULL),
+('barcode8', 'Aqua 1,5 Liter', '14400800.00', 125, '1', 1810000, '-', '-', NULL),
+('barcode9', 'Samsung Galaxy J1 Ace', '25010.00', 125, '1', 260000, '-', '-,', NULL);
 
 --
 -- Trigger `products`
@@ -580,7 +795,11 @@ INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `b
 ('5CAAFE37D21E8', '5', 100, '10.00', 20),
 ('5E7F00084C934', '23213', 23, '32.00', 32),
 ('5E81DF2B7B8F7', '10000', 21, '21313.00', 20),
-('63A8178B9262F', '1', 5, '10.00', 20);
+('63A8178B9262F', '1', 5, '10.00', 20),
+('63AAE2067D99E', '1', 5, '10.00', 20),
+('63AAE31E0064E', '1', 5, '10.00', 20),
+('63AB36D34F31C', '1', 1, '10.00', 20),
+('63AB388CE598A', '006', 1, '10000.00', 5);
 
 --
 -- Trigger `product_delivered`
@@ -690,8 +909,9 @@ CREATE TABLE `supplier` (
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `firstname`, `lastname`, `address`, `contact_number`, `image`) VALUES
 (21, 'OrangeCompany', 'Oracle', 'LTD', 'USA', '+63(09)1234-1234', 'Internship-Web-Graphic-01.png'),
 (22, 'BrandName', 'Bill', 'Joemama', 'Africa', '+63(09)1234-1234', 'multi-user-icon.png'),
-(23, 'Limbong Mula', 'PT Limbong', 'Mula', 'Panei Tongah, Kab. Simalungun', '082211804923', 'E_YqCK_VgAANr3-.jpg'),
-(24, 'PTINDOMARCO', 'ADI', 'PRIMA', 'JL.JEND SUDIRMAN KAV 76-78 SetiaBudi JAKARTA SELATAN', '+99(99)9999-9932', 'E_YqCK_VgAANr3-.jpg');
+(23, 'Limbong Mula', 'Ricky', 'Simanjuntak', 'Panei Tongah, Kab. Simalungun', '082211804923', 'E_YqCK_VgAANr3-.jpg'),
+(24, 'PT. INDOMARCO ADI PRIMA', 'Ahmad', 'Nasution', 'JL.JEND SUDIRMAN KAV 76-78 SetiaBudi JAKARTA SELATAN', '082211804888', 'E_YqCK_VgAANr3-.jpg'),
+(26, 'PT. GLOBAL MITRA PRIMA', 'Bambang', 'Yudono', 'JL.LAU CIMBA ,RAMBUNG MERAH \\r\\nPEMATANG SIANTAR', '082211804981', 'E_YqCK_VgAANr3-.jpg');
 
 --
 -- Trigger `supplier`
@@ -743,7 +963,7 @@ CREATE TABLE `temporary_var` (
 --
 
 INSERT INTO `temporary_var` (`tempt_username`, `tempt_productname`, `tempt_first_name`, `tempt_company`) VALUES
-('admin', NULL, 'Chris', NULL);
+('admin', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -768,7 +988,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `position`, `contact_number`, `image`, `password`) VALUES
 (7, 'admin', 'Juan', 'Cruz', 'admin', '082211804911', 'Myprofile.jpg', '21232f297a57a5a743894a0e4a801fc3'),
-(13, 'user', 'Chris', 'Doemama', 'Employee', '082211804933', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee');
+(13, 'user', 'Chris', 'Doemama', 'Employee', '082211804933', 'men-in-black.png', 'ee11cbb19052e40b07aac0ca060c23ee'),
+(15, 'billywicaksono', 'Billy', 'Wicaksono', 'Employee', '082211804921', 'Screenshot 2022-07-22 225126.p', '7c30cd0dd3449665360c275cf14d6a3b');
 
 --
 -- Trigger `users`
@@ -935,7 +1156,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=972;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1086;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
@@ -953,13 +1174,13 @@ ALTER TABLE `sales_product`
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

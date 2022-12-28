@@ -241,7 +241,7 @@
                                     
                         <tr>
                           <td><div><?php echo $row['product_in']; ?></div><div><span class="text"><?php echo  $diff->format(" %d days %h  hour %i minute ago"); ?></span></div></td>
-                          <td><div><?php echo $row1['product_out']; ?></div><div><span class="text"><?php echo  $diff1->format(" %d days %h  hour %i minute ago"); ?></span></div></td>   
+                          <td><div><?php echo $row1['product_out']; ?></div><div><span class="text"><?php echo  $diff1->format("%m month %d days %h  hour %i minute ago"); ?></span></div></td>   
                         </tr>
                         <?php } ?>
                         <?php } ?>
