@@ -1,13 +1,12 @@
 # Yang mau diperbaiki
-  * syarat input no telp, user name,firstname,lastname
   * data barang yang stoknya kurang dari minimum stock (nama barang, jlh barang)
   * buat diagram batang dan donut diagram
   * ketika akun user selesai melakukan sale jangan direct ke tampilan admin
   * kalau sempat,prosedur menampilkan barang dan jumlah akan expired dihitung dari product in(delivery) berdasarkan tanggal transaction_no max 2 tahun
-  * bagusi frontend
   * untuk buat db kalo boleh jangan aku root
   * buat manajement transaksi untuk proses yg melakukan pembacaan data lebih dari satu tabel
-  * pangkas beberapa properties pada table, seperti locatin pd table product
+  * tambahi table agar sesuai dengan dokumen dasar
+  * trigger validasi belum ada
 
     
 ## Built With
