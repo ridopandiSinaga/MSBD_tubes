@@ -1,5 +1,5 @@
 <?php 
-//add delivery menggunakan csv
+
 include('../server/connection.php');
 	$error = array();
 	$alert = array();
@@ -24,59 +24,57 @@ include('../server/connection.php');
 				
 				$query = "INSERT INTO delivery (transaction_no,supplier_id,username) VALUES('$transaction',$supplier_id,'$user')";
 				$insert = mysqli_query($db,$query);
-
 				if($insert == true){
+					
 					if($filename[1] == 'csv'){
 						$handle = fopen($target, "r");
-						fgets($handle);	
-						while ($data = fgetcsv($handle,10000,';')) {
-							// var_dump($data);
-							$barcode 		=  $data[0];
-							// var_dump($barcode);exit();
-							$product_name 	=  $data[1];
-							// print_r($product_name);
-							$buy_price 		= $data[2];
-							$tax_rate		=  $data[3];
-							$quantity 		= $data[4];
-							$unit 			=  $data[5];
-							$min_stocks 	=  $data[6];
-							$remarks	 	=  $data[7];
-							$location	 	=  $data[8];
-
-							
+						fgets($handle);
+						while ($data = fgetcsv($handle,10000,";")) {
+							$barcode 		= mysqli_real_escape_string($db , $data[0]);
+							$product_name 	= mysqli_real_escape_string($db , $data[1]);
+							$buy_price 		= mysqli_real_escape_string($db , $data[2]);
+							$tax_rate		= mysqli_real_escape_string($db , $data[3]);
+							$quantity 		= mysqli_real_escape_string($db , $data[4]);
+							$unit 			= mysqli_real_escape_string($db , $data[5]);
+							$min_stocks 	= mysqli_real_escape_string($db , $data[6]);
+							$remarks	 	= mysqli_real_escape_string($db , $data[7]);
+							$location	 	= mysqli_real_escape_string($db , $data[8]);
 							$sell     = (int)$tax_rate/100;
 							$sell_price = (int)$buy_price * $sell;
 							$sell_total = $sell_price + (int)$buy_price;
-							// var_dump($barcode);
+
 							$query1 = "SELECT quantity FROM products WHERE product_no='$barcode'";
 							$select = mysqli_query($db, $query1);
-							// var_dump($select);
 
 							if(mysqli_num_rows($select)>0){
-								// while($row = mysqli_fetch_array($select)){
-								// 	$newqty = $row['quantity'] + $quantity;
-								// 	$insert = "UPDATE products SET quantity=$newqty, sell_price=$sell_total WHERE product_no=$barcode";
-								// 	mysqli_query($db, $insert);
-								// }
-								// $delivered = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES($transaction,$barcode,$quantity,$buy_price,$tax_rate)";
-								// mysqli_query($db, $delivered);
-								$add = "INSERT INTO products(product_no,product_name,sell_price,quantity,unit,min_stocks,remarks,'location') VALUES ($barcode,$product_name,$sell_total,$quantity,$unit,$min_stocks,$remarks,$location)";
-								mysqli_query($db, $add);
-			  					$add1 = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES($transaction,$barcode,$quantity,$buy_price,$tax_rate)";
-			  					mysqli_query($db, $add1);
-							}else{
-								// $add = "INSERT INTO products(product_no,product_name,sell_price,quantity,unit,min_stocks,remarks,'location') VALUES ($barcode,$product_name,$sell_total,$quantity,$unit,$min_stocks,$remarks,$location)";
-								// mysqli_query($db, $add);
-			  					// $add1 = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES($transaction,$barcode,$quantity,$buy_price,$tax_rate)";
-			  					// mysqli_query($db, $add1);
-
 								while($row = mysqli_fetch_array($select)){
 									$newqty = $row['quantity'] + $quantity;
-									$insert = "UPDATE products SET quantity=$newqty, sell_price=$sell_total WHERE product_no=$barcode";
+									$insert = "UPDATE products SET quantity=$newqty, sell_price=$sell_total WHERE product_no='$barcode'";
 									mysqli_query($db, $insert);
 								}
-								$delivered = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES($transaction,$barcode,$quantity,$buy_price,$tax_rate)";
-								mysqli_query($db, $delivered);
+								$delivered = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES('$transaction','$barcode',$quantity,$buy_price,$tax_rate)";
+							    $a = mysqli_query($db, $delivered);
+								while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
+								if (!$a) {
+								die ('ERROR: Data gagal dimasukkan pada ' .  $delivered . ': '. mysqli_error($db));
+								}
+
+							}else{
+								$add = "INSERT INTO products(product_no,product_name,sell_price,quantity,unit,min_stocks,remarks,location) VALUES ('$barcode','$product_name',$sell_total,$quantity,'$unit',$min_stocks,'$remarks','$location')";
+								
+								$b =mysqli_query($db, $add);
+								while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
+								if (!$b) {
+								die ('ERROR: Data gagal dimasukkan pada ' .  $add . ': '. mysqli_error($db));
+								}
+
+			  					$add1 = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES('$transaction','$barcode',$quantity,$buy_price,$tax_rate)";
+			  					
+								$c =mysqli_query($db, $add1);
+								while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
+								if (!$c) {
+								die ('ERROR: Data gagal dimasukkan pada ' .  $add1 . ': '. mysqli_error($db));
+								}
 			  					
 							}	
 						}

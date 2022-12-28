@@ -3,8 +3,8 @@
 	include("../server/connection.php");
 	$column = array('transaction_no','username','company_name','TotalPrice','TotalQuantity','date');
 
-	mysqli_begin_transaction($db);
-	try {
+	// mysqli_begin_transaction($db);
+	// try {
 
 		$query = "SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no ";
 		// $status_date_search = $_POST['is_date_search'];	
@@ -23,12 +23,12 @@
 		}else{
 			$query .= ' ORDER BY delivery.transaction_no DESC ';
 		}
-		  mysqli_commit($db);
-	} catch (mysqli_sql_exception $exception) {
-		mysqli_rollback($db);
+	// 	  mysqli_commit($db);
+	// } catch (mysqli_sql_exception $exception) {
+	// 	mysqli_rollback($db);
 
-		throw $exception;
-	}		
+	// 	throw $exception;
+	// }		
 
 
 		$query1 = '';
@@ -58,7 +58,7 @@
 
 		function get_all_data($db){
 			//view
-			$query = "SELECT * FROM view_record_delivery";
+			$query = "SELECT delivery.transaction_no,supplier.company_name,username,sum(buy_price * total_qty) AS TotalPrice,sum(total_qty) AS TotalQuantity,date FROM delivery JOIN product_delivered ON delivery.transaction_no=product_delivered.transaction_no JOIN supplier ON delivery.supplier_id = supplier.supplier_id JOIN products ON product_delivered.product_id = products.product_no GROUP BY delivery.transaction_no ORDER BY date DESC";
 			$result = mysqli_query($db, $query);
 			return mysqli_num_rows($result);
 		}
