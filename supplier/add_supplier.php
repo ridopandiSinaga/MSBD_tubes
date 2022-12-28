@@ -30,15 +30,15 @@
 						<tbody>
 							<tr>
 								<td  valign="baseline">Company Name:</td>
-								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-building"></i></span></div><input type="text" name="com_name" pattern="[A-Za-z0-9]+" title="Name must not contain numbers or spaces. e.g John12" class="form-control-sm form-control" placeholder="Enter Company Name" required></div></td>
+								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-building"></i></span></div><input type="text" name="com_name"  title="Name must not contain numbers or spaces. e.g John12" class="form-control-sm form-control" placeholder="Enter Company Name" required></div></td>
 							</tr>
 							<tr>
 								<td  valign="baseline">Firstname:</td>
-								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-pen-alt"></i></span></div><input type="text" name="firstname" pattern="[A-Za-z]+" title="Name must not contain numbers or spaces e.g John12" class="form-control-sm form-control" placeholder="Enter Firstname" required></div></td>
+								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-pen-alt"></i></span></div><input type="text" name="firstname" title="Name must not contain numbers or spaces e.g John12" class="form-control-sm form-control" placeholder="Enter Firstname" required></div></td>
 							</tr>
 							<tr>
 								<td  valign="baseline">Lastname:</td>
-								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-pen-alt"></i></span></div><input type="text" name="lastname" pattern="[A-Za-z]+" title="Name must not contain numbers or spaces e.g John12" class="form-control-sm form-control" placeholder="Enter Lastname" required></div></td>
+								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-pen-alt"></i></span></div><input type="text" name="lastname" title="Name must not contain numbers or spaces e.g John12" class="form-control-sm form-control" placeholder="Enter Lastname" required></div></td>
 							</tr>
 							<tr>
 								<td  valign="baseline">Address:</td>

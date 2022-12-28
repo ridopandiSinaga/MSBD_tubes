@@ -25,11 +25,13 @@
 			echo "failure";
 		}else{
 
+
+			
 			$row = mysqli_fetch_array($show);
 			$supplier_1 = $row['supplier_id'];
 			$sql = "INSERT INTO delivery(transaction_no,supplier_id,username) VALUES('$transaction_no',$supplier_1,'$user')";
 			$result = mysqli_query($db, $sql);
-			
+
 			//ambil username utk di insert ke temp_variables
 			// $insert1 = "INSERT INTO logs (username,purpose) VALUES('$user','Delivery Added')";
 			$insert1 ="CALL procedure_get_session_username('$user')";

@@ -11,11 +11,13 @@
 	$failure = isset($_GET['failure']);
 	$query 	= "SELECT * FROM `customer`";
 	$show	= mysqli_query($db,$query);
+  $akhir = new DateTime();
 
 	include 'set.php';
     
-  	$sql = "CALL find_recent_sale_added('7')";//panggil prosedur untuk recend sale, dibatasi 7 row
-  	$higest_selling_product = "CALL find_higest_saleing_product('7')";//panggil prosedur untuk product keluar terbanyak, rows diabatsi 7
+  	$sql = "CALL find_recent_delivery_added('4')";//panggil prosedur untuk recend sale, dibatasi 7 row
+    $sql1 = "CALL find_recent_sale_added('4')";//panggil prosedur untuk recend sale, dibatasi 7 row
+  	$higest_selling_product = "CALL find_higest_saleing_product('5')";//panggil prosedur untuk product keluar terbanyak, rows diabatsi 7
     $product_in = "SELECT count_product_in()";//fungsi menghitung banyak product  masuk
     $product_out = "SELECT count_product_out()";//fungsi menghitung banyak product keluar
     $stock = "SELECT count_stock()";//fungsi menghitung banyak product/stock
@@ -29,7 +31,8 @@
     $result_product_out = mysqli_query($db, $product_out);
       while($db->next_result()) continue;//supaya tidak out sync
     $result_stock = mysqli_query($db, $stock);
-    // while($db->next_result()) continue;//supaya tidak out sync
+     while($db->next_result()) continue;//supaya tidak out sync
+    $resultsql1 = mysqli_query($db, $sql1);
   
   	if (!$result) {
     die ('ERROR: Data gagal dimasukkan pada ' .  $sql . ': '. mysqli_error($db));
@@ -40,7 +43,9 @@
     if (!$result1) {
       die ('ERROR: Data gagal dimasukkan pada ' .  $sql1 . ': '. mysqli_error($db));
     }
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -207,30 +212,40 @@
         </div>
         <div class="sales-boxes">
           <div class="recent-sales box">
-            <div class="title">Recent Product Added</div>
+            <div class="title">Recent Product Activity</div>
             <div class="sales-details">
               <ul class="details">
             
                   <table class="table table-hover" id="" style="margin-top: 50px;">
                   <thead>
                     <tr>
-                      <th scope="col" class="column-text">Date</th>
-                      <th scope="col" class="column-text">Product Name</th>
-                      <th scope="col" class="column-text">Amount</th>
-                      <th scope="col" class="column-text">Price/Item</th>
-                
+                    
+                      <th scope="col" class="column-text">Delivery</th>
+                      <th scope="col" class="column-text">sales</th>
+                      
                     </tr>
                   </thead>
                     <tbody class="table table-hover">
                         <?php 
-                          while($row = mysqli_fetch_assoc($result)){
-                        ?>
+                            while($row = mysqli_fetch_assoc($result)){
+                              $awal  = new DateTime($row['date']);
+                              $akhir = new DateTime(); 
+                              $diff  = date_diff($akhir, $awal);
+                            ?>
+                            <?php 
+                          while($row1 = mysqli_fetch_assoc($resultsql1)){
+                            $awal1  = new DateTime($row1['date']);
+                            $akhir1 = new DateTime(); 
+                            $diff1  = date_diff($akhir1, $awal1);
+                            ?> 
+                                    
                         <tr>
-                          <td><?php echo date('d M Y, g:i A', strtotime($row['date']));?></td>
-                          <td><?php echo $row['product_name'];?></td>
-                          <td><?php echo $row['quantity'];?></td>
+                          <td><div><?php echo $row['product_in']; ?></div><div><span class="text"><?php echo  $diff->format(" %d days %h  hour %i minute ago"); ?></span></div></td>
+                          <td><div><?php echo $row1['product_out']; ?></div><div><span class="text"><?php echo  $diff1->format(" %d days %h  hour %i minute ago"); ?></span></div></td>   
                         </tr>
                         <?php } ?>
+                        <?php } ?>
+                        
                     </tbody>
                 </table>
             
@@ -258,7 +273,6 @@
                             <td><?php echo $row1['product_name'];?></td>
                             <td><?php echo $row1['totalSold'];?></td>
                             <td><?php echo $row1['Stock'];?></td>
-                           
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -267,6 +281,9 @@
               </ul>
             </div>
           </div>
+
+          
+          
         </div>
       </section>
       <?php include('templates/js_popper.php');?>
