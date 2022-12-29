@@ -10,7 +10,7 @@
   position: fixed;
   height: 100%;
   width: 240px;
-  background: #5D718F;
+  background: #5d718f;
   transition: all 0.5s ease;
 }
 .sidebar.active {
@@ -291,12 +291,12 @@ nav .profile-details i {
   font-size: 400;
   text-decoration: none;
 }
-.sales-boxes .box .button {
+/* .sales-boxes .box .button {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-}
-.sales-boxes .box .button a {
+} */
+/* .sales-boxes .box .button a {
   color: #fff;
   background: #0a2558;
   padding: 4px 12px;
@@ -305,10 +305,10 @@ nav .profile-details i {
   border-radius: 4px;
   text-decoration: none;
   transition: all 0.3s ease;
-}
-.sales-boxes .box .button a:hover {
+} */
+/* .sales-boxes .box .button a:hover {
   background: #0d3073;
-}
+} */
 
 /* Right box */
 .home-content .sales-boxes .top-sales {
@@ -437,8 +437,7 @@ nav .profile-details i {
   }
 }
 
-#sidebar_button:hover{
-	background-color: #06521E;
-	color:white;
+#sidebar_button:hover {
+  background-color: #06521e;
+  color: white;
 }
-

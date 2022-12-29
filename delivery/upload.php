@@ -1,5 +1,5 @@
 <?php 
-
+//add delivery menggunakan import csv
 include('../server/connection.php');
 	$error = array();
 	$alert = array();
@@ -61,7 +61,6 @@ include('../server/connection.php');
 
 							}else{
 								$add = "INSERT INTO products(product_no,product_name,sell_price,quantity,unit,min_stocks,remarks,location) VALUES ('$barcode','$product_name',$sell_total,$quantity,'$unit',$min_stocks,'$remarks','$location')";
-								
 								$b =mysqli_query($db, $add);
 								while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
 								if (!$b) {
@@ -69,7 +68,6 @@ include('../server/connection.php');
 								}
 
 			  					$add1 = "INSERT INTO product_delivered(transaction_no,product_id,total_qty,buy_price,tax_rate) VALUES('$transaction','$barcode',$quantity,$buy_price,$tax_rate)";
-			  					
 								$c =mysqli_query($db, $add1);
 								while($db->next_result()) continue;//supaya tidak out s +++++++++++++++++++ync
 								if (!$c) {

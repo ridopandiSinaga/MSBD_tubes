@@ -123,7 +123,7 @@
         <li class="row gx-5" id="sidebar_button">
           <a href="cashflow/cashflow.php">
             <i class="bx bx-pie-chart-alt-2" style="color: black;"></i>
-            <span class="links_name">Analyses</span>
+            <span class="links_name">Cash</span>
           </a>
         </li>
         
@@ -219,39 +219,34 @@
                   <table class="table table-hover" id="" style="margin-top: 50px;">
                   <thead>
                     <tr>
-                    
                       <th scope="col" class="column-text">Delivery</th>
-                      <th scope="col" class="column-text">sales</th>
-                      
+                      <th scope="col" class="column-text">sales</th>      
                     </tr>
                   </thead>
                     <tbody class="table table-hover">
-                        <?php 
-                            while($row = mysqli_fetch_assoc($result)){
-                              $awal  = new DateTime($row['date']);
-                              $akhir = new DateTime(); 
-                              $diff  = date_diff($akhir, $awal);
-                            ?>
+                        <?php while($row = mysqli_fetch_assoc($result)){?>
+                        <?php while($row1 = mysqli_fetch_assoc($resultsql1)){?> 
+                        <tr>
+                          <td><div><?php echo $row['product_in']; ?></div><div class="my-0"><span class="text"><small>
                             <?php 
-                          while($row1 = mysqli_fetch_assoc($resultsql1)){
+                            $awal  = new DateTime($row['date']);
+                            $akhir = new DateTime(); 
+                            $diff  = date_diff($akhir, $awal);
+                            echo  $diff->format(" %d days %h  hour %i minute ago"); ?></small></span></div></td>
+                          
+                          <td><div><?php echo $row1['product_out']; ?></div><div class="my-0"><span class="m"><small>
+                            <?php 
                             $awal1  = new DateTime($row1['date']);
                             $akhir1 = new DateTime(); 
                             $diff1  = date_diff($akhir1, $awal1);
-                            ?> 
-                                    
-                        <tr>
-                          <td><div><?php echo $row['product_in']; ?></div><div><span class="text"><?php echo  $diff->format(" %d days %h  hour %i minute ago"); ?></span></div></td>
-                          <td><div><?php echo $row1['product_out']; ?></div><div><span class="text"><?php echo  $diff1->format("%m month %d days %h  hour %i minute ago"); ?></span></div></td>   
+                            echo  $diff1->format("%m month %d days %h  hour %i minute ago"); ?></small></span></div></td>   
                         </tr>
                         <?php } ?>
-                        <?php } ?>
-                        
+                        <?php } ?>           
                     </tbody>
                 </table>
-            
               </ul>
             </div>
-            
           </div>
           <div class="top-sales box">
             <div class="title">Best Selling Product</div>
