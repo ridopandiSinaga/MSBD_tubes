@@ -15,8 +15,8 @@
 
 	include 'set.php';
     
-  	$sql = "CALL find_recent_delivery_added('4')";//panggil prosedur untuk recend sale, dibatasi 7 row
-    $sql1 = "CALL find_recent_sale_added('4')";//panggil prosedur untuk recend sale, dibatasi 7 row
+  	$sql = "CALL find_recent_delivery_added('3')";//panggil prosedur untuk recend sale, dibatasi 7 row
+    $sql1 = "CALL find_recent_sale_added('3')";//panggil prosedur untuk recend sale, dibatasi 7 row
   	$higest_selling_product = "CALL find_higest_saleing_product('5')";//panggil prosedur untuk product keluar terbanyak, rows diabatsi 7
     $product_in = "SELECT count_product_in()";//fungsi menghitung banyak product  masuk
     $product_out = "SELECT count_product_out()";//fungsi menghitung banyak product keluar
@@ -211,43 +211,58 @@
           <!--  -->
         </div>
         <div class="sales-boxes">
-          <div class="recent-sales box">
+          
+        <div class="recent-sales box">
             <div class="title">Recent Product Activity</div>
             <div class="sales-details">
               <ul class="details">
             
-                  <table class="table table-hover" id="" style="margin-top: 50px;">
+                  <table class="table table-hover" id="" style="margin-top: 5px;">
                   <thead>
                     <tr>
                       <th scope="col" class="column-text">Delivery</th>
-                      <th scope="col" class="column-text">sales</th>      
+                      
+                      <!-- <th scope="col" class="column-text">sales</th>       -->
                     </tr>
                   </thead>
                     <tbody class="table table-hover">
                         <?php while($row = mysqli_fetch_assoc($result)){?>
-                        <?php while($row1 = mysqli_fetch_assoc($resultsql1)){?> 
                         <tr>
                           <td><div><?php echo $row['product_in']; ?></div><div class="my-0"><span class="text"><small>
                             <?php 
                             $awal  = new DateTime($row['date']);
                             $akhir = new DateTime(); 
                             $diff  = date_diff($akhir, $awal);
-                            echo  $diff->format(" %d days %h  hour %i minute ago"); ?></small></span></div></td>
-                          
-                          <td><div><?php echo $row1['product_out']; ?></div><div class="my-0"><span class="m"><small>
-                            <?php 
-                            $awal1  = new DateTime($row1['date']);
-                            $akhir1 = new DateTime(); 
-                            $diff1  = date_diff($akhir1, $awal1);
-                            echo  $diff1->format("%m month %d days %h  hour %i minute ago"); ?></small></span></div></td>   
+                            echo  $diff->format(" %d days %h  hour %i minute ago"); ?></small></span></div></td>              
                         </tr>
                         <?php } ?>
-                        <?php } ?>           
+                          
+                    </tbody>
+                    <thead>
+                      <tr>
+                      <th scope="col" class="column-text m">Sale</th>
+                      <!-- <th scope="col" class="column-text">sales</th>       -->
+                    </tr>
+                    </thead>
+                    <tbody class="table table-hover">
+                        <?php while($row1 = mysqli_fetch_assoc($resultsql1)){?>
+                        <tr>
+                          <td><div><?php echo $row1['product_out']; ?></div><div class="my-0"><span class="text"><small>
+                            <?php 
+                            $awal  = new DateTime($row1['date']);
+                            $akhir = new DateTime(); 
+                            $diff  = date_diff($akhir, $awal);
+                            echo  $diff->format(" %d days %h  hour %i minute ago"); ?></small></span></div></td>              
+                        </tr>
+                        <?php } ?>
+                          
                     </tbody>
                 </table>
+
               </ul>
             </div>
           </div>
+          
           <div class="top-sales box">
             <div class="title">Best Selling Product</div>
               <ul class="top-sales-details">

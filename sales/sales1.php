@@ -1,37 +1,37 @@
-<?php 
-	include('server/connection.php');
-    include '../set.php';
-	//jika belum login, direct ke index
-	if(!isset($_SESSION['username'])){
-		header('location: index.php');
-	}
+<!-- <?php 
+	// include('server/connection.php');
+    // include '../set.php';
+	// //jika belum login, direct ke index
+	// if(!isset($_SESSION['username'])){
+	// 	header('location: index.php');
+	// }
     
-	$added = isset($_GET['added']);
-	$error = isset($_GET['error']);
-	$undelete = isset($_GET['undelete']);
-	$updated = '';
-	$deleted = '';
+	// $added = isset($_GET['added']);
+	// $error = isset($_GET['error']);
+	// $undelete = isset($_GET['undelete']);
+	// $updated = '';
+	//$deleted = '';
 	
 	
-	$query 	= "SELECT * FROM `customer`";
-	$show	= mysqli_query($db,$query);
-	if(isset($_SESSION['username'])){
-		$user = $_SESSION['username'];
-		$sql = "SELECT position FROM users WHERE username='$user'";
-		$result	= mysqli_query($db, $sql);
-		if (mysqli_num_rows($result) > 0){
-			while($row = mysqli_fetch_assoc($result)){
+	//$query 	= "SELECT * FROM `customer`";
+	//$show	= mysqli_query($db,$query);
+	//if(isset($_SESSION['username'])){
+		//$user = $_SESSION['username'];
+		//$sql = "SELECT position FROM users WHERE username='$user'";
+		//$result	= mysqli_query($db, $sql);
+		//if (mysqli_num_rows($result) > 0){
+		//	while($row = mysqli_fetch_assoc($result)){
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<?php include('templates/head.php'); ?>
+	<?php// include('templates/head.php'); ?>
 </head>
 <body>
 	<div class="h-100 bg-dark" id="container">
 		<div id="header">
-			<?php include('alert.php'); ?>
+			<?php //include('alert.php'); ?>
 			<div>
 				<img class="img-fluid m-2 w-100" src="images/logo.png"/>
 			</div>
@@ -41,7 +41,7 @@
 						<tr>
 							<td valign="baseline"><small>User Logged on:</small></td>
 							<td valign="baseline"><small><p class="pt-3 ml-5"><i class="fas fa-user-shield"></i> 
-							<?php echo $row['position'];}}}?></p></small></td>
+							<?php //echo $row['position'];}}}?></p></small></td>
 						</tr>
 						<tr>
 							<td valign="baseline"><small class="pb-1">Date:</small></td>
@@ -141,10 +141,10 @@
 		</div>
 		
 	</div>
-	<?php include('add.php');?>
-	<?php include('templates/js_popper.php');?>
+	<?php //include('add.php');?>
+	<?php //include('templates/js_popper.php');?>
 	<script type="text/javascript" src="script.js"></script>
 	<script src="bootstrap4/js/time.js"></script>
 </body>
 </html>
-<?php include('../sales/sales.php');?>
+<?php //include('../sales/sales.php');?> -->

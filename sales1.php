@@ -126,6 +126,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="fixed-bottom">
+		<button class="btn m-2 p-2" id="sidebar_button" onclick="window.location.href='sales/sales.php'"><i class="fas fa-arrow-alt-circle-left"></i> Back</button>
+	</div>
 	<?php include('add.php');?>
 	<?php include('templates/js_popper.php');?>
 	<script type="text/javascript" src="script.js"></script>

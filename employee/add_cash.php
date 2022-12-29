@@ -33,7 +33,7 @@
 							</tr>
 							<tr>
 								<td  valign="baseline">Amount:</td>
-								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">₱</span></div><input type="number" name="amount" class="form-control" placeholder="Enter Amount" required/></div></td>
+								<td class="pl-5 pb-2"><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">Rp. </span></div><input type="number" name="amount" class="form-control" placeholder="Enter Amount" required/></div></td>
 							</tr>
 						</tbody>
 					</table>

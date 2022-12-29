@@ -63,20 +63,20 @@ $(document).ready(function(){
 	$(document).on('click','.remove_row',function(){
 		var row_id = $(this).attr("id");
 		var total_product_amount = $('#total_amount'+row_id).val().replace("P","");
-		var final_amount = $('#final_total_amount').text().replace("₱","");
+		var final_amount = $('#final_total_amount').text().replace("Rp. ","");
 		var result_amount = parseFloat(final_amount) - parseFloat(total_product_amount);
 		if(isNaN(result_amount)){
 
 			if(total_product_amount == ""){
 				var total_product_amount = 0;
 				var minus_total = parseFloat(final_amount) - parseFloat(total_product_amount);
-				$('#total_amount').text('₱ '+minus_total);
+				$('#total_amount').text('Rp.  '+minus_total);
 			}else{
-				$('#final_total_amount').text('₱ 0.00');
+				$('#final_total_amount').text('Rp.  0.00');
 			}
 			
 		}else{
-			$('#final_total_amount').text('₱ '+result_amount);
+			$('#final_total_amount').text('Rp.  '+result_amount);
 		}
 		
 		$('#row_id_'+row_id).remove();
@@ -138,7 +138,7 @@ $(document).ready(function(){
 				final_product_amount = parseFloat(final_product_amount) + parseFloat(actual_amount);	
 			}
 		}
-		$('#final_total_amount').text('₱ '+final_product_amount);
+		$('#final_total_amount').text('Rp.  '+final_product_amount);
 	}
 	$(document).on('blur', '.min_qty', function(){
 		final_total(count);
