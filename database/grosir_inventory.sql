@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Des 2022 pada 11.10
+-- Waktu pembuatan: 29 Des 2022 pada 09.19
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -31,13 +31,13 @@ LEFT JOIN products p ON p.product_no = sp.product_id
 GROUP BY p.product_no
 ORDER BY sp.qty DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_delivery_added` (IN `lim` INT(25))   SELECT CONCAT(product_name,' --- ',CONCAT(pd.total_qty,' ',p.unit)) as product_in ,d.date
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_delivery_added` (IN `lim` INT(25))   SELECT CONCAT(CONCAT(pd.total_qty,' ',p.unit),' ',product_name) as product_in ,d.date
 FROM products p
 JOIN product_delivered pd ON pd.product_id = p.product_no
 JOIN delivery  d ON d.transaction_no = pd.transaction_no
 ORDER BY d.date DESC LIMIT lim$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT)   SELECT CONCAT(product_name,' --- ',CONCAT(sp.qty,' ',p.unit)) as product_out ,s.date
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_recent_sale_added` (IN `lim` INT)   SELECT CONCAT(CONCAT(sp.qty,' ',p.unit),' ',product_name) as product_out ,s.date
 FROM products p
 JOIN sales_product sp ON sp.product_id = p.product_no
 JOIN sales  s ON s.reciept_no = sp.reciept_no
@@ -403,7 +403,27 @@ INSERT INTO `delivery` (`transaction_no`, `supplier_id`, `username`, `date`) VAL
 ('63AC101124BD9', 24, 'admin', '2022-12-28 16:44:56'),
 ('63AC103FA3AF2', 24, 'admin', '2022-12-28 16:45:45'),
 ('63AC109BC75D3', 24, 'admin', '2022-12-28 16:47:16'),
-('63AC118716AB3', 24, 'admin', '2022-12-28 16:51:16');
+('63AC118716AB3', 24, 'admin', '2022-12-28 16:51:16'),
+('63AC30D9B2C7D', 24, 'admin', '2022-12-28 19:04:53'),
+('63AC34F11C75B', 24, 'admin', '2022-12-28 19:22:26'),
+('63AC35D41566F', 24, 'admin', '2022-12-28 19:26:06'),
+('63AC3B1D79F6D', 24, 'admin', '2022-12-28 19:49:32'),
+('63AC5264B75BE', 26, 'admin', '2022-12-28 21:28:03'),
+('63AC54D43234C', 26, 'admin', '2022-12-28 21:38:23'),
+('63AC55168DAEA', 24, 'admin', '2022-12-28 21:39:34'),
+('63AC55FB3AC25', 26, 'admin', '2022-12-28 21:43:20'),
+('63AC564D28EA8', 24, 'admin', '2022-12-28 21:44:38'),
+('63AC56832588A', 24, 'admin', '2022-12-28 21:45:32'),
+('63AC56B9C5243', 26, 'admin', '2022-12-28 21:46:29'),
+('63AC58FA3CDA4', 24, 'admin', '2022-12-28 21:56:04'),
+('63AC5E54730BB', 24, 'admin', '2022-12-28 22:18:57'),
+('63AC5ED903889', 26, 'admin', '2022-12-28 22:21:06'),
+('63AC6268367D4', 26, 'admin', '2022-12-28 22:36:18'),
+('63AC648566676', 24, 'admin', '2022-12-28 22:45:22'),
+('63AC658C210A8', 26, 'admin', '2022-12-28 22:49:41'),
+('63AC6B54C76FF', 26, 'admin', '2022-12-28 23:14:23'),
+('63AD0A800CB01', 26, 'admin', '2022-12-29 10:33:31'),
+('63AD10803C498', 23, 'admin', '2022-12-29 11:00:15');
 
 --
 -- Trigger `delivery`
@@ -470,7 +490,30 @@ INSERT INTO `initial_products` (`id`, `initial_quantity`) VALUES
 ('barcode8', 25),
 ('barcode9', 25),
 ('barcode10', 25),
-('barcode11', 25);
+('barcode11', 25),
+('025', 48),
+('026', 48),
+('027', 56),
+('028', 56),
+('029', 32),
+('030', 32),
+('031', 16),
+('032', 16),
+('033', 32),
+('034', 96),
+('035', 18),
+('013', 20),
+('014', 100),
+('015', 100),
+('016', 50),
+('017', 50),
+('018', 30),
+('019', 30),
+('020', 30),
+('021', 50),
+('022', 50),
+('023', 50),
+('024', 25);
 
 -- --------------------------------------------------------
 
@@ -698,7 +741,45 @@ INSERT INTO `logs` (`id`, `username`, `purpose`, `logs_time`) VALUES
 (1082, 'admin', 'Delivery added/ product added', '2022-12-28 16:47:16'),
 (1083, 'admin', 'Delivery Added', '2022-12-28 16:47:16'),
 (1084, 'admin', 'Delivery added/ product added', '2022-12-28 16:51:16'),
-(1085, 'admin', 'Delivery Added', '2022-12-28 16:51:16');
+(1085, 'admin', 'Delivery Added', '2022-12-28 16:51:16'),
+(1086, 'admin', 'Delivery added/ product added', '2022-12-28 19:04:53'),
+(1087, 'admin', 'Delivery Added', '2022-12-28 19:04:53'),
+(1088, 'admin', 'Delivery added/ product added', '2022-12-28 19:22:26'),
+(1089, 'admin', 'Delivery Added', '2022-12-28 19:22:26'),
+(1090, 'admin', 'Delivery added/ product added', '2022-12-28 19:26:06'),
+(1091, 'admin', 'Delivery Added', '2022-12-28 19:26:06'),
+(1092, 'admin', 'Delivery added/ product added', '2022-12-28 19:49:32'),
+(1093, 'admin', 'User admin login', '2022-12-28 21:19:41'),
+(1094, 'admin', 'Delivery added/ product added', '2022-12-28 21:28:03'),
+(1095, 'admin', 'Delivery Added', '2022-12-28 21:28:03'),
+(1096, 'admin', 'Delivery added/ product added', '2022-12-28 21:38:23'),
+(1097, 'admin', 'Delivery added/ product added', '2022-12-28 21:39:34'),
+(1098, 'admin', 'Delivery Added', '2022-12-28 21:39:34'),
+(1099, 'admin', 'Delivery added/ product added', '2022-12-28 21:43:20'),
+(1100, 'admin', 'Delivery added/ product added', '2022-12-28 21:44:38'),
+(1101, 'admin', 'Delivery added/ product added', '2022-12-28 21:45:32'),
+(1102, 'admin', 'Delivery added/ product added', '2022-12-28 21:46:29'),
+(1103, 'admin', 'Delivery Added', '2022-12-28 21:46:29'),
+(1104, 'admin', 'Delivery added/ product added', '2022-12-28 21:56:04'),
+(1105, 'admin', 'Delivery Added', '2022-12-28 21:56:04'),
+(1106, 'admin', 'Delivery added/ product added', '2022-12-28 22:18:57'),
+(1107, 'admin', 'Delivery added/ product added', '2022-12-28 22:21:06'),
+(1108, 'admin', 'Delivery Added', '2022-12-28 22:21:06'),
+(1109, 'admin', 'Delivery added/ product added', '2022-12-28 22:36:18'),
+(1110, 'admin', 'Delivery Added', '2022-12-28 22:36:18'),
+(1111, 'admin', 'Delivery added/ product added', '2022-12-28 22:45:22'),
+(1112, 'admin', 'Delivery Added', '2022-12-28 22:45:23'),
+(1113, 'admin', 'Delivery added/ product added', '2022-12-28 22:49:41'),
+(1114, 'admin', 'Delivery Added', '2022-12-28 22:49:41'),
+(1115, 'admin', 'Delivery added/ product added', '2022-12-28 23:14:23'),
+(1116, 'admin', 'Delivery added/ product added', '2022-12-29 10:33:31'),
+(1117, 'admin', 'User admin login', '2022-12-29 10:44:21'),
+(1118, 'admin', 'Delivery added/ product added', '2022-12-29 11:00:15'),
+(1119, 'admin', 'Delivery Added', '2022-12-29 11:00:15'),
+(1120, 'admin', 'User admin logout', '2022-12-29 13:09:58'),
+(1121, 'admin', 'User admin login', '2022-12-29 13:10:03'),
+(1122, 'admin', 'User admin logout', '2022-12-29 15:12:32'),
+(1123, 'user', 'User user login', '2022-12-29 15:12:42');
 
 -- --------------------------------------------------------
 
@@ -724,27 +805,50 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`product_no`, `product_name`, `sell_price`, `quantity`, `unit`, `min_stocks`, `remarks`, `location`, `images`) VALUES
 ('006', '153 kretek', '10500.00', 2, 'Slop', 1, '-', '-', NULL),
-('1', 'Coffee', '12.00', 86, 'sachet', 20, '-', '-', NULL),
+('013', 'MADU TJO-MADU TJ SACHET ORIGIN', '8404.20', 40, 'BOX', 6, '-', '-', NULL),
+('014', 'BKACS-bumbu kaldu ayam cube sa', '16968.00', 200, 'RCG', 25, '-', '-', NULL),
+('015', 'BKSCS-bumbu kaldu sapi cube sa', '16968.00', 200, 'RCG', 25, '-', '-', NULL),
+('016', 'BISKUAT CHOCOLATE 20X151 2G PR', '134746.50', 100, 'PCS', 15, '-', '-', NULL),
+('017', 'BISKUAT CHOCOLATE 12X (20X,6GR', '101298.75', 100, 'CRT', 15, '-', '-', NULL),
+('018', 'OREO CHOCO CHOCO WAFER 24X140', '157653.30', 60, 'PCS', 10, '-', '-', NULL),
+('019', 'OREO CHOCO VANILLA WAFER 24X14', '157653.30', 60, 'PCS', 10, '-', '-', NULL),
+('020', 'OREO VANILLA 24X138G (119,6G', '157107.30', 60, 'PCS', 10, '-', '-', NULL),
+('021', 'FULLO VANILA MILK 7GR', '59725.05', 100, 'PCS', 20, '-', '-', NULL),
+('022', 'FULLO CHOCOLATE 7GR', '59725.05', 100, 'PCS', 20, '-', '-', NULL),
+('023', 'FULLO BLACK VANILLA 14GR', '98319.90', 100, 'PCS', 20, '-', '-', NULL),
+('024', 'BIHUN JAGUNG IDOLA 4*S', '55535.55', 50, 'BAG', 7, '-', '-', NULL),
+('025', 'WATAMIE CHICKEN', '45311.70', 96, 'CAR', 10, '-', '-', NULL),
+('026', 'WATAMIE SPICY', '45311.70', 96, 'CAR', 10, '-', '-', NULL),
+('027', 'POPO CRUNCHY', '45071.25', 112, 'CAR', 20, '-', '-', NULL),
+('028', 'KOLATOS', '44903.25', 112, 'CAR', 20, '-', '-', NULL),
+('029', 'HATARI COCONUT 40 BKS 8X5X125G', '116655.00', 64, 'CRT', 12, '-', '-', NULL),
+('030', 'HATARI CHOCOLATE 40BKS 8X5X125', '116655.00', 64, 'CRT', 12, '-', '-', NULL),
+('031', 'PRENAGEN ENESIS STR 2006', '39423.30', 32, 'KLG', 5, '-', '-', NULL),
+('032', 'PRENAGEN LACTA MOCHA 4006', '70735.35', 32, 'KLG', 5, '-', '-', NULL),
+('033', 'CHIL KID PLAT VAN 200 6', '68169.15', 64, 'KLG', 8, '-', '-', NULL),
+('034', 'SPKA70-MI INSTAN SUPERMI RASA', '59698.80', 192, 'CAR', 24, '-', '-', NULL),
+('035', 'IKAP-S-IF KECAP ASIN SPECIAL P', '203616.00', 36, 'CAR', 4, '-', '-', NULL),
+('1', 'Coffee', '12.00', 91, 'sachet', 20, '-', '-', NULL),
 ('10000', 'asdas', '25575.60', 21, 'KA', 29, NULL, NULL, NULL),
 ('1001', 'Glass', '22.00', 100, 'Box', 20, NULL, NULL, NULL),
 ('10011', 'Chair', '600.00', 198, 'Each', 20, NULL, NULL, NULL),
 ('10012', 'Sofa', '2400.00', 92, 'Each', 20, NULL, NULL, NULL),
-('2', 'Tooth Paste', '24.00', 200, 'sachet', 10, '-', '-', NULL),
+('2', 'Tooth Paste', '24.00', 205, 'sachet', 10, '-', '-', NULL),
 ('23213', 'sdfsd', '42.24', 19, 'sdfsdf', 23, 'fdsfds', 'dffdf', NULL),
 ('3', 'Shampoo', '6.60', 148, 'sachet', 20, '-', '-', NULL),
 ('4', 'Soap', '17.25', 122, 'sachet', 20, '------', '-', NULL),
 ('5', 'Conditioner', '12.00', 100, 'sachet', 10, NULL, NULL, NULL),
-('barcode1', 'Aqua 1,5 Liter', '405135.00', 125, '1', 310000, '-', '-', NULL),
-('barcode10', 'Lenovo Ideapad 1550', '156002.00', 125, '1', 7810000, '-', '-,', NULL),
-('barcode11', 'Aqua 1,5 Liter', '1350300.00', 125, '1', 460000, '-', '-', NULL),
-('barcode2', 'Mouse Wireless Logitech M220', '270015.00', 125, '1', 1810000, '-', '-,', NULL),
-('barcode3', 'Aqua 1,5 Liter', '125050.00', 125, '1', 260000, '-', '-', NULL),
-('barcode4', 'Samsung Galaxy J1 Ace', '3120040.00', 125, '1', 7810000, '-', '-,', NULL),
-('barcode5', 'Mouse Wireless Logitech M220', '67515.00', 125, '1', 460000, '-', '-,', NULL),
-('barcode6', 'Samsung Galaxy J1 Ace', '23010.00', 125, '1', 240000, '-', '-,', NULL),
-('barcode7', 'Lenovo Ideapad 1550', '60020.00', 125, '1', 310000, '-', '-,', NULL),
-('barcode8', 'Aqua 1,5 Liter', '14400800.00', 125, '1', 1810000, '-', '-', NULL),
-('barcode9', 'Samsung Galaxy J1 Ace', '25010.00', 125, '1', 260000, '-', '-,', NULL);
+('barcode1', 'Aqua 1,5 Liter', '405135.00', 275, '1', 310000, '-', '-', NULL),
+('barcode10', 'Lenovo Ideapad 1550', '156002.00', 250, '1', 7810000, '-', '-,', NULL),
+('barcode11', 'Aqua 1,5 Liter', '1350300.00', 250, '1', 460000, '-', '-', NULL),
+('barcode2', 'Mouse Wireless Logitech M220', '270015.00', 250, '1', 1810000, '-', '-,', NULL),
+('barcode3', 'Aqua 1,5 Liter', '125050.00', 250, '1', 260000, '-', '-', NULL),
+('barcode4', 'Samsung Galaxy J1 Ace', '3120040.00', 250, '1', 7810000, '-', '-,', NULL),
+('barcode5', 'Mouse Wireless Logitech M220', '67515.00', 250, '1', 460000, '-', '-,', NULL),
+('barcode6', 'Samsung Galaxy J1 Ace', '23010.00', 250, '1', 240000, '-', '-,', NULL),
+('barcode7', 'Lenovo Ideapad 1550', '60020.00', 250, '1', 310000, '-', '-,', NULL),
+('barcode8', 'Aqua 1,5 Liter', '14400800.00', 250, '1', 1810000, '-', '-', NULL),
+('barcode9', 'Samsung Galaxy J1 Ace', '25010.00', 250, '1', 260000, '-', '-,', NULL);
 
 --
 -- Trigger `products`
@@ -799,7 +903,32 @@ INSERT INTO `product_delivered` (`transaction_no`, `product_id`, `total_qty`, `b
 ('63AAE2067D99E', '1', 5, '10.00', 20),
 ('63AAE31E0064E', '1', 5, '10.00', 20),
 ('63AB36D34F31C', '1', 1, '10.00', 20),
-('63AB388CE598A', '006', 1, '10000.00', 5);
+('63AB388CE598A', '006', 1, '10000.00', 5),
+('63AC3B1D79F6D', '1', 5, '10.00', 20),
+('63AC3B1D79F6D', '2', 5, '20.00', 20),
+('63AD0A800CB01', '025', 48, '43154.00', 5),
+('63AD0A800CB01', '026', 48, '43154.00', 5),
+('63AD0A800CB01', '027', 56, '42925.00', 5),
+('63AD0A800CB01', '028', 56, '42765.00', 5),
+('63AD0A800CB01', '029', 32, '111100.00', 5),
+('63AD0A800CB01', '030', 32, '111100.00', 5),
+('63AD0A800CB01', '031', 16, '37546.00', 5),
+('63AD0A800CB01', '032', 16, '67367.00', 5),
+('63AD0A800CB01', '033', 32, '64923.00', 5),
+('63AD0A800CB01', '034', 96, '56856.00', 5),
+('63AD0A800CB01', '035', 18, '193920.00', 5),
+('63AD10803C498', '013', 20, '8004.00', 5),
+('63AD10803C498', '014', 100, '16160.00', 5),
+('63AD10803C498', '015', 100, '16160.00', 5),
+('63AD10803C498', '016', 50, '128330.00', 5),
+('63AD10803C498', '017', 50, '96475.00', 5),
+('63AD10803C498', '018', 30, '150146.00', 5),
+('63AD10803C498', '019', 30, '150146.00', 5),
+('63AD10803C498', '020', 30, '149626.00', 5),
+('63AD10803C498', '021', 50, '56881.00', 5),
+('63AD10803C498', '022', 50, '56881.00', 5),
+('63AD10803C498', '023', 50, '93638.00', 5),
+('63AD10803C498', '024', 25, '52891.00', 5);
 
 --
 -- Trigger `product_delivered`
@@ -1156,7 +1285,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1086;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1124;
 
 --
 -- AUTO_INCREMENT untuk tabel `sales`
